@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Karya Abadi Polaroid</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Courier+Prime&family=Dancing+Script:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lobster&family=Outfit:wght@300;400;500;600;700&family=Pacifico&family=Permanent+Marker&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Rock+Salt&family=Sacramento&family=Satisfy&family=Special+Elite&display=swap" rel="stylesheet">
@@ -11,23 +11,23 @@
         :root{--bg:#080808;--fg:#f5f5f5;--muted:#777;--accent:#dc2626;--ah:#ef4444;--card:#111;--ch:#1a1a1a;--bd:#222;--inp:#0e0e0e;--canvas-bg:#0a0a0a;--grid:#141414}
         body.light-mode{--bg:#f0f0f0;--fg:#111;--muted:#666;--card:#fff;--ch:#f7f7f7;--bd:#ddd;--inp:#fff;--canvas-bg:#e4e4e4;--grid:#f4f4f4}
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--fg);overflow:hidden;height:100vh;transition:background .3s,color .3s}
-        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
-        .logo-text{font-family:'Bebas Neue',cursive;letter-spacing:3px}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--fg);overflow:hidden;height:100vh;transition:background .3s,color .3s;display:flex;flex-direction:column}
+        ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+        .logo-text{font-family:'Bebas Neue',cursive;letter-spacing:3px;font-size:clamp(14px, 4vw, 21px)}
         .accent-line{height:3px;background:linear-gradient(90deg,var(--accent),transparent)}
         .ps{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:10px;transition:border-color .3s}
         .ps:hover{border-color:#444}
         .st{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:7px}
         .st i{font-size:13px}
-        .inp{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:7px 10px;color:var(--fg);font-family:'Outfit',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
+        .inp{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:8px 10px;color:var(--fg);font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
         .inp:focus{border-color:var(--accent)}
         select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23777' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
         select.inp option{background:var(--card);color:var(--fg)}
-        .bp{width:100%;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
+        .bp{width:100%;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 14px;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
         .bp:hover{background:var(--ah);transform:translateY(-1px);box-shadow:0 4px 15px rgba(220,38,38,.3)}
-        .bs{width:100%;background:transparent;color:var(--fg);border:1px solid var(--bd);border-radius:8px;padding:8px 14px;font-family:'Outfit',sans-serif;font-weight:500;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
+        .bs{width:100%;background:transparent;color:var(--fg);border:1px solid var(--bd);border-radius:8px;padding:9px 14px;font-family:'Outfit',sans-serif;font-weight:500;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
         .bs:hover{border-color:#444;background:var(--ch)}
-        .bi{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--bd);border-radius:6px;color:var(--muted);cursor:pointer;transition:all .2s;font-size:11px;flex-shrink:0}
+        .bi{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--bd);border-radius:6px;color:var(--muted);cursor:pointer;transition:all .2s;font-size:14px;flex-shrink:0}
         .bi:hover{border-color:var(--accent);color:var(--accent)}
         .dz{border:2px dashed #333;border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
         body.light-mode .dz{border-color:#bbb}
@@ -35,32 +35,33 @@
         .dz input{position:absolute;inset:0;opacity:0;cursor:pointer}
         .pt{position:relative;border-radius:5px;overflow:hidden;border:1px solid var(--bd);aspect-ratio:1;background:#1a1a1a}
         body.light-mode .pt{background:#eee}
-        .pt img{width:100%;height:100%;object-fit:cover}
-        .pt .rb{position:absolute;top:2px;right:2px;width:18px;height:18px;background:rgba(220,38,38,.9);border:none;border-radius:50%;color:#fff;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+        .pt img{width:100%;height:100%;object-fit:cover;pointer-events:none}
+        .pt .rb{position:absolute;top:2px;right:2px;width:24px;height:24px;background:rgba(220,38,38,.9);border:none;border-radius:50%;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
         .pt:hover .rb{opacity:1}
-        .pt .sb{position:absolute;bottom:2px;left:2px;background:rgba(0,0,0,.75);color:#ccc;font-size:8px;padding:1px 4px;border-radius:3px;font-weight:500}
+        .pt .sb{position:absolute;bottom:2px;left:2px;background:rgba(0,0,0,.75);color:#ccc;font-size:8px;padding:2px 5px;border-radius:3px;font-weight:500}
         .tw{display:flex;background:var(--inp);border-radius:8px;border:1px solid var(--bd);overflow:hidden}
-        .tb{flex:1;padding:7px;text-align:center;font-size:11px;font-weight:500;cursor:pointer;transition:all .2s;color:var(--muted);border:none;background:transparent;font-family:'Outfit',sans-serif}
+        .tb{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;color:var(--muted);border:none;background:transparent;font-family:'Outfit',sans-serif}
         .tb.active{background:var(--accent);color:#fff}
         .sw{display:flex;align-items:center;justify-content:space-between}
-        .sc{position:relative;width:38px;height:20px;cursor:pointer;flex-shrink:0}
+        .sc{position:relative;width:40px;height:22px;cursor:pointer;flex-shrink:0}
         .sc input{display:none}
         .sc .sl{position:absolute;inset:0;background:#333;border-radius:10px;transition:.3s}
         body.light-mode .sc .sl{background:#ccc}
-        .sc .sl::before{content:'';position:absolute;width:14px;height:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+        .sc .sl::before{content:'';position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
         .sc input:checked+.sl{background:var(--accent)}
         .sc input:checked+.sl::before{transform:translateX(18px)}
+        main.ml{display:flex;flex:1;overflow:hidden}
         .cc{display:flex;align-items:stretch;justify-content:stretch;flex:1;overflow:hidden;position:relative;background:var(--canvas-bg)}
-        #previewCanvas{display:block;cursor:default}
-        .ib{position:absolute;bottom:10px;left:12px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:5px 12px;font-size:11px;color:#ccc;display:flex;gap:14px;white-space:nowrap}
+        #previewCanvas{display:block;cursor:default;touch-action:none}
+        .ib{position:absolute;bottom:10px;left:12px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:6px 12px;font-size:11px;color:#ccc;display:flex;gap:10px;white-space:nowrap;flex-wrap:wrap}
         .ib .v{color:#fff;font-weight:500}
         .zc{position:absolute;bottom:10px;right:12px;display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:4px 8px}
-        .zc button{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #444;border-radius:5px;color:#ccc;cursor:pointer;font-size:11px;transition:all .15s}
+        .zc button{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #444;border-radius:5px;color:#ccc;cursor:pointer;font-size:12px;transition:all .15s}
         .zc button:hover{border-color:var(--accent);color:var(--accent)}
         .zc .zv{font-size:11px;color:#fff;font-weight:500;min-width:40px;text-align:center}
-        .ftb{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.92);backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:8px;padding:5px 10px;display:none;align-items:center;gap:6px;z-index:10}
+        .ftb{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.92);backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:8px;padding:6px 10px;display:none;align-items:center;gap:6px;z-index:10}
         .ftb .fl{font-size:10px;color:#aaa;white-space:nowrap}
-        .ftb button{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #444;border-radius:5px;color:#fff;cursor:pointer;font-size:11px;transition:all .15s}
+        .ftb button{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #444;border-radius:5px;color:#fff;cursor:pointer;font-size:12px;transition:all .15s}
         .ftb button:hover{border-color:var(--accent);color:var(--accent)}
         .ftb button.del:hover{border-color:#f59e0b;color:#f59e0b}
         .ftb .sv{font-size:11px;color:var(--accent);font-weight:600;min-width:36px;text-align:center}
@@ -72,38 +73,46 @@
         .mb h2{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:2px;margin-bottom:14px;color:var(--accent)}
         .mb p,.mb li{font-size:13px;line-height:1.7;color:var(--muted);margin-bottom:7px}
         .mb ul{padding-left:18px}.mb a{color:var(--accent);text-decoration:none}.mb a:hover{text-decoration:underline}
-        .mx{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:7px;background:transparent;border:1px solid var(--bd);color:var(--muted);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+        .mx{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:7px;background:transparent;border:1px solid var(--bd);color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s}
         .mx:hover{border-color:var(--accent);color:var(--accent)}
         #tc{position:fixed;top:16px;right:16px;z-index:200;display:flex;flex-direction:column;gap:6px}
-        .toast{background:var(--card);border:1px solid var(--bd);border-left:3px solid var(--accent);padding:10px 16px;border-radius:7px;font-size:12px;color:var(--fg);transform:translateX(120%);transition:transform .3s ease;max-width:300px}
+        .toast{background:var(--card);border:1px solid var(--bd);border-left:3px solid var(--accent);padding:12px 16px;border-radius:7px;font-size:13px;color:var(--fg);transform:translateX(120%);transition:transform .3s ease;max-width:300px;box-shadow:0 4px 15px rgba(0,0,0,.2)}
         .toast.show{transform:translateX(0)}.toast.error{border-left-color:#f59e0b}
+        footer{flex-shrink:0}
         footer a{color:var(--muted);text-decoration:none;font-size:12px;transition:color .2s}footer a:hover{color:var(--accent)}
-        .di{display:flex;gap:5px;align-items:center;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.15);border-radius:5px;padding:5px 8px;margin-top:6px;font-size:10px;color:var(--muted);flex-wrap:wrap}
+        .di{display:flex;gap:5px;align-items:center;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.15);border-radius:5px;padding:6px 8px;margin-top:6px;font-size:10px;color:var(--muted);flex-wrap:wrap}
         .di .dv{color:var(--fg);font-weight:500}
         .logo-wrap{display:flex;align-items:center;gap:10px}
-        .logo-img{height:34px;width:auto;object-fit:contain;cursor:pointer;transition:opacity .2s;border-radius:6px}
-        .logo-img:hover{opacity:.8}
+        .logo-img{height:36px;width:auto;object-fit:contain;border-radius:6px;cursor:default;pointer-events:none}
         .logo-text-block{display:flex;flex-direction:column;justify-content:center;gap:0px}
         select.inp optgroup{background:var(--bg);color:var(--accent);font-weight:600;font-size:11px}
         select.inp option{font-size:12px;padding:2px 0}
         @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         .fu{animation:fu .4s ease forwards}
-        @media(max-width:900px){.ml{flex-direction:column!important}.lp{width:100%!important;max-height:45vh;overflow-y:auto}.cc{min-height:40vh}}
+        
+        /* MOBILE RESPONSIVE */
+        @media(max-width: 768px) {
+            main.ml { flex-direction: column !important; }
+            aside.lp { width: 100% !important; min-width: 0 !important; max-height: 45vh; border-right: none !important; border-bottom: 1px solid var(--bd); }
+            .cc { min-height: 55vh; }
+            .ib { font-size: 9px; gap: 8px; bottom: 5px; left: 5px; padding: 4px 8px; }
+            .zc { bottom: 5px; right: 5px; }
+            .ftb { top: 5px; padding: 4px 5px; gap: 3px; }
+            .ftb button { width: 30px; height: 30px; font-size: 11px; }
+            .zc button { width: 30px; height: 30px; font-size: 11px; }
+        }
         @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
     </style>
 </head>
 <body>
 
-<header class="fu" style="border-bottom:1px solid var(--bd)">
+<header class="fu" style="border-bottom:1px solid var(--bd);flex-shrink:0">
     <div class="accent-line"></div>
-    <div style="max-width:1600px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <div style="padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
         <div class="logo-wrap">
-            <div style="position:relative">
-                <img id="siteLogo" class="logo-img" src="https://z-cdn-media.chatglm.cn/files/ec426ffb-509a-468c-bdc6-bc3600e740a1.png?auth_key=1884089893-9f474b0cd1c543a29c664850b5da50d0-0-f9c629a03fca57803b992bfbdd34f464" onclick="$('logoInput').click()" title="Klik untuk ganti logo">
-                <input type="file" id="logoInput" accept="image/*" style="display:none">
-            </div>
+            <img id="siteLogo" class="logo-img" src="https://z-cdn-media.chatglm.cn/files/ec426ffb-509a-468c-bdc6-bc3600e740a1.png?auth_key=1884089893-9f474b0cd1c543a29c664850b5da50d0-0-f9c629a03fca57803b992bfbdd34f464" alt="Logo">
             <div class="logo-text-block">
-                <div class="logo-text" style="font-size:21px;line-height:1.05;color:var(--fg)">KARYA ABADI POLAROID</div>
+                <div class="logo-text" style="line-height:1.05;color:var(--fg)">KARYA ABADI POLAROID</div>
                 <div style="font-size:9px;color:var(--muted);letter-spacing:1.5px;font-weight:400">PROFESSIONAL POLAROID MAKER</div>
             </div>
         </div>
@@ -114,9 +123,9 @@
     </div>
 </header>
 
-<main class="ml" style="display:flex;height:calc(100vh - 56px - 56px)">
+<main class="ml fu">
 
-    <aside class="lp fu" style="width:340px;min-width:300px;border-right:1px solid var(--bd);overflow-y:auto;padding:12px;background:var(--bg)">
+    <aside class="lp" style="width:340px;min-width:300px;border-right:1px solid var(--bd);overflow-y:auto;padding:12px;background:var(--bg)">
 
         <div class="ps">
             <div class="st"><i class="fas fa-upload"></i> Upload Foto</div>
@@ -193,7 +202,7 @@
             <div style="display:flex;align-items:center;gap:10px">
                 <div style="display:flex;align-items:center;gap:6px">
                     <label style="font-size:11px;color:var(--muted)">Warna</label>
-                    <input type="color" id="labelColor" value="#333333" style="width:28px;height:24px;border:1px solid var(--bd);border-radius:4px;background:var(--inp);cursor:pointer;padding:1px">
+                    <input type="color" id="labelColor" value="#333333" style="width:28px;height:28px;border:1px solid var(--bd);border-radius:4px;background:var(--inp);cursor:pointer;padding:1px">
                 </div>
                 <div class="sw">
                     <label style="font-size:11px;color:var(--muted)">+ Ukuran</label>
@@ -239,11 +248,11 @@
 
         <div class="ftb" id="photoToolbar">
             <span class="fl"><i class="fas fa-crop-alt" style="margin-right:3px"></i> Foto</span>
-            <button onclick="scaleSel(-0.15)" title="Perkecil (seragam)"><i class="fas fa-search-minus"></i></button>
+            <button onclick="scaleSel(-0.15)" title="Perkecil"><i class="fas fa-search-minus"></i></button>
             <span class="sv" id="selScaleVal">100%</span>
-            <button onclick="scaleSel(0.15)" title="Perbesar (seragam)"><i class="fas fa-search-plus"></i></button>
+            <button onclick="scaleSel(0.15)" title="Perbesar"><i class="fas fa-search-plus"></i></button>
             <div class="div"></div>
-            <button onclick="resetImgPos()" title="Reset Posisi & Ukuran Foto"><i class="fas fa-crosshairs"></i></button>
+            <button onclick="resetImgPos()" title="Reset Posisi"><i class="fas fa-crosshairs"></i></button>
             <div class="div"></div>
             <button class="del" onclick="deleteSel()" title="Hapus"><i class="fas fa-trash"></i></button>
         </div>
@@ -310,8 +319,9 @@ let panSX = 0, panSY = 0, panSOX = 0, panSOY = 0;
 let resizeCorner = null, resizePhoto = null;
 let resizeStartSX = 1, resizeStartSY = 1, resizeStartMX = 0, resizeStartMY = 0;
 
-/* DOM */
-const $ = id => document.getElementById(id);
+/* DOM HELPER */
+function $(id) { return document.getElementById(id); }
+
 const $sizeSel=$('sizeSelect'),$fileIn=$('fileInput'),$dropZ=$('dropZone');
 const $pGrid=$('photoGrid'),$pCount=$('photoCount');
 const $lTxt=$('labelText'),$lFont=$('labelFont'),$lSz=$('labelSize'),$lSp=$('labelSpace'),$lBd=$('labelBold');
@@ -516,7 +526,7 @@ function drawSel(ctx, it, ts, ox, oy) {
     ctx.setLineDash([]);
     ctx.fillStyle='#dc2626';
     ctx.strokeStyle='#fff'; ctx.lineWidth=2;
-    const hs=7;
+    const hs=9; // Sedikit lebih besar untuk touch
     [[px,py],[px+fw,py],[px,py+fh],[px+fw,py+fh]].forEach(([cx,cy])=>{
         ctx.beginPath(); ctx.arc(cx,cy,hs,0,Math.PI*2); ctx.fill(); ctx.stroke();
     });
@@ -537,7 +547,7 @@ function hitTestCorner(ax, ay, p) {
     if(!p) return null;
     const cx=p.x+MG.l, cy=p.y+MG.t;
     const cw=p.fw, ch=p.fh;
-    const hs=0.5;
+    const hs=0.8; // area sentuh lebih besar untuk mobile
     const corners={'tl':[cx,cy],'tr':[cx+cw,cy],'bl':[cx,cy+ch],'br':[cx+cw,cy+ch]};
     for(const [key,[hx,hy]] of Object.entries(corners)) {
         if(Math.abs(ax-hx)<hs && Math.abs(ay-hy)<hs) return key;
@@ -650,24 +660,26 @@ function deleteSel() {
     selectedId=null; updateToolbar(); updGrid(); renderPV(); toast('Foto dihapus');
 }
 
- $cvs.addEventListener('mousedown', e => {
-    const rect=$cvs.getBoundingClientRect();
-    const sx=e.clientX-rect.left, sy=e.clientY-rect.top;
-    const a=s2a(sx,sy);
+// UNIFIED POINTER EVENTS (MOUSE & TOUCH)
+function getPos(e) {
+    const rect = $cvs.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - rect.left, y: t.clientY - rect.top, cx: t.clientX, cy: t.clientY };
+}
+
+function onDown(e) {
+    if (e.touches) e.preventDefault(); // Cegah scroll saat sentuh
+    const p = getPos(e);
+    const a = s2a(p.x, p.y);
 
     if(selectedId!==null) {
         const sel=photos.find(p=>p.id===selectedId);
         if(sel) {
             const corner=hitTestCorner(a.x, a.y, sel);
             if(corner) {
-                isResizing=true;
-                resizeCorner=corner;
-                resizePhoto=sel;
-                resizeStartSX=sel.imgScaleX||1;
-                resizeStartSY=sel.imgScaleY||1;
-                resizeStartMX=a.x;
-                resizeStartMY=a.y;
-                $cvs.style.cursor=(corner==='tl'||corner==='br')?'nwse-resize':'nesw-resize';
+                isResizing=true; resizeCorner=corner; resizePhoto=sel;
+                resizeStartSX=sel.imgScaleX||1; resizeStartSY=sel.imgScaleY||1;
+                resizeStartMX=a.x; resizeStartMY=a.y;
                 return;
             }
         }
@@ -675,23 +687,18 @@ function deleteSel() {
 
     const hit=hitTestImg(a.x, a.y);
     if(hit) {
-        selectPhoto(hit.id);
-        isDraggingImg=true;
-        dragSX=a.x; dragSY=a.y;
-        dragOX=hit.imgOffX||0; dragOY=hit.imgOffY||0;
-        $cvs.style.cursor='move';
+        selectPhoto(hit.id); isDraggingImg=true;
+        dragSX=a.x; dragSY=a.y; dragOX=hit.imgOffX||0; dragOY=hit.imgOffY||0;
     } else {
-        selectPhoto(null);
-        isPanning=true;
-        panSX=e.clientX; panSY=e.clientY; panSOX=panX; panSOY=panY;
-        $cvs.style.cursor='grabbing';
+        selectPhoto(null); isPanning=true;
+        panSX=p.cx; panSY=p.cy; panSOX=panX; panSOY=panY;
     }
-});
+}
 
- $cvs.addEventListener('mousemove', e => {
-    const rect=$cvs.getBoundingClientRect();
-    const sx=e.clientX-rect.left, sy=e.clientY-rect.top;
-    const a=s2a(sx,sy);
+function onMove(e) {
+    if (e.touches) e.preventDefault();
+    const p = getPos(e);
+    const a = s2a(p.x, p.y);
 
     if(isResizing && resizePhoto) {
         const dx=a.x-resizeStartMX;
@@ -714,30 +721,35 @@ function deleteSel() {
         resizePhoto.imgScaleY=Math.max(0.1, Math.min(10, nsy));
         updateToolbar(); renderPV();
     } else if(isDraggingImg && selectedId!==null) {
-        const p=photos.find(p=>p.id===selectedId);
-        if(p) { p.imgOffX=dragOX+(a.x-dragSX); p.imgOffY=dragOY+(a.y-dragSY); renderPV(); }
+        const ph=photos.find(p=>p.id===selectedId);
+        if(ph) { ph.imgOffX=dragOX+(a.x-dragSX); ph.imgOffY=dragOY+(a.y-dragSY); renderPV(); }
     } else if(isPanning) {
-        panX=panSOX+(e.clientX-panSX); panY=panSOY+(e.clientY-panSY); renderPV();
+        panX=panSOX+(p.cx-panSX); panY=panSOY+(p.cy-panSY); renderPV();
     } else {
-        if(selectedId!==null) {
-            const sel=photos.find(p=>p.id===selectedId);
-            if(sel) {
-                const c=hitTestCorner(a.x, a.y, sel);
-                if(c) {
-                    $cvs.style.cursor=(c==='tl'||c==='br')?'nwse-resize':'nesw-resize';
-                    return;
+        if (!e.touches) { // Hanya update cursor untuk mouse
+            if(selectedId!==null) {
+                const sel=photos.find(p=>p.id===selectedId);
+                if(sel) {
+                    const c=hitTestCorner(a.x, a.y, sel);
+                    if(c) { $cvs.style.cursor=(c==='tl'||c==='br')?'nwse-resize':'nesw-resize'; return; }
                 }
             }
+            $cvs.style.cursor=hitTestImg(a.x,a.y)?'move':'default';
         }
-        $cvs.style.cursor=hitTestImg(a.x,a.y)?'move':'default';
     }
-});
+}
 
-window.addEventListener('mouseup', () => {
+function onUp() {
     isDraggingImg=false; isPanning=false; isResizing=false;
     resizePhoto=null; resizeCorner=null;
-    $cvs.style.cursor='default';
-});
+}
+
+ $cvs.addEventListener('mousedown', onDown);
+ $cvs.addEventListener('mousemove', onMove);
+window.addEventListener('mouseup', onUp);
+ $cvs.addEventListener('touchstart', onDown, {passive: false});
+ $cvs.addEventListener('touchmove', onMove, {passive: false});
+window.addEventListener('touchend', onUp);
 
  $cvs.addEventListener('wheel', e => {
     e.preventDefault();
@@ -804,13 +816,6 @@ function toggleTheme() {
     r.readAsDataURL(f);
 });
 function removeFrame() { frameImg=null; $fPrv.style.display='none'; $fRm.disabled=true; $fIn.value=''; renderPV(); toast('Frame dihapus'); }
-
- $('logoInput').addEventListener('change', e => {
-    const f=e.target.files[0]; if(!f) return;
-    const r=new FileReader();
-    r.onload=ev => { $('siteLogo').src=ev.target.result; toast('Logo diganti'); };
-    r.readAsDataURL(f);
-});
 
 function setOrientation(o) {
     orientation=o;
