@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karya Abadi Polaroid</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Courier+Prime&family=Dancing+Script:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lobster&family=Outfit:wght@300;400;500;600;700&family=Pacifico&family=Permanent+Marker&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Rock+Salt&family=Sacramento&family=Satisfy&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root{--bg:#080808;--fg:#f5f5f5;--muted:#777;--accent:#dc2626;--ah:#ef4444;--card:#111;--ch:#1a1a1a;--bd:#222;--inp:#0e0e0e}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--fg);overflow:hidden;height:100vh}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+        .logo-text{font-family:'Bebas Neue',cursive;letter-spacing:3px}
+        .accent-line{height:3px;background:linear-gradient(90deg,var(--accent),transparent)}
+        .ps{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:10px;transition:border-color .3s}
+        .ps:hover{border-color:#333}
+        .st{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+        .st i{font-size:13px}
+        .inp{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:7px 10px;color:var(--fg);font-family:'Outfit',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
+        .inp:focus{border-color:var(--accent)}
+        select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23777' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+        select.inp option{background:#111;color:#fff}
+        .bp{width:100%;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
+        .bp:hover{background:var(--ah);transform:translateY(-1px);box-shadow:0 4px 15px rgba(220,38,38,.3)}
+        .bs{width:100%;background:transparent;color:var(--fg);border:1px solid var(--bd);border-radius:8px;padding:8px 14px;font-family:'Outfit',sans-serif;font-weight:500;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
+        .bs:hover{border-color:#444;background:var(--ch)}
+        .bi{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--bd);border-radius:6px;color:var(--muted);cursor:pointer;transition:all .2s;font-size:11px;flex-shrink:0}
+        .bi:hover{border-color:var(--accent);color:var(--accent)}
+        .dz{border:2px dashed #333;border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+        .dz:hover,.dz.dragover{border-color:var(--accent);background:rgba(220,38,38,.05)}
+        .dz input{position:absolute;inset:0;opacity:0;cursor:pointer}
+        .pt{position:relative;border-radius:5px;overflow:hidden;border:1px solid var(--bd);aspect-ratio:1;background:#1a1a1a}
+        .pt img{width:100%;height:100%;object-fit:cover}
+        .pt .rb{position:absolute;top:2px;right:2px;width:18px;height:18px;background:rgba(220,38,38,.9);border:none;border-radius:50%;color:#fff;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+        .pt:hover .rb{opacity:1}
+        .pt .sb{position:absolute;bottom:2px;left:2px;background:rgba(0,0,0,.75);color:#ccc;font-size:8px;padding:1px 4px;border-radius:3px;font-weight:500}
+        .tw{display:flex;background:var(--inp);border-radius:8px;border:1px solid var(--bd);overflow:hidden}
+        .tb{flex:1;padding:7px;text-align:center;font-size:11px;font-weight:500;cursor:pointer;transition:all .2s;color:var(--muted);border:none;background:transparent;font-family:'Outfit',sans-serif}
+        .tb.active{background:var(--accent);color:#fff}
+        .sw{display:flex;align-items:center;justify-content:space-between}
+        .sc{position:relative;width:38px;height:20px;cursor:pointer;flex-shrink:0}
+        .sc input{display:none}
+        .sc .sl{position:absolute;inset:0;background:#333;border-radius:10px;transition:.3s}
+        .sc .sl::before{content:'';position:absolute;width:14px;height:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+        .sc input:checked+.sl{background:var(--accent)}
+        .sc input:checked+.sl::before{transform:translateX(18px)}
+        .cc{display:flex;align-items:stretch;justify-content:stretch;flex:1;overflow:hidden;position:relative;background:#0a0a0a}
+        #previewCanvas{display:block;cursor:default}
+        .ib{position:absolute;bottom:10px;left:12px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:5px 12px;font-size:11px;color:var(--muted);display:flex;gap:14px;white-space:nowrap}
+        .ib span{display:flex;align-items:center;gap:4px}.ib .v{color:var(--fg);font-weight:500}
+        .zc{position:absolute;bottom:10px;right:12px;display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:4px 8px}
+        .zc button{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--bd);border-radius:5px;color:var(--muted);cursor:pointer;font-size:11px;transition:all .15s}
+        .zc button:hover{border-color:var(--accent);color:var(--accent)}
+        .zc .zv{font-size:11px;color:var(--fg);font-weight:500;min-width:40px;text-align:center}
+        .ftb{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.92);backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:8px;padding:5px 10px;display:none;align-items:center;gap:6px;z-index:10}
+        .ftb .fl{font-size:10px;color:var(--muted);white-space:nowrap}
+        .ftb button{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--bd);border-radius:5px;color:var(--fg);cursor:pointer;font-size:11px;transition:all .15s}
+        .ftb button:hover{border-color:var(--accent);color:var(--accent)}
+        .ftb button.del:hover{border-color:#f59e0b;color:#f59e0b}
+        .ftb .sv{font-size:11px;color:var(--accent);font-weight:600;min-width:36px;text-align:center}
+        .ftb .div{width:1px;height:18px;background:var(--bd)}
+        .mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;padding:20px}
+        .mo.show{opacity:1;pointer-events:all}
+        .mb{background:var(--card);border:1px solid var(--bd);border-radius:14px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;transform:translateY(20px) scale(.97);transition:transform .3s;padding:26px;position:relative}
+        .mo.show .mb{transform:translateY(0) scale(1)}
+        .mb h2{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:2px;margin-bottom:14px;color:var(--accent)}
+        .mb p,.mb li{font-size:13px;line-height:1.7;color:#bbb;margin-bottom:7px}
+        .mb ul{padding-left:18px}.mb a{color:var(--accent);text-decoration:none}.mb a:hover{text-decoration:underline}
+        .mx{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:7px;background:transparent;border:1px solid var(--bd);color:var(--muted);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+        .mx:hover{border-color:var(--accent);color:var(--accent)}
+        #tc{position:fixed;top:16px;right:16px;z-index:200;display:flex;flex-direction:column;gap:6px}
+        .toast{background:var(--card);border:1px solid var(--bd);border-left:3px solid var(--accent);padding:10px 16px;border-radius:7px;font-size:12px;color:var(--fg);transform:translateX(120%);transition:transform .3s ease;max-width:300px}
+        .toast.show{transform:translateX(0)}.toast.error{border-left-color:#f59e0b}
+        footer a{color:var(--muted);text-decoration:none;font-size:12px;transition:color .2s}footer a:hover{color:var(--accent)}
+        .di{display:flex;gap:5px;align-items:center;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.15);border-radius:5px;padding:5px 8px;margin-top:6px;font-size:10px;color:var(--muted);flex-wrap:wrap}
+        .di .dv{color:var(--fg);font-weight:500}
+
+        /* Logo — tinggi pas sejajar dengan nama + tagline */
+        .logo-wrap{display:flex;align-items:center;gap:10px}
+        .logo-img{height:34px;width:auto;object-fit:contain;cursor:pointer;transition:opacity .2s;border-radius:6px}
+        .logo-img:hover{opacity:.8}
+        .logo-text-block{display:flex;flex-direction:column;justify-content:center;gap:0px}
+
+        /* Font optgroup styling */
+        select.inp optgroup{background:#0a0a0a;color:#dc2626;font-weight:600;font-size:11px}
+        select.inp option{font-size:12px;padding:2px 0}
+
+        @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        .fu{animation:fu .4s ease forwards}
+        @media(max-width:900px){.ml{flex-direction:column!important}.lp{width:100%!important;max-height:45vh;overflow-y:auto}.cc{min-height:40vh}}
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+    </style>
+</head>
+<body>
+
+<header class="fu" style="border-bottom:1px solid var(--bd)">
+    <div class="accent-line"></div>
+    <div style="max-width:1600px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div class="logo-wrap">
+            <div style="position:relative">
+                <img id="siteLogo" class="logo-img" src="https://z-cdn-media.chatglm.cn/files/ec426ffb-509a-468c-bdc6-bc3600e740a1.png?auth_key=1884089893-9f474b0cd1c543a29c664850b5da50d0-0-f9c629a03fca57803b992bfbdd34f464" onclick="$('logoInput').click()" title="Klik untuk ganti logo">
+                <input type="file" id="logoInput" accept="image/*" style="display:none">
+            </div>
+            <div class="logo-text-block">
+                <div class="logo-text" style="font-size:21px;line-height:1.05;color:var(--fg)">KARYA ABADI POLAROID</div>
+                <div style="font-size:9px;color:var(--muted);letter-spacing:1.5px;font-weight:400">PROFESSIONAL POLAROID MAKER</div>
+            </div>
+        </div>
+        <nav style="display:flex;align-items:center;gap:5px">
+            <button class="bi" onclick="showModal('cara')" title="Cara Penggunaan"><i class="fas fa-question"></i></button>
+            <button class="bi" onclick="showModal('about')" title="About"><i class="fas fa-info"></i></button>
+            <button class="bi" onclick="showModal('contact')" title="Contact"><i class="fas fa-envelope"></i></button>
+        </nav>
+    </div>
+</header>
+
+<main class="ml" style="display:flex;height:calc(100vh - 56px - 56px)">
+
+    <aside class="lp fu" style="width:340px;min-width:300px;border-right:1px solid var(--bd);overflow-y:auto;padding:12px;background:var(--bg)">
+
+        <div class="ps">
+            <div class="st"><i class="fas fa-upload"></i> Upload Foto</div>
+            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:5px">Ukuran Polaroid (Total)</label>
+            <select id="sizeSelect" class="inp" style="margin-bottom:5px" onchange="updateDimInfo()">
+                <option value="1R">1R — 7.0 × 7.0 cm (Square)</option>
+                <option value="2R">2R — 6.35 × 8.89 cm</option>
+                <option value="3R-L">3R Landscape — 12.7 × 8.89 cm</option>
+                <option value="3R-P" selected>3R Portrait — 8.89 × 12.7 cm</option>
+                <option value="4R-L">4R Landscape — 15.24 × 10.16 cm</option>
+                <option value="4R-P">4R Portrait — 10.16 × 15.24 cm</option>
+            </select>
+            <div class="di">Total: <span class="dv" id="dimTotal">8.89 × 12.7 cm</span> | Foto: <span class="dv" id="dimFoto">7.29 × 10.4 cm</span></div>
+            <div class="dz" id="dropZone" style="margin-top:8px">
+                <input type="file" id="fileInput" accept="image/*" multiple>
+                <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:#444;margin-bottom:6px;display:block"></i>
+                <div style="font-size:12px;color:var(--muted)">Seret & lepas foto di sini</div>
+                <div style="font-size:10px;color:#555;margin-top:3px">atau klik untuk memilih file</div>
+            </div>
+            <div id="photoGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px"></div>
+            <div id="photoCount" style="font-size:10px;color:var(--muted);margin-top:6px;text-align:center;display:none"></div>
+        </div>
+
+        <div class="ps">
+            <div class="st"><i class="fas fa-tag"></i> Pengaturan Label</div>
+            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:5px">Teks Label</label>
+            <input type="text" id="labelText" class="inp" placeholder="Karya Abadi" value="Karya Abadi" style="margin-bottom:8px">
+            <div style="display:flex;gap:6px;margin-bottom:8px">
+                <div style="flex:1">
+                    <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Font</label>
+                    <select id="labelFont" class="inp">
+                        <optgroup label="— Modern —">
+                            <option value="Outfit">Outfit</option>
+                            <option value="Bebas Neue">Bebas Neue</option>
+                        </optgroup>
+                        <optgroup label="— Classic / Klasik —">
+                            <option value="Playfair Display">Playfair Display</option>
+                            <option value="Cormorant Garamond">Cormorant Garamond</option>
+                            <option value="EB Garamond">EB Garamond</option>
+                            <option value="Georgia">Georgia</option>
+                        </optgroup>
+                        <optgroup label="— Retro —">
+                            <option value="Permanent Marker">Permanent Marker</option>
+                            <option value="Rock Salt">Rock Salt</option>
+                            <option value="Special Elite">Special Elite</option>
+                            <option value="Courier Prime">Courier Prime</option>
+                        </optgroup>
+                        <optgroup label="— Latin / Aksara Sambung —">
+                            <option value="Dancing Script">Dancing Script</option>
+                            <option value="Great Vibes">Great Vibes</option>
+                            <option value="Pacifico">Pacifico</option>
+                            <option value="Sacramento">Sacramento</option>
+                            <option value="Satisfy">Satisfy</option>
+                            <option value="Alex Brush">Alex Brush</option>
+                            <option value="Lobster">Lobster</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div style="width:70px">
+                    <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Ukuran (pt)</label>
+                    <input type="number" id="labelSize" class="inp" value="8" min="4" max="24" step="0.5">
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+                <div style="display:flex;align-items:center;gap:6px">
+                    <label style="font-size:11px;color:var(--muted)">Warna</label>
+                    <input type="color" id="labelColor" value="#333333" style="width:28px;height:24px;border:1px solid var(--bd);border-radius:4px;background:var(--inp);cursor:pointer;padding:1px">
+                </div>
+                <div class="sw">
+                    <label style="font-size:11px;color:var(--muted)">+ Ukuran</label>
+                    <label class="sc"><input type="checkbox" id="includeSize" checked><span class="sl"></span></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="ps">
+            <div class="st"><i class="fas fa-border-all"></i> Frame <span style="font-size:9px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(Clipping Mask)</span></div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.4">Upload gambar untuk mengganti frame putih polaroid.</div>
+            <div style="display:flex;gap:6px">
+                <label class="bs" style="flex:1;cursor:pointer"><i class="fas fa-image"></i> Pilih Gambar<input type="file" id="frameInput" accept="image/*" style="display:none"></label>
+                <button class="bs" style="width:auto;padding:8px 12px" id="removeFrameBtn" onclick="removeFrame()" disabled><i class="fas fa-trash-alt"></i></button>
+            </div>
+            <div id="framePreview" style="margin-top:6px;display:none"><img id="frameThumb" style="width:100%;height:50px;object-fit:cover;border-radius:5px;border:1px solid var(--bd)"></div>
+        </div>
+
+        <div class="ps">
+            <div class="st"><i class="fas fa-file-alt"></i> Kertas</div>
+            <div class="tw" style="margin-bottom:8px">
+                <button class="tb active" data-orient="portrait" onclick="setOrientation('portrait')"><i class="fas fa-mobile-alt" style="margin-right:3px"></i> Portrait</button>
+                <button class="tb" data-orient="landscape" onclick="setOrientation('landscape')"><i class="fas fa-mobile-alt" style="margin-right:3px;transform:rotate(90deg)"></i> Landscape</button>
+            </div>
+            <div class="sw" style="margin-bottom:8px">
+                <label style="font-size:11px;color:var(--muted)">Garis Potong</label>
+                <label class="sc"><input type="checkbox" id="cutLinesToggle" checked><span class="sl"></span></label>
+            </div>
+            <button class="bs" onclick="rearrangeAll()"><i class="fas fa-th"></i> Susun Ulang Otomatis</button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="bp" onclick="downloadPNG()" style="padding:12px"><i class="fas fa-download"></i> Download A4 (300 DPI)</button>
+            <button class="bs" onclick="resetAll()"><i class="fas fa-redo-alt"></i> Reset Semua</button>
+        </div>
+    </aside>
+
+    <section class="cc" id="canvasContainer">
+        <canvas id="previewCanvas"></canvas>
+
+        <div class="ftb" id="photoToolbar">
+            <span class="fl"><i class="fas fa-crop-alt" style="margin-right:3px"></i> Foto</span>
+            <button onclick="scaleSel(-0.15)" title="Perkecil"><i class="fas fa-search-minus"></i></button>
+            <span class="sv" id="selScaleVal">100%</span>
+            <button onclick="scaleSel(0.15)" title="Perbesar"><i class="fas fa-search-plus"></i></button>
+            <div class="div"></div>
+            <button onclick="resetImgPos()" title="Reset Posisi Foto"><i class="fas fa-crosshairs"></i></button>
+            <div class="div"></div>
+            <button class="del" onclick="deleteSel()" title="Hapus"><i class="fas fa-trash"></i></button>
+        </div>
+
+        <div class="zc">
+            <button onclick="zoomBtn(-0.15)" title="Zoom Out"><i class="fas fa-search-minus"></i></button>
+            <span class="zv" id="zoomVal">100%</span>
+            <button onclick="zoomBtn(0.15)" title="Zoom In"><i class="fas fa-search-plus"></i></button>
+            <button onclick="resetView()" title="Reset"><i class="fas fa-compress-arrows-alt"></i></button>
+        </div>
+
+        <div class="ib">
+            <span><i class="fas fa-file"></i> A4 <span class="v" id="infoOrient">Portrait</span></span>
+            <span><i class="fas fa-images"></i> <span class="v" id="infoCount">0</span></span>
+            <span><i class="fas fa-expand-arrows-alt"></i> <span class="v" id="infoSize">21 × 29.7 cm</span></span>
+        </div>
+
+        <div id="emptyMsg" style="position:absolute;display:flex;flex-direction:column;align-items:center;gap:10px;color:#333;pointer-events:none">
+            <i class="fas fa-camera" style="font-size:42px"></i>
+            <div style="font-size:14px;font-weight:500">Upload foto untuk memulai</div>
+            <div style="font-size:11px;color:#2a2a2a">Scroll = zoom kertas | Klik foto = geser & zoom foto</div>
+        </div>
+    </section>
+</main>
+
+<footer style="border-top:1px solid var(--bd);padding:12px 20px;text-align:center">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px 20px;margin-bottom:6px">
+        <a href="javascript:void(0)" onclick="showModal('about')">About</a>
+        <a href="javascript:void(0)" onclick="showModal('contact')">Contact</a>
+        <a href="javascript:void(0)" onclick="showModal('privacy')">Privacy Policy</a>
+        <a href="javascript:void(0)" onclick="showModal('terms')">Terms of Service</a>
+        <a href="javascript:void(0)" onclick="showModal('disclaimer')">Disclaimer</a>
+    </div>
+    <div style="font-size:11px;color:#555">&copy; 2026 Karya Abadi Polaroid. All Rights Reserved.</div>
+</footer>
+
+<div class="mo" id="modalOverlay" onclick="if(event.target===this)hideModal()">
+    <div class="mb"><button class="mx" onclick="hideModal()"><i class="fas fa-times"></i></button><div id="modalContent"></div></div>
+</div>
+<div id="tc"></div>
+
+<script>
+/* ==========================================================
+   KONFIGURASI
+   ========================================================== */
+const SIZES = {
+    '1R':   { w:7.0,   h:7.0,   label:'1R' },
+    '2R':   { w:6.35,  h:8.89,  label:'2R' },
+    '3R-L': { w:12.7,  h:8.89,  label:'3R L' },
+    '3R-P': { w:8.89,  h:12.7,  label:'3R P' },
+    '4R-L': { w:15.24, h:10.16, label:'4R L' },
+    '4R-P': { w:10.16, h:15.24, label:'4R P' },
+};
+const MG = { l:0.8, r:0.8, t:0.8, b:1.5 };
+const CUT_W = 0.02, PAPER_PAD = 0.15, DPI = 300, CM2PX = DPI / 2.54;
+
+/* STATE */
+let photos = [];
+let frameImg = null;
+let orientation = 'portrait';
+let idCounter = 0;
+let viewScale = 1, panX = 0, panY = 0;
+let selectedId = null;
+let isDraggingImg = false, isPanning = false;
+let dragSX = 0, dragSY = 0, dragOX = 0, dragOY = 0;
+let panSX = 0, panSY = 0, panSOX = 0, panSOY = 0;
+
+/* DOM */
+const $ = id => document.getElementById(id);
+const $sizeSel=$('sizeSelect'),$fileIn=$('fileInput'),$dropZ=$('dropZone');
+const $pGrid=$('photoGrid'),$pCount=$('photoCount');
+const $lTxt=$('labelText'),$lFont=$('labelFont'),$lSz=$('labelSize');
+const $lCol=$('labelColor'),$lInc=$('includeSize'),$cut=$('cutLinesToggle');
+const $fIn=$('frameInput'),$fRm=$('removeFrameBtn'),$fPrv=$('framePreview'),$fTh=$('frameThumb');
+const $cvs=$('previewCanvas'),$cont=$('canvasContainer'),$empty=$('emptyMsg');
+const $iO=$('infoOrient'),$iC=$('infoCount'),$iS=$('infoSize');
+const $dTot=$('dimTotal'),$dFot=$('dimFoto');
+const $ftb=$('photoToolbar'),$ssv=$('selScaleVal'),$zv=$('zoomVal');
+
+/* ==========================================================
+   DIMENSI
+   ========================================================== */
+function dims(key) {
+    const s = SIZES[key];
+    return { pw:s.w, ph:s.h, fw:Math.max(0.1, s.w-MG.l-MG.r), fh:Math.max(0.1, s.h-MG.t-MG.b) };
+}
+function initPhoto(p) {
+    const d = dims(p.size);
+    p.pw=d.pw; p.ph=d.ph; p.fw=d.fw; p.fh=d.fh;
+    p.imgScale=1; p.imgOffX=0; p.imgOffY=0;
+}
+function updateDimInfo() {
+    const d=dims($sizeSel.value);
+    $dTot.textContent=`${d.pw} × ${d.ph} cm`;
+    $dFot.textContent=`${d.fw.toFixed(2)} × ${d.fh.toFixed(2)} cm`;
+}
+updateDimInfo();
+
+/* ==========================================================
+   VIEW TRANSFORM
+   ========================================================== */
+function paperSize() { return orientation==='portrait' ? {w:21,h:29.7} : {w:29.7,h:21}; }
+function getVT() {
+    const ps=paperSize(), cw=$cvs.width, ch=$cvs.height;
+    const bs=Math.min((cw-40)/ps.w,(ch-60)/ps.h,80);
+    const ts=bs*viewScale;
+    const cx=(cw-ps.w*ts)/2+panX, cy=(ch-ps.h*ts)/2+panY;
+    return {pw:ps.w,ph:ps.h,cw,ch,bs,ts,cx,cy};
+}
+function s2a(sx,sy) { const v=getVT(); return {x:(sx-v.cx)/v.ts, y:(sy-v.cy)/v.ts}; }
+
+/* ==========================================================
+   ARRANGE
+   ========================================================== */
+function arrangePhotos() {
+    const ps=paperSize(), gap=CUT_W, pad=PAPER_PAD;
+    const uw=ps.w-pad*2, uh=ps.h-pad*2;
+    photos.forEach(p=>initPhoto(p));
+    const sorted=[...photos].sort((a,b)=>b.ph-a.ph);
+    let x=0, y=0, rowH=0, maxW=0, maxH=0;
+    for(const p of sorted) {
+        if(x+p.pw>uw && x>0){x=0;y+=rowH+gap;rowH=0;}
+        if(y+p.ph>uh) break;
+        p._ax=x; p._ay=y;
+        maxW=Math.max(maxW, x+p.pw);
+        maxH=Math.max(maxH, y+p.ph);
+        x+=p.pw+gap;
+        rowH=Math.max(rowH, p.ph);
+    }
+    const ox=pad+(uw-maxW)/2, oy=pad+(uh-maxH)/2;
+    for(const p of sorted) {
+        if(p._ax!==undefined){p.x=p._ax+ox;p.y=p._ay+oy;delete p._ax;delete p._ay;}
+    }
+}
+function rearrangeAll() {
+    if(!photos.length){toast('Belum ada foto','error');return;}
+    arrangePhotos(); selectPhoto(null); resetView();
+    toast('Foto disusun ulang');
+}
+
+/* ==========================================================
+   GAMBAR POLAROID — frame tetap, foto bebas
+   ========================================================== */
+function drawPolaroid(ctx, it, ts, ox, oy) {
+    const x=ox+it.x*ts, y=oy+it.y*ts;
+    const w=it.pw*ts, h=it.ph*ts;
+    const ml=MG.l*ts, mt=MG.t*ts, mr=MG.r*ts, mb=MG.b*ts;
+    const fw=it.fw*ts, fh=it.fh*ts;
+
+    // Frame
+    if(frameImg) { ctx.drawImage(frameImg, x, y, w, h); }
+    else { ctx.fillStyle='#ffffff'; ctx.fillRect(x, y, w, h); }
+
+    // Foto — clip lalu gambar dengan offset & scale
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(x+ml, y+mt, fw, fh);
+    ctx.clip();
+    if(it.img) {
+        const is = it.imgScale || 1;
+        const dx = x+ml - ((is-1)*fw/2) + (it.imgOffX||0)*ts;
+        const dy = y+mt - ((is-1)*fh/2) + (it.imgOffY||0)*ts;
+        drawCover(ctx, it.img, dx, dy, fw*is, fh*is);
+    } else {
+        ctx.fillStyle='#d1d5db';
+        ctx.fillRect(x+ml, y+mt, fw, fh);
+    }
+    ctx.restore();
+
+    // Label
+    const txt = getLabel(it.size);
+    if(txt) {
+        const pt = parseFloat($lSz.value)||8;
+        const fs = Math.max(3, pt*(DPI/72)*ts/CM2PX);
+        ctx.save();
+        ctx.font = `400 ${fs}px "${$lFont.value}"`;
+        ctx.fillStyle = $lCol.value;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(txt, x+w/2, y+mt+fh+mb/2, w-ml-mr);
+        ctx.restore();
+    }
+}
+
+function drawCover(ctx, img, dx, dy, dw, dh) {
+    const ir=img.width/img.height, dr=dw/dh;
+    let sx,sy,sw,sh;
+    if(ir>dr){sh=img.height;sw=sh*dr;sx=(img.width-sw)/2;sy=0;}
+    else{sw=img.width;sh=sw/dr;sx=0;sy=(img.height-sh)/2;}
+    ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
+}
+
+function getLabel(key) {
+    let t=$lTxt.value.trim();
+    if($lInc.checked&&key){const lb=SIZES[key]?SIZES[key].label:'';t=t?`${t} - ${lb}`:lb;}
+    return t;
+}
+
+/* GARIS POTONG */
+function drawCuts(ctx, ts, ox, oy) {
+    if(!photos.length) return;
+    ctx.save();ctx.strokeStyle='#bbbbbb';ctx.lineWidth=Math.max(0.4, CUT_W*ts);ctx.setLineDash([]);
+    for(const it of photos) ctx.strokeRect(ox+it.x*ts, oy+it.y*ts, it.pw*ts, it.ph*ts);
+    ctx.restore();
+}
+
+/* SELEKSI — hanya area foto */
+function drawSel(ctx, it, ts, ox, oy) {
+    const x=ox+it.x*ts, y=oy+it.y*ts;
+    const ml=MG.l*ts, mt=MG.t*ts;
+    const fw=it.fw*ts, fh=it.fh*ts;
+    const px=x+ml, py=y+mt;
+    ctx.save();
+    ctx.strokeStyle='#dc2626';ctx.lineWidth=2;ctx.setLineDash([5,3]);
+    ctx.strokeRect(px, py, fw, fh);
+    ctx.setLineDash([]);ctx.fillStyle='#dc2626';
+    const hs=4;
+    [[px,py],[px+fw,py],[px,py+fh],[px+fw,py+fh]].forEach(([cx,cy])=>{
+        ctx.beginPath();ctx.arc(cx,cy,hs,0,Math.PI*2);ctx.fill();
+    });
+    ctx.restore();
+}
+
+/* ==========================================================
+   RENDER PREVIEW
+   ========================================================== */
+function renderPV() {
+    const cw=$cont.clientWidth, ch=$cont.clientHeight;
+    $cvs.width=cw; $cvs.height=ch;
+    const ctx=$cvs.getContext('2d');
+    ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,cw,ch);
+    ctx.fillStyle='#141414';
+    for(let gx=0;gx<cw;gx+=20)for(let gy=0;gy<ch;gy+=20)ctx.fillRect(gx,gy,1,1);
+    const v=getVT();
+    ctx.save();ctx.shadowColor='rgba(0,0,0,0.5)';ctx.shadowBlur=25;ctx.shadowOffsetY=5;
+    ctx.fillStyle='#ffffff';ctx.fillRect(v.cx, v.cy, v.pw*v.ts, v.ph*v.ts);ctx.restore();
+    ctx.strokeStyle='#ddd';ctx.lineWidth=0.5;ctx.strokeRect(v.cx, v.cy, v.pw*v.ts, v.ph*v.ts);
+    for(const it of photos) drawPolaroid(ctx, it, v.ts, v.cx, v.cy);
+    if($cut.checked) drawCuts(ctx, v.ts, v.cx, v.cy);
+    if(selectedId!==null){const p=photos.find(p=>p.id===selectedId);if(p)drawSel(ctx, p, v.ts, v.cx, v.cy);}
+    $iO.textContent=orientation==='portrait'?'Portrait':'Landscape';
+    $iC.textContent=photos.length;
+    const ps=paperSize();$iS.textContent=`${ps.w} × ${ps.h} cm`;
+    $empty.style.display=photos.length?'none':'flex';
+}
+
+/* EXPORT 300 DPI */
+function renderExport(canvas) {
+    const ps=paperSize(), s=CM2PX;
+    canvas.width=Math.round(ps.w*s);canvas.height=Math.round(ps.h*s);
+    const ctx=canvas.getContext('2d');
+    ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);
+    for(const it of photos) drawPolaroid(ctx, it, s, 0, 0);
+    if($cut.checked) drawCuts(ctx, s, 0, 0);
+}
+
+/* ==========================================================
+   ZOOM & PAN KERTAS
+   ========================================================== */
+function zoomAt(factor, mx, my) {
+    const ps=paperSize(), cw=$cvs.width, ch=$cvs.height;
+    const bs=Math.min((cw-40)/ps.w,(ch-60)/ps.h,80);
+    const ts=bs*viewScale;
+    const cx=(cw-ps.w*ts)/2+panX, cy=(ch-ps.h*ts)/2+panY;
+    const ax=(mx-cx)/ts, ay=(my-cy)/ts;
+    viewScale=Math.max(0.1, Math.min(12, viewScale*factor));
+    const nts=bs*viewScale;
+    panX=(mx-ax*nts)-(cw-ps.w*nts)/2;
+    panY=(my-ay*nts)-(ch-ps.h*nts)/2;
+    renderPV(); updateZoomUI();
+}
+function zoomBtn(d) { zoomAt(1+d, $cvs.width/2, $cvs.height/2); }
+function resetView() { viewScale=1;panX=0;panY=0;renderPV();updateZoomUI(); }
+function updateZoomUI() { $zv.textContent=Math.round(viewScale*100)+'%'; }
+
+/* ==========================================================
+   FOTO INTERAKSI
+   ========================================================== */
+function hitTestImg(ax, ay) {
+    for(let i=photos.length-1;i>=0;i--) {
+        const p=photos[i];
+        if(ax>=p.x+MG.l && ax<=p.x+MG.l+p.fw && ay>=p.y+MG.t && ay<=p.y+MG.t+p.fh) return p;
+    }
+    return null;
+}
+function selectPhoto(id) {
+    selectedId=id;
+    if(id!==null){const idx=photos.findIndex(p=>p.id===id);if(idx>=0&&idx<photos.length-1){const[p]=photos.splice(idx,1);photos.push(p);}}
+    updateToolbar(); renderPV();
+}
+function updateToolbar() {
+    if(selectedId===null){$ftb.style.display='none';return;}
+    const p=photos.find(p=>p.id===selectedId);
+    if(!p){$ftb.style.display='none';return;}
+    $ftb.style.display='flex';
+    $ssv.textContent=Math.round((p.imgScale||1)*100)+'%';
+}
+function scaleSel(delta) {
+    const p=photos.find(p=>p.id===selectedId);if(!p) return;
+    p.imgScale=Math.max(0.1, Math.min(5, (p.imgScale||1)+delta));
+    updateToolbar(); renderPV();
+}
+function resetImgPos() {
+    const p=photos.find(p=>p.id===selectedId);if(!p) return;
+    p.imgScale=1; p.imgOffX=0; p.imgOffY=0;
+    updateToolbar(); renderPV(); toast('Posisi foto direset');
+}
+function deleteSel() {
+    if(selectedId===null) return;
+    photos=photos.filter(p=>p.id!==selectedId);
+    selectedId=null; updateToolbar(); updGrid(); renderPV(); toast('Foto dihapus');
+}
+
+/* CANVAS MOUSE */
+ $cvs.addEventListener('mousedown', e => {
+    const rect=$cvs.getBoundingClientRect();
+    const sx=e.clientX-rect.left, sy=e.clientY-rect.top;
+    const a=s2a(sx, sy);
+    const hit=hitTestImg(a.x, a.y);
+    if(hit) {
+        selectPhoto(hit.id);
+        isDraggingImg=true;
+        dragSX=a.x; dragSY=a.y;
+        dragOX=hit.imgOffX||0; dragOY=hit.imgOffY||0;
+        $cvs.style.cursor='move';
+    } else {
+        selectPhoto(null);
+        isPanning=true;
+        panSX=e.clientX; panSY=e.clientY; panSOX=panX; panSOY=panY;
+        $cvs.style.cursor='grabbing';
+    }
+});
+ $cvs.addEventListener('mousemove', e => {
+    const rect=$cvs.getBoundingClientRect();
+    const sx=e.clientX-rect.left, sy=e.clientY-rect.top;
+    if(isDraggingImg && selectedId!==null) {
+        const a=s2a(sx, sy);
+        const p=photos.find(p=>p.id===selectedId);
+        if(p){p.imgOffX=dragOX+(a.x-dragSX);p.imgOffY=dragOY+(a.y-dragSY);renderPV();}
+    } else if(isPanning) {
+        panX=panSOX+(e.clientX-panSX);panY=panSOY+(e.clientY-panSY);renderPV();
+    } else {
+        const a=s2a(sx, sy);$cvs.style.cursor=hitTestImg(a.x,a.y)?'move':'default';
+    }
+});
+window.addEventListener('mouseup', () => {isDraggingImg=false;isPanning=false;$cvs.style.cursor='default';});
+ $cvs.addEventListener('wheel', e => {
+    e.preventDefault();
+    const rect=$cvs.getBoundingClientRect();
+    zoomAt(e.deltaY>0?0.92:1.08, e.clientX-rect.left, e.clientY-rect.top);
+}, {passive:false});
+
+/* ==========================================================
+   UPLOAD FOTO
+   ========================================================== */
+function addPhotos(files) {
+    const sz=$sizeSel.value;let ld=0;const tot=files.length;
+    Array.from(files).forEach(f => {
+        if(!f.type.startsWith('image/')) return;
+        const r=new FileReader();
+        r.onload=ev => {
+            const img=new Image();
+            img.onload=() => {
+                const p={id:++idCounter, img, size:sz, x:0, y:0};
+                initPhoto(p); photos.push(p); ld++;
+                if(ld===tot){arrangePhotos();updGrid();selectPhoto(null);resetView();toast(`${tot} foto ditambahkan`);}
+            };
+            img.src=ev.target.result;
+        };
+        r.readAsDataURL(f);
+    });
+}
+function rmPhoto(id) {
+    if(id===selectedId) selectedId=null;
+    photos=photos.filter(p=>p.id!==id);updGrid();updateToolbar();renderPV();
+}
+function updGrid() {
+    $pGrid.innerHTML='';
+    if(!photos.length){$pCount.style.display='none';return;}
+    $pCount.style.display='block';$pCount.textContent=`${photos.length} foto`;
+    photos.forEach(p => {
+        const d=document.createElement('div');d.className='pt';
+        const isc=(p.imgScale||1)!==1?` ${Math.round(p.imgScale*100)}%`:'';
+        d.innerHTML=`<img src="${p.img.src}" alt="Foto"><button class="rb" onclick="rmPhoto(${p.id})"><i class="fas fa-times"></i></button><span class="sb">${SIZES[p.size].label}${isc}</span>`;
+        $pGrid.appendChild(d);
+    });
+}
+
+/* FRAME */
+ $fIn.addEventListener('change', e => {
+    const f=e.target.files[0];if(!f) return;
+    const r=new FileReader();
+    r.onload=ev=>{const img=new Image();img.onload=()=>{frameImg=img;$fTh.src=ev.target.result;$fPrv.style.display='block';$fRm.disabled=false;renderPV();toast('Frame diterapkan');};img.src=ev.target.result;};
+    r.readAsDataURL(f);
+});
+function removeFrame(){frameImg=null;$fPrv.style.display='none';$fRm.disabled=true;$fIn.value='';renderPV();toast('Frame dihapus');}
+
+/* LOGO */
+ $('logoInput').addEventListener('change', e => {
+    const f=e.target.files[0];if(!f) return;
+    const r=new FileReader();
+    r.onload=ev=>{
+        $('siteLogo').src=ev.target.result;
+        toast('Logo diganti');
+    };
+    r.readAsDataURL(f);
+});
+
+/* ORIENTASI */
+function setOrientation(o) {
+    orientation=o;
+    document.querySelectorAll('.tb[data-orient]').forEach(b=>b.classList.toggle('active',b.dataset.orient===o));
+    resetView();
+}
+
+/* DOWNLOAD */
+function downloadPNG() {
+    if(!photos.length){toast('Belum ada foto','error');return;}
+    toast('Mempersiapkan 300 DPI...');
+    setTimeout(()=>{
+        const c=document.createElement('canvas');renderExport(c);
+        c.toBlob(blob=>{
+            if(!blob){toast('Gagal','error');return;}
+            const u=URL.createObjectURL(blob),a=document.createElement('a');
+            a.href=u;a.download=`polaroid-a4-${orientation}-${Date.now()}.png`;
+            document.body.appendChild(a);a.click();document.body.removeChild(a);
+            URL.revokeObjectURL(u);toast(`Berhasil! ${photos.length} foto didownload`);
+        },'image/png');
+    },80);
+}
+
+/* RESET */
+function resetAll() {
+    photos=[];frameImg=null;$fPrv.style.display='none';$fRm.disabled=true;
+    $fIn.value='';$pGrid.innerHTML='';$pCount.style.display='none';
+    selectedId=null;updateToolbar();resetView();toast('Semua direset');
+}
+
+/* ==========================================================
+   MODAL
+   ========================================================== */
+const MC={
+    cara:`<h2>Cara Penggunaan</h2><ol>
+        <li><strong>Pilih Ukuran</strong> — Ukuran total polaroid. Area foto lebih kecil (margin kiri/kanan/atas 0.8cm, bawah 1.5cm).</li>
+        <li><strong>Upload Foto</strong> — Klik atau seret foto. Otomatis disusun rata tengah.</li>
+        <li><strong>Atur Label</strong> — Teks, font (Modern, Classic, Retro, Latin), ukuran pt, warna.</li>
+        <li><strong>Frame Custom</strong> — Upload gambar untuk clipping mask.</li>
+        <li><strong>Geser Foto</strong> — Klik <em>area foto</em> lalu drag. Hanya foto bergerak, frame tetap.</li>
+        <li><strong>Zoom Foto</strong> — Pilih foto, gunakan + / - di toolbar.</li>
+        <li><strong>Zoom Kertas</strong> — Scroll mouse. Drag area kosong untuk pan.</li>
+        <li><strong>Download</strong> — 300 DPI PNG siap cetak.</li></ol>
+        <p style="margin-top:10px;color:#888">Delete = hapus foto | Escape = batalkan seleksi</p>`,
+    about:`<h2>About</h2><p><strong>Karya Abadi Polaroid</strong> — alat pembuat foto polaroid profesional berbasis web. Semua proses di browser, privasi 100% terjaga.</p>`,
+    contact:`<h2>Contact</h2><ul><li><i class="fas fa-envelope" style="color:var(--accent);margin-right:8px"></i><a href="mailto:karyaabadi24434@gmail.com">karyaabadi24434@gmail.com</a></li><li><i class="fas fa-phone" style="color:var(--accent);margin-right:8px"></i><a href="tel:085117124247">0851-1712-4247</a></li></ul>`,
+    privacy:`<h2>Privacy Policy</h2><p>Kami tidak mengumpulkan atau menyimpan data apapun. Semua proses client-side di browser Anda.</p>`,
+    terms:`<h2>Terms of Service</h2><ul><li>Website "sebagaimana adanya" tanpa jaminan.</li><li>Tanggung jawab penuh atas penggunaan.</li><li>Dilarang untuk tujuan ilegal.</li><li>Hasil download milik pengguna.</li></ul>`,
+    disclaimer:`<h2>Disclaimer</h2><p>Hasil cetak mungkin sedikit berbeda dari layar. Disarankan uji cetak terlebih dahulu.</p>`,
+};
+function showModal(t){$('modalContent').innerHTML=MC[t]||'';$('modalOverlay').classList.add('show');document.body.style.overflow='hidden';}
+function hideModal(){$('modalOverlay').classList.remove('show');document.body.style.overflow='';}
+
+/* TOAST */
+function toast(msg, type='success') {
+    const t=document.createElement('div');t.className=`toast${type==='error'?' error':''}`;t.textContent=msg;
+    $('tc').appendChild(t);requestAnimationFrame(()=>t.classList.add('show'));
+    setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300);},2500);
+}
+
+/* ==========================================================
+   EVENT LISTENERS
+   ========================================================== */
+ $fileIn.addEventListener('change', e=>{if(e.target.files.length)addPhotos(e.target.files);e.target.value='';});
+ $dropZ.addEventListener('dragover', e=>{e.preventDefault();$dropZ.classList.add('dragover');});
+ $dropZ.addEventListener('dragleave', ()=>$dropZ.classList.remove('dragover'));
+ $dropZ.addEventListener('drop', e=>{e.preventDefault();$dropZ.classList.remove('dragover');if(e.dataTransfer.files.length)addPhotos(e.dataTransfer.files);});
+[$lTxt,$lFont,$lSz,$lCol,$lInc,$cut].forEach(el=>{el.addEventListener('input',renderPV);el.addEventListener('change',renderPV);});
+document.addEventListener('keydown', e=>{
+    if(e.key==='Escape'){if(selectedId!==null)selectPhoto(null);else hideModal();}
+    if((e.key==='Delete'||e.key==='Backspace')&&selectedId!==null){
+        if(document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='SELECT') return;
+        e.preventDefault();deleteSel();
+    }
+});
+let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(renderPV,100);});
+
+/* INIT */
+renderPV(); updateZoomUI();
+</script>
+</body>
+</html>
