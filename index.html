@@ -8,20 +8,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Courier+Prime&family=Dancing+Script:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lobster&family=Outfit:wght@300;400;500;600;700&family=Pacifico&family=Permanent+Marker&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Rock+Salt&family=Sacramento&family=Satisfy&family=Special+Elite&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        :root{--bg:#080808;--fg:#f5f5f5;--muted:#777;--accent:#dc2626;--ah:#ef4444;--card:#111;--ch:#1a1a1a;--bd:#222;--inp:#0e0e0e}
+        :root{--bg:#080808;--fg:#f5f5f5;--muted:#777;--accent:#dc2626;--ah:#ef4444;--card:#111;--ch:#1a1a1a;--bd:#222;--inp:#0e0e0e;--canvas-bg:#0a0a0a;--grid:#141414}
+        body.light-mode{--bg:#f0f0f0;--fg:#111;--muted:#666;--card:#fff;--ch:#f7f7f7;--bd:#ddd;--inp:#fff;--canvas-bg:#e4e4e4;--grid:#f4f4f4}
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--fg);overflow:hidden;height:100vh}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--fg);overflow:hidden;height:100vh;transition:background .3s,color .3s}
         ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
         .logo-text{font-family:'Bebas Neue',cursive;letter-spacing:3px}
         .accent-line{height:3px;background:linear-gradient(90deg,var(--accent),transparent)}
         .ps{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:10px;transition:border-color .3s}
-        .ps:hover{border-color:#333}
+        .ps:hover{border-color:#444}
         .st{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:7px}
         .st i{font-size:13px}
         .inp{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:7px 10px;color:var(--fg);font-family:'Outfit',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
         .inp:focus{border-color:var(--accent)}
         select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23777' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
-        select.inp option{background:#111;color:#fff}
+        select.inp option{background:var(--card);color:var(--fg)}
         .bp{width:100%;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
         .bp:hover{background:var(--ah);transform:translateY(-1px);box-shadow:0 4px 15px rgba(220,38,38,.3)}
         .bs{width:100%;background:transparent;color:var(--fg);border:1px solid var(--bd);border-radius:8px;padding:8px 14px;font-family:'Outfit',sans-serif;font-weight:500;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
@@ -29,9 +30,11 @@
         .bi{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--bd);border-radius:6px;color:var(--muted);cursor:pointer;transition:all .2s;font-size:11px;flex-shrink:0}
         .bi:hover{border-color:var(--accent);color:var(--accent)}
         .dz{border:2px dashed #333;border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+        body.light-mode .dz{border-color:#bbb}
         .dz:hover,.dz.dragover{border-color:var(--accent);background:rgba(220,38,38,.05)}
         .dz input{position:absolute;inset:0;opacity:0;cursor:pointer}
         .pt{position:relative;border-radius:5px;overflow:hidden;border:1px solid var(--bd);aspect-ratio:1;background:#1a1a1a}
+        body.light-mode .pt{background:#eee}
         .pt img{width:100%;height:100%;object-fit:cover}
         .pt .rb{position:absolute;top:2px;right:2px;width:18px;height:18px;background:rgba(220,38,38,.9);border:none;border-radius:50%;color:#fff;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
         .pt:hover .rb{opacity:1}
@@ -43,30 +46,31 @@
         .sc{position:relative;width:38px;height:20px;cursor:pointer;flex-shrink:0}
         .sc input{display:none}
         .sc .sl{position:absolute;inset:0;background:#333;border-radius:10px;transition:.3s}
+        body.light-mode .sc .sl{background:#ccc}
         .sc .sl::before{content:'';position:absolute;width:14px;height:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
         .sc input:checked+.sl{background:var(--accent)}
         .sc input:checked+.sl::before{transform:translateX(18px)}
-        .cc{display:flex;align-items:stretch;justify-content:stretch;flex:1;overflow:hidden;position:relative;background:#0a0a0a}
+        .cc{display:flex;align-items:stretch;justify-content:stretch;flex:1;overflow:hidden;position:relative;background:var(--canvas-bg)}
         #previewCanvas{display:block;cursor:default}
-        .ib{position:absolute;bottom:10px;left:12px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:5px 12px;font-size:11px;color:var(--muted);display:flex;gap:14px;white-space:nowrap}
-        .ib span{display:flex;align-items:center;gap:4px}.ib .v{color:var(--fg);font-weight:500}
+        .ib{position:absolute;bottom:10px;left:12px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:5px 12px;font-size:11px;color:#ccc;display:flex;gap:14px;white-space:nowrap}
+        .ib .v{color:#fff;font-weight:500}
         .zc{position:absolute;bottom:10px;right:12px;display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:4px 8px}
-        .zc button{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--bd);border-radius:5px;color:var(--muted);cursor:pointer;font-size:11px;transition:all .15s}
+        .zc button{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #444;border-radius:5px;color:#ccc;cursor:pointer;font-size:11px;transition:all .15s}
         .zc button:hover{border-color:var(--accent);color:var(--accent)}
-        .zc .zv{font-size:11px;color:var(--fg);font-weight:500;min-width:40px;text-align:center}
+        .zc .zv{font-size:11px;color:#fff;font-weight:500;min-width:40px;text-align:center}
         .ftb{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.92);backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:8px;padding:5px 10px;display:none;align-items:center;gap:6px;z-index:10}
-        .ftb .fl{font-size:10px;color:var(--muted);white-space:nowrap}
-        .ftb button{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--bd);border-radius:5px;color:var(--fg);cursor:pointer;font-size:11px;transition:all .15s}
+        .ftb .fl{font-size:10px;color:#aaa;white-space:nowrap}
+        .ftb button{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #444;border-radius:5px;color:#fff;cursor:pointer;font-size:11px;transition:all .15s}
         .ftb button:hover{border-color:var(--accent);color:var(--accent)}
         .ftb button.del:hover{border-color:#f59e0b;color:#f59e0b}
         .ftb .sv{font-size:11px;color:var(--accent);font-weight:600;min-width:36px;text-align:center}
-        .ftb .div{width:1px;height:18px;background:var(--bd)}
+        .ftb .div{width:1px;height:18px;background:#444}
         .mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;padding:20px}
         .mo.show{opacity:1;pointer-events:all}
         .mb{background:var(--card);border:1px solid var(--bd);border-radius:14px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;transform:translateY(20px) scale(.97);transition:transform .3s;padding:26px;position:relative}
         .mo.show .mb{transform:translateY(0) scale(1)}
         .mb h2{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:2px;margin-bottom:14px;color:var(--accent)}
-        .mb p,.mb li{font-size:13px;line-height:1.7;color:#bbb;margin-bottom:7px}
+        .mb p,.mb li{font-size:13px;line-height:1.7;color:var(--muted);margin-bottom:7px}
         .mb ul{padding-left:18px}.mb a{color:var(--accent);text-decoration:none}.mb a:hover{text-decoration:underline}
         .mx{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:7px;background:transparent;border:1px solid var(--bd);color:var(--muted);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s}
         .mx:hover{border-color:var(--accent);color:var(--accent)}
@@ -80,7 +84,7 @@
         .logo-img{height:34px;width:auto;object-fit:contain;cursor:pointer;transition:opacity .2s;border-radius:6px}
         .logo-img:hover{opacity:.8}
         .logo-text-block{display:flex;flex-direction:column;justify-content:center;gap:0px}
-        select.inp optgroup{background:#0a0a0a;color:#dc2626;font-weight:600;font-size:11px}
+        select.inp optgroup{background:var(--bg);color:var(--accent);font-weight:600;font-size:11px}
         select.inp option{font-size:12px;padding:2px 0}
         @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         .fu{animation:fu .4s ease forwards}
@@ -104,9 +108,8 @@
             </div>
         </div>
         <nav style="display:flex;align-items:center;gap:5px">
+            <button class="bi" onclick="toggleTheme()" title="Ganti Tema" id="themeBtn"><i class="fas fa-sun"></i></button>
             <button class="bi" onclick="showModal('cara')" title="Cara Penggunaan"><i class="fas fa-question"></i></button>
-            <button class="bi" onclick="showModal('about')" title="About"><i class="fas fa-info"></i></button>
-            <button class="bi" onclick="showModal('contact')" title="Contact"><i class="fas fa-envelope"></i></button>
         </nav>
     </div>
 </header>
@@ -119,14 +122,14 @@
             <div class="st"><i class="fas fa-upload"></i> Upload Foto</div>
             <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:5px">Ukuran Polaroid (Total)</label>
             <select id="sizeSelect" class="inp" style="margin-bottom:5px" onchange="updateDimInfo()">
-                <option value="1R">1R — 7.0 × 7.0 cm (Square)</option>
+                <option value="1R">1R — 5.0 × 5.7 cm</option>
                 <option value="2R">2R — 6.35 × 8.89 cm</option>
                 <option value="3R-L">3R Landscape — 12.7 × 8.89 cm</option>
                 <option value="3R-P" selected>3R Portrait — 8.89 × 12.7 cm</option>
                 <option value="4R-L">4R Landscape — 15.24 × 10.16 cm</option>
                 <option value="4R-P">4R Portrait — 10.16 × 15.24 cm</option>
             </select>
-            <div class="di">Total: <span class="dv" id="dimTotal">8.89 × 12.7 cm</span> | Foto: <span class="dv" id="dimFoto">7.89 × 11.7 cm</span></div>
+            <div class="di">Total: <span class="dv" id="dimTotal">8.89 × 12.7 cm</span> | Foto: <span class="dv" id="dimFoto">7.89 × 10.7 cm</span></div>
             <div class="dz" id="dropZone" style="margin-top:8px">
                 <input type="file" id="fileInput" accept="image/*" multiple>
                 <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:#444;margin-bottom:6px;display:block"></i>
@@ -174,7 +177,17 @@
                 </div>
                 <div style="width:70px">
                     <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Ukuran (pt)</label>
-                    <input type="number" id="labelSize" class="inp" value="8" min="4" max="24" step="0.5">
+                    <input type="number" id="labelSize" class="inp" value="8" min="4" max="72" step="1">
+                </div>
+            </div>
+            <div style="display:flex;gap:6px;margin-bottom:8px">
+                <div style="flex:1">
+                    <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Spasi (Renggang)</label>
+                    <input type="number" id="labelSpace" class="inp" value="0" min="-5" max="20" step="0.5">
+                </div>
+                <div class="sw" style="align-items:flex-end; padding-bottom:2px;">
+                    <label style="font-size:11px;color:var(--muted);margin-right:8px">Tebal</label>
+                    <label class="sc"><input type="checkbox" id="labelBold"><span class="sl"></span></label>
                 </div>
             </div>
             <div style="display:flex;align-items:center;gap:10px">
@@ -205,6 +218,9 @@
                 <button class="tb active" data-orient="portrait" onclick="setOrientation('portrait')"><i class="fas fa-mobile-alt" style="margin-right:3px"></i> Portrait</button>
                 <button class="tb" data-orient="landscape" onclick="setOrientation('landscape')"><i class="fas fa-mobile-alt" style="margin-right:3px;transform:rotate(90deg)"></i> Landscape</button>
             </div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.4;background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.12);border-radius:5px;padding:5px 8px">
+                <i class="fas fa-magic" style="color:var(--accent);margin-right:4px"></i> Orientasi kertas otomatis mengikuti tipe foto (Portrait/Landscape)
+            </div>
             <div class="sw" style="margin-bottom:8px">
                 <label style="font-size:11px;color:var(--muted)">Garis Potong</label>
                 <label class="sc"><input type="checkbox" id="cutLinesToggle" checked><span class="sl"></span></label>
@@ -223,11 +239,11 @@
 
         <div class="ftb" id="photoToolbar">
             <span class="fl"><i class="fas fa-crop-alt" style="margin-right:3px"></i> Foto</span>
-            <button onclick="scaleSel(-0.15)" title="Perkecil"><i class="fas fa-search-minus"></i></button>
+            <button onclick="scaleSel(-0.15)" title="Perkecil (seragam)"><i class="fas fa-search-minus"></i></button>
             <span class="sv" id="selScaleVal">100%</span>
-            <button onclick="scaleSel(0.15)" title="Perbesar"><i class="fas fa-search-plus"></i></button>
+            <button onclick="scaleSel(0.15)" title="Perbesar (seragam)"><i class="fas fa-search-plus"></i></button>
             <div class="div"></div>
-            <button onclick="resetImgPos()" title="Reset Posisi Foto"><i class="fas fa-crosshairs"></i></button>
+            <button onclick="resetImgPos()" title="Reset Posisi & Ukuran Foto"><i class="fas fa-crosshairs"></i></button>
             <div class="div"></div>
             <button class="del" onclick="deleteSel()" title="Hapus"><i class="fas fa-trash"></i></button>
         </div>
@@ -244,12 +260,6 @@
             <span><i class="fas fa-images"></i> <span class="v" id="infoCount">0</span></span>
             <span><i class="fas fa-th-large"></i> <span class="v" id="infoPx">2100 × 2970 px</span></span>
         </div>
-
-        <div id="emptyMsg" style="position:absolute;display:flex;flex-direction:column;align-items:center;gap:10px;color:#333;pointer-events:none">
-            <i class="fas fa-camera" style="font-size:42px"></i>
-            <div style="font-size:14px;font-weight:500">Upload foto untuk memulai</div>
-            <div style="font-size:11px;color:#2a2a2a">Scroll = zoom kertas | Klik foto = geser & zoom foto</div>
-        </div>
     </section>
 </main>
 
@@ -261,7 +271,7 @@
         <a href="javascript:void(0)" onclick="showModal('terms')">Terms of Service</a>
         <a href="javascript:void(0)" onclick="showModal('disclaimer')">Disclaimer</a>
     </div>
-    <div style="font-size:11px;color:#555">&copy; 2026 Karya Abadi Polaroid. All Rights Reserved.</div>
+    <div style="font-size:11px;color:var(--muted)">&copy; 2026 Karya Abadi Polaroid. All Rights Reserved.</div>
 </footer>
 
 <div class="mo" id="modalOverlay" onclick="if(event.target===this)hideModal()">
@@ -272,12 +282,9 @@
 <script>
 /* ==========================================================
    KONFIGURASI
-   Resolusi: 100 px/cm (sesuai screenshot)
-   A4 Portrait: 21×100 = 2100px, 29.7×100 = 2970px
-   A4 Landscape: 29.7×100 = 2970px, 21×100 = 2100px
    ========================================================== */
 const SIZES = {
-    '1R':   { w:7.0,   h:7.0,   label:'1R' },
+    '1R':   { w:5.0,   h:5.7,   label:'1R' },
     '2R':   { w:6.35,  h:8.89,  label:'2R' },
     '3R-L': { w:12.7,  h:8.89,  label:'3R L' },
     '3R-P': { w:8.89,  h:12.7,  label:'3R P' },
@@ -285,12 +292,10 @@ const SIZES = {
     '4R-P': { w:10.16, h:15.24, label:'4R P' },
 };
 
-// Margin frame di DALAM polaroid: kiri/kanan/atas 0.5cm, bawah 1.5cm
 const MG = { l:0.5, r:0.5, t:0.5, b:1.5 };
-
-const CUT_W = 0.02;          // cm, lebar garis potong
-const PAPER_PAD = 0.15;      // cm, padding tepi kertas
-const CM2PX = 100;           // 100 piksel per cm (sesuai screenshot Photoshop)
+const CUT_W = 0.02;
+const PAPER_PAD = 0.15;
+const CM2PX = 100;
 
 /* STATE */
 let photos = [];
@@ -299,18 +304,20 @@ let orientation = 'portrait';
 let idCounter = 0;
 let viewScale = 1, panX = 0, panY = 0;
 let selectedId = null;
-let isDraggingImg = false, isPanning = false;
+let isDraggingImg = false, isPanning = false, isResizing = false;
 let dragSX = 0, dragSY = 0, dragOX = 0, dragOY = 0;
 let panSX = 0, panSY = 0, panSOX = 0, panSOY = 0;
+let resizeCorner = null, resizePhoto = null;
+let resizeStartSX = 1, resizeStartSY = 1, resizeStartMX = 0, resizeStartMY = 0;
 
 /* DOM */
 const $ = id => document.getElementById(id);
 const $sizeSel=$('sizeSelect'),$fileIn=$('fileInput'),$dropZ=$('dropZone');
 const $pGrid=$('photoGrid'),$pCount=$('photoCount');
-const $lTxt=$('labelText'),$lFont=$('labelFont'),$lSz=$('labelSize');
+const $lTxt=$('labelText'),$lFont=$('labelFont'),$lSz=$('labelSize'),$lSp=$('labelSpace'),$lBd=$('labelBold');
 const $lCol=$('labelColor'),$lInc=$('includeSize'),$cut=$('cutLinesToggle');
 const $fIn=$('frameInput'),$fRm=$('removeFrameBtn'),$fPrv=$('framePreview'),$fTh=$('frameThumb');
-const $cvs=$('previewCanvas'),$cont=$('canvasContainer'),$empty=$('emptyMsg');
+const $cvs=$('previewCanvas'),$cont=$('canvasContainer');
 const $iO=$('infoOrient'),$iC=$('infoCount'),$iPx=$('infoPx');
 const $dTot=$('dimTotal'),$dFot=$('dimFoto');
 const $ftb=$('photoToolbar'),$ssv=$('selScaleVal'),$zv=$('zoomVal');
@@ -321,8 +328,7 @@ const $ftb=$('photoToolbar'),$ssv=$('selScaleVal'),$zv=$('zoomVal');
 function dims(key) {
     const s = SIZES[key];
     return {
-        pw: s.w,
-        ph: s.h,
+        pw: s.w, ph: s.h,
         fw: Math.max(0.1, s.w - MG.l - MG.r),
         fh: Math.max(0.1, s.h - MG.t - MG.b),
     };
@@ -330,12 +336,27 @@ function dims(key) {
 function initPhoto(p) {
     const d = dims(p.size);
     p.pw=d.pw; p.ph=d.ph; p.fw=d.fw; p.fh=d.fh;
-    p.imgScale=1; p.imgOffX=0; p.imgOffY=0;
+    p.imgScaleX=1; p.imgScaleY=1; p.imgOffX=0; p.imgOffY=0;
 }
+
+function autoOrientPaper(sizeKey) {
+    const d = dims(sizeKey);
+    const isPortrait = d.ph >= d.pw;
+    const target = isPortrait ? 'portrait' : 'landscape';
+    if (orientation !== target) setOrientation(target);
+}
+
 function updateDimInfo() {
-    const d = dims($sizeSel.value);
+    const sz = $sizeSel.value;
+    const d = dims(sz);
     $dTot.textContent = `${d.pw} × ${d.ph} cm`;
     $dFot.textContent = `${d.fw.toFixed(2)} × ${d.fh.toFixed(2)} cm`;
+    autoOrientPaper(sz);
+    if (photos.length) {
+        photos.forEach(p => { p.size = sz; initPhoto(p); });
+        arrangePhotos(); updGrid();
+    }
+    renderPV();
 }
 updateDimInfo();
 
@@ -365,23 +386,43 @@ function arrangePhotos() {
     const ps = paperSize(), gap = CUT_W, pad = PAPER_PAD;
     const uw = ps.w - pad*2, uh = ps.h - pad*2;
     photos.forEach(p => initPhoto(p));
+
     const sorted = [...photos].sort((a,b) => b.ph - a.ph);
-    let x=0, y=0, rowH=0, maxW=0, maxH=0;
+    const rows = [];
+    let x=0, rowH=0;
+    let currentRow = [];
+
     for(const p of sorted) {
-        if(x + p.pw > uw && x > 0) { x=0; y+=rowH+gap; rowH=0; }
-        if(y + p.ph > uh) break;
-        p._ax=x; p._ay=y;
-        maxW = Math.max(maxW, x + p.pw);
-        maxH = Math.max(maxH, y + p.ph);
+        if(x + p.pw > uw && x > 0) {
+            rows.push({items: currentRow, width: x - gap, height: rowH});
+            currentRow = []; x=0; rowH=0;
+        }
+        p._rx=x;
+        currentRow.push(p);
         x += p.pw + gap;
         rowH = Math.max(rowH, p.ph);
     }
-    const ox = pad + (uw - maxW)/2;
-    const oy = pad + (uh - maxH)/2;
-    for(const p of sorted) {
-        if(p._ax !== undefined) { p.x=p._ax+ox; p.y=p._ay+oy; delete p._ax; delete p._ay; }
+    if(currentRow.length) {
+        rows.push({items: currentRow, width: x - gap, height: rowH});
+    }
+
+    const totalH = rows.reduce((sum, r) => sum + r.height, 0) + gap * Math.max(0, rows.length - 1);
+    const globalMaxW = Math.max(0, ...rows.map(r => r.width));
+
+    const oy = pad + (uh - totalH)/2;
+    let currentY = oy;
+
+    for(const row of rows) {
+        const rowOX = pad + (uw - row.width)/2;
+        for(const p of row.items) {
+            p.x = rowOX + p._rx;
+            p.y = currentY;
+            delete p._rx;
+        }
+        currentY += row.height + gap;
     }
 }
+
 function rearrangeAll() {
     if(!photos.length) { toast('Belum ada foto','error'); return; }
     arrangePhotos(); selectPhoto(null); resetView();
@@ -389,7 +430,7 @@ function rearrangeAll() {
 }
 
 /* ==========================================================
-   GAMBAR POLAROID — frame tetap, foto bebas
+   GAMBAR POLAROID
    ========================================================== */
 function drawPolaroid(ctx, it, ts, ox, oy) {
     const x = ox + it.x*ts, y = oy + it.y*ts;
@@ -397,37 +438,39 @@ function drawPolaroid(ctx, it, ts, ox, oy) {
     const ml = MG.l*ts, mt = MG.t*ts, mr = MG.r*ts, mb = MG.b*ts;
     const fw = it.fw*ts, fh = it.fh*ts;
 
-    // Frame
     if(frameImg) { ctx.drawImage(frameImg, x, y, w, h); }
     else { ctx.fillStyle='#ffffff'; ctx.fillRect(x, y, w, h); }
 
-    // Foto — clip lalu gambar dengan offset & scale
     ctx.save();
     ctx.beginPath();
     ctx.rect(x+ml, y+mt, fw, fh);
     ctx.clip();
     if(it.img) {
-        const is = it.imgScale || 1;
-        const dx = x + ml - ((is-1)*fw/2) + (it.imgOffX||0)*ts;
-        const dy = y + mt - ((is-1)*fh/2) + (it.imgOffY||0)*ts;
-        drawCover(ctx, it.img, dx, dy, fw*is, fh*is);
+        const isX = it.imgScaleX || 1;
+        const isY = it.imgScaleY || 1;
+        const dx = x + ml - ((isX-1)*fw/2) + (it.imgOffX||0)*ts;
+        const dy = y + mt - ((isY-1)*fh/2) + (it.imgOffY||0)*ts;
+        drawCover(ctx, it.img, dx, dy, fw*isX, fh*isY);
     } else {
         ctx.fillStyle='#d1d5db';
         ctx.fillRect(x+ml, y+mt, fw, fh);
     }
     ctx.restore();
 
-    // Label
     const txt = getLabel(it.size);
     if(txt) {
         const pt = parseFloat($lSz.value) || 8;
-        // pt ke px pada resolusi ts: 1pt = 100/72 px pada 100px/cm, lalu diskalakan
-        const fs = Math.max(3, pt * (CM2PX/72) * ts / CM2PX);
+        const sp = parseFloat($lSp.value) || 0;
+        const fw_font = $lBd.checked ? 700 : 400;
+        const fs = Math.max(3, pt * ts / 72);
         ctx.save();
-        ctx.font = `400 ${fs}px "${$lFont.value}"`;
+        ctx.font = `${fw_font} ${fs}px "${$lFont.value}"`;
         ctx.fillStyle = $lCol.value;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
+        if ('letterSpacing' in ctx) {
+            ctx.letterSpacing = (sp * ts / 72) + 'px';
+        }
         ctx.fillText(txt, x+w/2, y+mt+fh+mb/2, w-ml-mr);
         ctx.restore();
     }
@@ -450,7 +493,6 @@ function getLabel(key) {
     return t;
 }
 
-/* GARIS POTONG */
 function drawCuts(ctx, ts, ox, oy) {
     if(!photos.length) return;
     ctx.save();
@@ -463,7 +505,6 @@ function drawCuts(ctx, ts, ox, oy) {
     ctx.restore();
 }
 
-/* SELEKSI — hanya area foto */
 function drawSel(ctx, it, ts, ox, oy) {
     const x=ox+it.x*ts, y=oy+it.y*ts;
     const ml=MG.l*ts, mt=MG.t*ts;
@@ -472,12 +513,36 @@ function drawSel(ctx, it, ts, ox, oy) {
     ctx.save();
     ctx.strokeStyle='#dc2626'; ctx.lineWidth=2; ctx.setLineDash([5,3]);
     ctx.strokeRect(px, py, fw, fh);
-    ctx.setLineDash([]); ctx.fillStyle='#dc2626';
-    const hs=4;
+    ctx.setLineDash([]);
+    ctx.fillStyle='#dc2626';
+    ctx.strokeStyle='#fff'; ctx.lineWidth=2;
+    const hs=7;
     [[px,py],[px+fw,py],[px,py+fh],[px+fw,py+fh]].forEach(([cx,cy])=>{
-        ctx.beginPath(); ctx.arc(cx,cy,hs,0,Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx,cy,hs,0,Math.PI*2); ctx.fill(); ctx.stroke();
     });
     ctx.restore();
+}
+
+/* ==========================================================
+   HIT TEST
+   ========================================================== */
+function hitTestImg(ax, ay) {
+    for(let i=photos.length-1; i>=0; i--) {
+        const p=photos[i];
+        if(ax>=p.x+MG.l && ax<=p.x+MG.l+p.fw && ay>=p.y+MG.t && ay<=p.y+MG.t+p.fh) return p;
+    }
+    return null;
+}
+function hitTestCorner(ax, ay, p) {
+    if(!p) return null;
+    const cx=p.x+MG.l, cy=p.y+MG.t;
+    const cw=p.fw, ch=p.fh;
+    const hs=0.5;
+    const corners={'tl':[cx,cy],'tr':[cx+cw,cy],'bl':[cx,cy+ch],'br':[cx+cw,cy+ch]};
+    for(const [key,[hx,hy]] of Object.entries(corners)) {
+        if(Math.abs(ax-hx)<hs && Math.abs(ay-hy)<hs) return key;
+    }
+    return null;
 }
 
 /* ==========================================================
@@ -487,9 +552,14 @@ function renderPV() {
     const cw=$cont.clientWidth, ch=$cont.clientHeight;
     $cvs.width=cw; $cvs.height=ch;
     const ctx=$cvs.getContext('2d');
-    ctx.fillStyle='#0a0a0a'; ctx.fillRect(0,0,cw,ch);
-    ctx.fillStyle='#141414';
+    
+    const bgCol = getComputedStyle(document.body).getPropertyValue('--canvas-bg').trim() || '#0a0a0a';
+    const gridCol = getComputedStyle(document.body).getPropertyValue('--grid').trim() || '#141414';
+    
+    ctx.fillStyle = bgCol; ctx.fillRect(0,0,cw,ch);
+    ctx.fillStyle = gridCol;
     for(let gx=0;gx<cw;gx+=20) for(let gy=0;gy<ch;gy+=20) ctx.fillRect(gx,gy,1,1);
+    
     const v=getVT();
     ctx.save();
     ctx.shadowColor='rgba(0,0,0,0.5)'; ctx.shadowBlur=25; ctx.shadowOffsetY=5;
@@ -504,18 +574,14 @@ function renderPV() {
         const p=photos.find(p=>p.id===selectedId);
         if(p) drawSel(ctx, p, v.ts, v.cx, v.cy);
     }
-    // Update info
     $iO.textContent = orientation==='portrait' ? 'Portrait' : 'Landscape';
     $iC.textContent = photos.length;
     const ps=paperSize();
     $iPx.textContent = `${Math.round(ps.w*CM2PX)} × ${Math.round(ps.h*CM2PX)} px`;
-    $empty.style.display = photos.length ? 'none' : 'flex';
 }
 
 /* ==========================================================
-   RENDER EXPORT — 100 px/cm
-   A4 Portrait: 2100 × 2970 px
-   A4 Landscape: 2970 × 2100 px
+   RENDER EXPORT
    ========================================================== */
 function renderExport(canvas) {
     const ps = paperSize(), s = CM2PX;
@@ -529,7 +595,7 @@ function renderExport(canvas) {
 }
 
 /* ==========================================================
-   ZOOM & PAN KERTAS
+   ZOOM & PAN
    ========================================================== */
 function zoomAt(factor, mx, my) {
     const ps=paperSize(), cw=$cvs.width, ch=$cvs.height;
@@ -548,15 +614,8 @@ function resetView() { viewScale=1; panX=0; panY=0; renderPV(); updateZoomUI(); 
 function updateZoomUI() { $zv.textContent=Math.round(viewScale*100)+'%'; }
 
 /* ==========================================================
-   FOTO INTERAKSI — hanya area foto
+   FOTO INTERAKSI
    ========================================================== */
-function hitTestImg(ax, ay) {
-    for(let i=photos.length-1; i>=0; i--) {
-        const p=photos[i];
-        if(ax>=p.x+MG.l && ax<=p.x+MG.l+p.fw && ay>=p.y+MG.t && ay<=p.y+MG.t+p.fh) return p;
-    }
-    return null;
-}
 function selectPhoto(id) {
     selectedId=id;
     if(id!==null) {
@@ -570,17 +629,20 @@ function updateToolbar() {
     const p=photos.find(p=>p.id===selectedId);
     if(!p) { $ftb.style.display='none'; return; }
     $ftb.style.display='flex';
-    $ssv.textContent = Math.round((p.imgScale||1)*100)+'%';
+    const sx=Math.round((p.imgScaleX||1)*100);
+    const sy=Math.round((p.imgScaleY||1)*100);
+    $ssv.textContent = sx===sy ? `${sx}%` : `${sx}×${sy}%`;
 }
 function scaleSel(delta) {
     const p=photos.find(p=>p.id===selectedId); if(!p) return;
-    p.imgScale=Math.max(0.1, Math.min(5, (p.imgScale||1)+delta));
+    const ns=Math.max(0.1, Math.min(5, (p.imgScaleX||1)+delta));
+    p.imgScaleX=ns; p.imgScaleY=ns;
     updateToolbar(); renderPV();
 }
 function resetImgPos() {
     const p=photos.find(p=>p.id===selectedId); if(!p) return;
-    p.imgScale=1; p.imgOffX=0; p.imgOffY=0;
-    updateToolbar(); renderPV(); toast('Posisi foto direset');
+    p.imgScaleX=1; p.imgScaleY=1; p.imgOffX=0; p.imgOffY=0;
+    updateToolbar(); renderPV(); toast('Posisi & ukuran foto direset');
 }
 function deleteSel() {
     if(selectedId===null) return;
@@ -588,11 +650,29 @@ function deleteSel() {
     selectedId=null; updateToolbar(); updGrid(); renderPV(); toast('Foto dihapus');
 }
 
-/* CANVAS MOUSE */
  $cvs.addEventListener('mousedown', e => {
     const rect=$cvs.getBoundingClientRect();
     const sx=e.clientX-rect.left, sy=e.clientY-rect.top;
     const a=s2a(sx,sy);
+
+    if(selectedId!==null) {
+        const sel=photos.find(p=>p.id===selectedId);
+        if(sel) {
+            const corner=hitTestCorner(a.x, a.y, sel);
+            if(corner) {
+                isResizing=true;
+                resizeCorner=corner;
+                resizePhoto=sel;
+                resizeStartSX=sel.imgScaleX||1;
+                resizeStartSY=sel.imgScaleY||1;
+                resizeStartMX=a.x;
+                resizeStartMY=a.y;
+                $cvs.style.cursor=(corner==='tl'||corner==='br')?'nwse-resize':'nesw-resize';
+                return;
+            }
+        }
+    }
+
     const hit=hitTestImg(a.x, a.y);
     if(hit) {
         selectPhoto(hit.id);
@@ -607,21 +687,58 @@ function deleteSel() {
         $cvs.style.cursor='grabbing';
     }
 });
+
  $cvs.addEventListener('mousemove', e => {
     const rect=$cvs.getBoundingClientRect();
     const sx=e.clientX-rect.left, sy=e.clientY-rect.top;
-    if(isDraggingImg && selectedId!==null) {
-        const a=s2a(sx,sy);
+    const a=s2a(sx,sy);
+
+    if(isResizing && resizePhoto) {
+        const dx=a.x-resizeStartMX;
+        const dy=a.y-resizeStartMY;
+        let nsx=resizeStartSX, nsy=resizeStartSY;
+        if(resizeCorner==='br') {
+            nsx=resizeStartSX+dx/resizePhoto.fw;
+            nsy=resizeStartSY+dy/resizePhoto.fh;
+        } else if(resizeCorner==='tl') {
+            nsx=resizeStartSX-dx/resizePhoto.fw;
+            nsy=resizeStartSY-dy/resizePhoto.fh;
+        } else if(resizeCorner==='tr') {
+            nsx=resizeStartSX+dx/resizePhoto.fw;
+            nsy=resizeStartSY-dy/resizePhoto.fh;
+        } else if(resizeCorner==='bl') {
+            nsx=resizeStartSX-dx/resizePhoto.fw;
+            nsy=resizeStartSY+dy/resizePhoto.fh;
+        }
+        resizePhoto.imgScaleX=Math.max(0.1, Math.min(10, nsx));
+        resizePhoto.imgScaleY=Math.max(0.1, Math.min(10, nsy));
+        updateToolbar(); renderPV();
+    } else if(isDraggingImg && selectedId!==null) {
         const p=photos.find(p=>p.id===selectedId);
         if(p) { p.imgOffX=dragOX+(a.x-dragSX); p.imgOffY=dragOY+(a.y-dragSY); renderPV(); }
     } else if(isPanning) {
         panX=panSOX+(e.clientX-panSX); panY=panSOY+(e.clientY-panSY); renderPV();
     } else {
-        const a=s2a(sx,sy);
+        if(selectedId!==null) {
+            const sel=photos.find(p=>p.id===selectedId);
+            if(sel) {
+                const c=hitTestCorner(a.x, a.y, sel);
+                if(c) {
+                    $cvs.style.cursor=(c==='tl'||c==='br')?'nwse-resize':'nesw-resize';
+                    return;
+                }
+            }
+        }
         $cvs.style.cursor=hitTestImg(a.x,a.y)?'move':'default';
     }
 });
-window.addEventListener('mouseup', () => { isDraggingImg=false; isPanning=false; $cvs.style.cursor='default'; });
+
+window.addEventListener('mouseup', () => {
+    isDraggingImg=false; isPanning=false; isResizing=false;
+    resizePhoto=null; resizeCorner=null;
+    $cvs.style.cursor='default';
+});
+
  $cvs.addEventListener('wheel', e => {
     e.preventDefault();
     const rect=$cvs.getBoundingClientRect();
@@ -629,7 +746,7 @@ window.addEventListener('mouseup', () => { isDraggingImg=false; isPanning=false;
 }, {passive:false});
 
 /* ==========================================================
-   UPLOAD FOTO
+   UPLOAD & THEME
    ========================================================== */
 function addPhotos(files) {
     const sz=$sizeSel.value; let ld=0; const tot=files.length;
@@ -641,7 +758,11 @@ function addPhotos(files) {
             img.onload=() => {
                 const p={id:++idCounter, img, size:sz, x:0, y:0};
                 initPhoto(p); photos.push(p); ld++;
-                if(ld===tot) { arrangePhotos(); updGrid(); selectPhoto(null); resetView(); toast(`${tot} foto ditambahkan`); }
+                if(ld===tot) {
+                    autoOrientPaper(sz);
+                    arrangePhotos(); updGrid(); selectPhoto(null); resetView();
+                    toast(`${tot} foto ditambahkan`);
+                }
             };
             img.src=ev.target.result;
         };
@@ -658,13 +779,20 @@ function updGrid() {
     $pCount.style.display='block'; $pCount.textContent=`${photos.length} foto`;
     photos.forEach(p => {
         const d=document.createElement('div'); d.className='pt';
-        const isc=(p.imgScale||1)!==1?` ${Math.round(p.imgScale*100)}%`:'';
+        const sx=Math.round((p.imgScaleX||1)*100);
+        const sy=Math.round((p.imgScaleY||1)*100);
+        const isc=(sx!==100||sy!==100)?` ${sx}×${sy}%`:'';
         d.innerHTML=`<img src="${p.img.src}" alt="Foto"><button class="rb" onclick="rmPhoto(${p.id})"><i class="fas fa-times"></i></button><span class="sb">${SIZES[p.size].label}${isc}</span>`;
         $pGrid.appendChild(d);
     });
 }
 
-/* FRAME */
+function toggleTheme() {
+    const isLight = document.body.classList.toggle('light-mode');
+    $('themeBtn').innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+    renderPV();
+}
+
  $fIn.addEventListener('change', e => {
     const f=e.target.files[0]; if(!f) return;
     const r=new FileReader();
@@ -677,7 +805,6 @@ function updGrid() {
 });
 function removeFrame() { frameImg=null; $fPrv.style.display='none'; $fRm.disabled=true; $fIn.value=''; renderPV(); toast('Frame dihapus'); }
 
-/* LOGO */
  $('logoInput').addEventListener('change', e => {
     const f=e.target.files[0]; if(!f) return;
     const r=new FileReader();
@@ -685,14 +812,13 @@ function removeFrame() { frameImg=null; $fPrv.style.display='none'; $fRm.disable
     r.readAsDataURL(f);
 });
 
-/* ORIENTASI */
 function setOrientation(o) {
     orientation=o;
     document.querySelectorAll('.tb[data-orient]').forEach(b=>b.classList.toggle('active',b.dataset.orient===o));
-    resetView();
+    if(photos.length) arrangePhotos();
+    renderPV();
 }
 
-/* DOWNLOAD — 100 px/cm, hasil: 2100×2970 px (portrait) */
 function downloadPNG() {
     if(!photos.length) { toast('Belum ada foto','error'); return; }
     const ps=paperSize();
@@ -712,26 +838,25 @@ function downloadPNG() {
     },80);
 }
 
-/* RESET */
 function resetAll() {
     photos=[]; frameImg=null; $fPrv.style.display='none'; $fRm.disabled=true;
     $fIn.value=''; $pGrid.innerHTML=''; $pCount.style.display='none';
     selectedId=null; updateToolbar(); resetView(); toast('Semua direset');
 }
 
-/* ==========================================================
-   MODAL
-   ========================================================== */
 const MC={
     cara:`<h2>Cara Penggunaan</h2><ol>
         <li><strong>Pilih Ukuran</strong> — Ukuran total polaroid. Area foto lebih kecil (margin kiri/kanan/atas <strong>0.5cm</strong>, bawah <strong>1.5cm</strong>).</li>
         <li><strong>Upload Foto</strong> — Klik atau seret foto. Otomatis disusun rata tengah.</li>
-        <li><strong>Atur Label</strong> — Teks, font (Modern, Classic, Retro, Latin), ukuran pt, warna.</li>
+        <li><strong>Orientasi Otomatis</strong> — Kertas otomatis Portrait/Landscape mengikuti tipe ukuran foto yang dipilih.</li>
+        <li><strong>Atur Label</strong> — Teks, font, ukuran pt (maks 72), tebal, spasi (renggang), warna.</li>
         <li><strong>Frame Custom</strong> — Upload gambar untuk clipping mask.</li>
         <li><strong>Geser Foto</strong> — Klik <em>area foto</em> lalu drag. Hanya foto bergerak, frame tetap.</li>
-        <li><strong>Zoom Foto</strong> — Pilih foto, gunakan + / - di toolbar.</li>
+        <li><strong>Zoom Foto (Seragam)</strong> — Pilih foto, gunakan tombol + / - di toolbar atas.</li>
+        <li><strong>RESIZE Foto (Independen)</strong> — Seret <strong>tombol bulat merah di sudut</strong> foto terpilih untuk mengubah lebar & tinggi secara terpisah.</li>
         <li><strong>Zoom Kertas</strong> — Scroll mouse. Drag area kosong untuk pan.</li>
-        <li><strong>Download</strong> — Hasil <strong>2100×2970 px</strong> (100 px/cm) sesuai screenshot Photoshop.</li></ol>
+        <li><strong>Dark Mode</strong> — Klik ikon matahari/bulan di pojok kanan atas.</li>
+        <li><strong>Download</strong> — Hasil <strong>2100×2970 px</strong> (100 px/cm).</li></ol>
         <p style="margin-top:10px;color:#888">Delete = hapus foto | Escape = batalkan seleksi</p>`,
     about:`<h2>About</h2><p><strong>Karya Abadi Polaroid</strong> — alat pembuat foto polaroid profesional berbasis web. Semua proses di browser, privasi 100% terjaga.</p>`,
     contact:`<h2>Contact</h2><ul><li><i class="fas fa-envelope" style="color:var(--accent);margin-right:8px"></i><a href="mailto:karyaabadi24434@gmail.com">karyaabadi24434@gmail.com</a></li><li><i class="fas fa-phone" style="color:var(--accent);margin-right:8px"></i><a href="tel:085117124247">0851-1712-4247</a></li></ul>`,
@@ -742,21 +867,17 @@ const MC={
 function showModal(t) { $('modalContent').innerHTML=MC[t]||''; $('modalOverlay').classList.add('show'); document.body.style.overflow='hidden'; }
 function hideModal() { $('modalOverlay').classList.remove('show'); document.body.style.overflow=''; }
 
-/* TOAST */
 function toast(msg, type='success') {
     const t=document.createElement('div'); t.className=`toast${type==='error'?' error':''}`; t.textContent=msg;
     $('tc').appendChild(t); requestAnimationFrame(()=>t.classList.add('show'));
     setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300);},2500);
 }
 
-/* ==========================================================
-   EVENT LISTENERS
-   ========================================================== */
  $fileIn.addEventListener('change', e=>{if(e.target.files.length)addPhotos(e.target.files);e.target.value='';});
  $dropZ.addEventListener('dragover', e=>{e.preventDefault();$dropZ.classList.add('dragover');});
  $dropZ.addEventListener('dragleave', ()=>$dropZ.classList.remove('dragover'));
  $dropZ.addEventListener('drop', e=>{e.preventDefault();$dropZ.classList.remove('dragover');if(e.dataTransfer.files.length)addPhotos(e.dataTransfer.files);});
-[$lTxt,$lFont,$lSz,$lCol,$lInc,$cut].forEach(el=>{el.addEventListener('input',renderPV);el.addEventListener('change',renderPV);});
+[$lTxt,$lFont,$lSz,$lSp,$lBd,$lCol,$lInc,$cut].forEach(el=>{el.addEventListener('input',renderPV);el.addEventListener('change',renderPV);});
 document.addEventListener('keydown', e=>{
     if(e.key==='Escape'){if(selectedId!==null)selectPhoto(null);else hideModal();}
     if((e.key==='Delete'||e.key==='Backslash')&&selectedId!==null){
@@ -766,7 +887,6 @@ document.addEventListener('keydown', e=>{
 });
 let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(renderPV,100);});
 
-/* INIT */
 renderPV(); updateZoomUI();
 </script>
 </body>
