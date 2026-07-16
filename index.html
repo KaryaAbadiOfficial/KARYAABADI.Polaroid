@@ -138,7 +138,11 @@
                 <option value="4R-L">4R Landscape — 15.24 × 10.16 cm</option>
                 <option value="4R-P">4R Portrait — 10.16 × 15.24 cm</option>
             </select>
-            <div class="di">Total: <span class="dv" id="dimTotal">8.89 × 12.7 cm</span> | Foto: <span class="dv" id="dimFoto">7.89 × 10.7 cm</span></div>
+            <div class="di">
+                Total: <span class="dv" id="dimTotal">8.89 × 12.7 cm</span> |
+                Foto: <span class="dv" id="dimFoto">7.89 × 10.7 cm</span> |
+                Kapasitas: <span class="dv" id="dimCap">4</span>/lembar
+            </div>
             <div class="dz" id="dropZone" style="margin-top:8px">
                 <input type="file" id="fileInput" accept="image/*" multiple>
                 <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:#444;margin-bottom:6px;display:block"></i>
@@ -238,7 +242,7 @@
         </div>
 
         <div style="display:flex;flex-direction:column;gap:6px">
-            <button class="bp" onclick="downloadPNG()" style="padding:12px"><i class="fas fa-download"></i> Download A4 (100 px/cm)</button>
+            <button class="bp" onclick="downloadPNG()" style="padding:12px"><i class="fas fa-download"></i> Download A4 — Semua Lembar</button>
             <button class="bs" onclick="resetAll()"><i class="fas fa-redo-alt"></i> Reset Semua</button>
         </div>
     </aside>
@@ -266,7 +270,8 @@
 
         <div class="ib">
             <span><i class="fas fa-file"></i> A4 <span class="v" id="infoOrient">Portrait</span></span>
-            <span><i class="fas fa-images"></i> <span class="v" id="infoCount">0</span></span>
+            <span><i class="fas fa-images"></i> <span class="v" id="infoCount">0</span> foto</span>
+            <span><i class="fas fa-copy"></i> <span class="v" id="infoSheets">1</span> lembar</span>
             <span><i class="fas fa-th-large"></i> <span class="v" id="infoPx">2100 × 2970 px</span></span>
         </div>
     </section>
@@ -301,10 +306,21 @@ const SIZES = {
     '4R-P': { w:10.16, h:15.24, label:'4R P' },
 };
 
+/* LAYOUT GRID PER UKURAN — kapasitas per lembar A4 */
+const LAYOUTS = {
+    '1R':   { cols: 4, rows: 5, capacity: 20 },  /* 4×5 = 20 foto */
+    '2R':   { cols: 3, rows: 3, capacity: 9  },  /* 3×3 = 9 foto  */
+    '3R-L': { cols: 2, rows: 2, capacity: 4  },  /* 2×2 = 4 foto  */
+    '3R-P': { cols: 2, rows: 2, capacity: 4  },  /* 2×2 = 4 foto  */
+    '4R-L': { cols: 1, rows: 2, capacity: 2  },  /* 1×2 = 2 foto  */
+    '4R-P': { cols: 2, rows: 1, capacity: 2  },  /* 2×1 = 2 foto  */
+};
+
 const MG = { l:0.5, r:0.5, t:0.5, b:1.5 };
 const CUT_W = 0.02;
 const PAPER_PAD = 0.15;
 const CM2PX = 100;
+const SHEET_GAP = 1.5; /* cm jarak antar lembar di preview (tidak ikut di-export) */
 
 /* STATE */
 let photos = [];
@@ -328,8 +344,8 @@ const $lTxt=$('labelText'),$lFont=$('labelFont'),$lSz=$('labelSize'),$lSp=$('lab
 const $lCol=$('labelColor'),$lInc=$('includeSize'),$cut=$('cutLinesToggle');
 const $fIn=$('frameInput'),$fRm=$('removeFrameBtn'),$fPrv=$('framePreview'),$fTh=$('frameThumb');
 const $cvs=$('previewCanvas'),$cont=$('canvasContainer');
-const $iO=$('infoOrient'),$iC=$('infoCount'),$iPx=$('infoPx');
-const $dTot=$('dimTotal'),$dFot=$('dimFoto');
+const $iO=$('infoOrient'),$iC=$('infoCount'),$iPx=$('infoPx'),$iSh=$('infoSheets');
+const $dTot=$('dimTotal'),$dFot=$('dimFoto'),$dCap=$('dimCap');
 const $ftb=$('photoToolbar'),$ssv=$('selScaleVal'),$zv=$('zoomVal');
 
 /* ==========================================================
@@ -356,11 +372,34 @@ function autoOrientPaper(sizeKey) {
     if (orientation !== target) setOrientation(target);
 }
 
+/* ==========================================================
+   MULTI-LEMBAR — Kapasitas & Total Size
+   ========================================================== */
+function getSheetCount() {
+    const sz = $sizeSel.value;
+    const cap = LAYOUTS[sz].capacity;
+    return Math.max(1, Math.ceil(photos.length / cap));
+}
+
+function paperSize() {
+    return orientation === 'portrait' ? {w:21, h:29.7} : {w:29.7, h:21};
+}
+
+function totalSize() {
+    const ps = paperSize();
+    const sheets = getSheetCount();
+    return {
+        w: ps.w,
+        h: sheets > 1 ? sheets * ps.h + (sheets - 1) * SHEET_GAP : ps.h
+    };
+}
+
 function updateDimInfo() {
     const sz = $sizeSel.value;
     const d = dims(sz);
     $dTot.textContent = `${d.pw} × ${d.ph} cm`;
     $dFot.textContent = `${d.fw.toFixed(2)} × ${d.fh.toFixed(2)} cm`;
+    $dCap.textContent = LAYOUTS[sz].capacity;
     autoOrientPaper(sz);
     if (photos.length) {
         photos.forEach(p => { p.size = sz; initPhoto(p); });
@@ -373,16 +412,13 @@ updateDimInfo();
 /* ==========================================================
    VIEW TRANSFORM
    ========================================================== */
-function paperSize() {
-    return orientation === 'portrait' ? {w:21, h:29.7} : {w:29.7, h:21};
-}
 function getVT() {
-    const ps = paperSize(), cw = $cvs.width, ch = $cvs.height;
-    const bs = Math.min((cw-40)/ps.w, (ch-60)/ps.h, 80);
+    const sz = totalSize(), cw = $cvs.width, ch = $cvs.height;
+    const bs = Math.min((cw-40)/sz.w, (ch-60)/sz.h, 80);
     const ts = bs * viewScale;
-    const cx = (cw - ps.w*ts)/2 + panX;
-    const cy = (ch - ps.h*ts)/2 + panY;
-    return {pw:ps.w, ph:ps.h, cw, ch, bs, ts, cx, cy};
+    const cx = (cw - sz.w*ts)/2 + panX;
+    const cy = (ch - sz.h*ts)/2 + panY;
+    return {pw:sz.w, ph:sz.h, cw, ch, bs, ts, cx, cy};
 }
 function s2a(sx, sy) {
     const v = getVT();
@@ -390,46 +426,48 @@ function s2a(sx, sy) {
 }
 
 /* ==========================================================
-   ARRANGE — shelf packing rata tengah
+   ARRANGE — Grid fix per ukuran, multi-lembar otomatis
    ========================================================== */
 function arrangePhotos() {
-    const ps = paperSize(), gap = CUT_W, pad = PAPER_PAD;
-    const uw = ps.w - pad*2, uh = ps.h - pad*2;
+    if (photos.length === 0) return;
+
+    const sz = $sizeSel.value;
+    const layout = LAYOUTS[sz];
+    const cap = layout.capacity;
+    const ps = paperSize();
+    const gap = CUT_W;
+
     photos.forEach(p => initPhoto(p));
 
-    const sorted = [...photos].sort((a,b) => b.ph - a.ph);
-    const rows = [];
-    let x=0, rowH=0;
-    let currentRow = [];
+    const numSheets = Math.max(1, Math.ceil(photos.length / cap));
 
-    for(const p of sorted) {
-        if(x + p.pw > uw && x > 0) {
-            rows.push({items: currentRow, width: x - gap, height: rowH});
-            currentRow = []; x=0; rowH=0;
-        }
-        p._rx=x;
-        currentRow.push(p);
-        x += p.pw + gap;
-        rowH = Math.max(rowH, p.ph);
-    }
-    if(currentRow.length) {
-        rows.push({items: currentRow, width: x - gap, height: rowH});
-    }
+    for (let s = 0; s < numSheets; s++) {
+        const startIdx = s * cap;
+        const endIdx = Math.min(startIdx + cap, photos.length);
+        const sheetPhotos = photos.slice(startIdx, endIdx);
+        const count = sheetPhotos.length;
 
-    const totalH = rows.reduce((sum, r) => sum + r.height, 0) + gap * Math.max(0, rows.length - 1);
-    const globalMaxW = Math.max(0, ...rows.map(r => r.width));
+        /* Hitung ukuran grid aktual untuk sheet ini (center partial) */
+        const actualCols = Math.min(layout.cols, count);
+        const actualRows = Math.ceil(count / layout.cols);
 
-    const oy = pad + (uh - totalH)/2;
-    let currentY = oy;
+        const pw0 = sheetPhotos[0].pw;
+        const ph0 = sheetPhotos[0].ph;
 
-    for(const row of rows) {
-        const rowOX = pad + (uw - row.width)/2;
-        for(const p of row.items) {
-            p.x = rowOX + p._rx;
-            p.y = currentY;
-            delete p._rx;
-        }
-        currentY += row.height + gap;
+        const gridW = actualCols * pw0 + (actualCols - 1) * gap;
+        const gridH = actualRows * ph0 + (actualRows - 1) * gap;
+
+        const startX = (ps.w - gridW) / 2;
+        const startY = (ps.h - gridH) / 2;
+
+        const sheetOffsetY = s * (ps.h + SHEET_GAP);
+
+        sheetPhotos.forEach((p, i) => {
+            const col = i % layout.cols;
+            const row = Math.floor(i / layout.cols);
+            p.x = startX + col * (p.pw + gap);
+            p.y = sheetOffsetY + startY + row * (p.ph + gap);
+        });
     }
 }
 
@@ -503,13 +541,14 @@ function getLabel(key) {
     return t;
 }
 
-function drawCuts(ctx, ts, ox, oy) {
-    if(!photos.length) return;
+function drawCuts(ctx, ts, ox, oy, list) {
+    list = list || photos;
+    if(!list.length) return;
     ctx.save();
     ctx.strokeStyle = '#bbbbbb';
     ctx.lineWidth = Math.max(0.4, CUT_W*ts);
     ctx.setLineDash([]);
-    for(const it of photos) {
+    for(const it of list) {
         ctx.strokeRect(ox+it.x*ts, oy+it.y*ts, it.pw*ts, it.ph*ts);
     }
     ctx.restore();
@@ -526,7 +565,7 @@ function drawSel(ctx, it, ts, ox, oy) {
     ctx.setLineDash([]);
     ctx.fillStyle='#dc2626';
     ctx.strokeStyle='#fff'; ctx.lineWidth=2;
-    const hs=9; // Sedikit lebih besar untuk touch
+    const hs=9;
     [[px,py],[px+fw,py],[px,py+fh],[px+fw,py+fh]].forEach(([cx,cy])=>{
         ctx.beginPath(); ctx.arc(cx,cy,hs,0,Math.PI*2); ctx.fill(); ctx.stroke();
     });
@@ -547,7 +586,7 @@ function hitTestCorner(ax, ay, p) {
     if(!p) return null;
     const cx=p.x+MG.l, cy=p.y+MG.t;
     const cw=p.fw, ch=p.fh;
-    const hs=0.8; // area sentuh lebih besar untuk mobile
+    const hs=0.8;
     const corners={'tl':[cx,cy],'tr':[cx+cw,cy],'bl':[cx,cy+ch],'br':[cx+cw,cy+ch]};
     for(const [key,[hx,hy]] of Object.entries(corners)) {
         if(Math.abs(ax-hx)<hs && Math.abs(ay-hy)<hs) return key;
@@ -556,7 +595,7 @@ function hitTestCorner(ax, ay, p) {
 }
 
 /* ==========================================================
-   RENDER PREVIEW
+   RENDER PREVIEW — Multi-lembar
    ========================================================== */
 function renderPV() {
     const cw=$cont.clientWidth, ch=$cont.clientHeight;
@@ -571,52 +610,90 @@ function renderPV() {
     for(let gx=0;gx<cw;gx+=20) for(let gy=0;gy<ch;gy+=20) ctx.fillRect(gx,gy,1,1);
     
     const v=getVT();
-    ctx.save();
-    ctx.shadowColor='rgba(0,0,0,0.5)'; ctx.shadowBlur=25; ctx.shadowOffsetY=5;
-    ctx.fillStyle='#ffffff';
-    ctx.fillRect(v.cx, v.cy, v.pw*v.ts, v.ph*v.ts);
-    ctx.restore();
-    ctx.strokeStyle='#ddd'; ctx.lineWidth=0.5;
-    ctx.strokeRect(v.cx, v.cy, v.pw*v.ts, v.ph*v.ts);
+    const ps=paperSize();
+    const sheets=getSheetCount();
+    
+    /* Gambar setiap lembar A4 */
+    for(let s=0; s<sheets; s++) {
+        const sheetY = v.cy + s * (ps.h + SHEET_GAP) * v.ts;
+        
+        /* Label lembar (hanya jika multi-lembar) */
+        if(sheets > 1) {
+            ctx.save();
+            ctx.fillStyle = 'rgba(220,38,38,0.9)';
+            ctx.font = 'bold 12px Outfit, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Lembar ${s+1} / ${sheets}`, v.cx + ps.w*v.ts/2, sheetY - 8);
+            ctx.restore();
+        }
+        
+        /* Kertas putih dengan bayangan */
+        ctx.save();
+        ctx.shadowColor='rgba(0,0,0,0.5)'; ctx.shadowBlur=25; ctx.shadowOffsetY=5;
+        ctx.fillStyle='#ffffff';
+        ctx.fillRect(v.cx, sheetY, ps.w*v.ts, ps.h*v.ts);
+        ctx.restore();
+        ctx.strokeStyle='#ddd'; ctx.lineWidth=0.5;
+        ctx.strokeRect(v.cx, sheetY, ps.w*v.ts, ps.h*v.ts);
+    }
+    
+    /* Gambar semua foto (koordinat absolut mencakup semua lembar) */
     for(const it of photos) drawPolaroid(ctx, it, v.ts, v.cx, v.cy);
     if($cut.checked) drawCuts(ctx, v.ts, v.cx, v.cy);
     if(selectedId!==null) {
         const p=photos.find(p=>p.id===selectedId);
         if(p) drawSel(ctx, p, v.ts, v.cx, v.cy);
     }
+    
+    /* Update info bar */
     $iO.textContent = orientation==='portrait' ? 'Portrait' : 'Landscape';
     $iC.textContent = photos.length;
-    const ps=paperSize();
-    $iPx.textContent = `${Math.round(ps.w*CM2PX)} × ${Math.round(ps.h*CM2PX)} px`;
+    $iSh.textContent = sheets;
+    const psize=paperSize();
+    $iPx.textContent = `${Math.round(psize.w*CM2PX)} × ${Math.round(psize.h*CM2PX)} px`;
 }
 
 /* ==========================================================
-   RENDER EXPORT
+   RENDER EXPORT — Per lembar
    ========================================================== */
-function renderExport(canvas) {
+function renderExportSheet(canvas, sheetIndex) {
     const ps = paperSize(), s = CM2PX;
     canvas.width = Math.round(ps.w * s);
     canvas.height = Math.round(ps.h * s);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    for(const it of photos) drawPolaroid(ctx, it, s, 0, 0);
-    if($cut.checked) drawCuts(ctx, s, 0, 0);
+    
+    const sz = $sizeSel.value;
+    const cap = LAYOUTS[sz].capacity;
+    const startIdx = sheetIndex * cap;
+    const endIdx = Math.min(startIdx + cap, photos.length);
+    const sheetPhotos = photos.slice(startIdx, endIdx);
+    
+    /* Offset Y untuk shift koordinat lembar ini ke y=0 */
+    const oy = -sheetIndex * (ps.h + SHEET_GAP) * s;
+    
+    for(const it of sheetPhotos) {
+        drawPolaroid(ctx, it, s, 0, oy);
+    }
+    if($cut.checked) {
+        drawCuts(ctx, s, 0, oy, sheetPhotos);
+    }
 }
 
 /* ==========================================================
    ZOOM & PAN
    ========================================================== */
 function zoomAt(factor, mx, my) {
-    const ps=paperSize(), cw=$cvs.width, ch=$cvs.height;
-    const bs=Math.min((cw-40)/ps.w,(ch-60)/ps.h,80);
+    const sz=totalSize(), cw=$cvs.width, ch=$cvs.height;
+    const bs=Math.min((cw-40)/sz.w,(ch-60)/sz.h,80);
     const ts=bs*viewScale;
-    const cx=(cw-ps.w*ts)/2+panX, cy=(ch-ps.h*ts)/2+panY;
+    const cx=(cw-sz.w*ts)/2+panX, cy=(ch-sz.h*ts)/2+panY;
     const ax=(mx-cx)/ts, ay=(my-cy)/ts;
     viewScale=Math.max(0.1, Math.min(12, viewScale*factor));
     const nts=bs*viewScale;
-    panX=(mx-ax*nts)-(cw-ps.w*nts)/2;
-    panY=(my-ay*nts)-(ch-ps.h*nts)/2;
+    panX=(mx-ax*nts)-(cw-sz.w*nts)/2;
+    panY=(my-ay*nts)-(ch-sz.h*nts)/2;
     renderPV(); updateZoomUI();
 }
 function zoomBtn(d) { zoomAt(1+d, $cvs.width/2, $cvs.height/2); }
@@ -660,7 +737,6 @@ function deleteSel() {
     selectedId=null; updateToolbar(); updGrid(); renderPV(); toast('Foto dihapus');
 }
 
-// UNIFIED POINTER EVENTS (MOUSE & TOUCH)
 function getPos(e) {
     const rect = $cvs.getBoundingClientRect();
     const t = e.touches ? e.touches[0] : e;
@@ -668,7 +744,7 @@ function getPos(e) {
 }
 
 function onDown(e) {
-    if (e.touches) e.preventDefault(); // Cegah scroll saat sentuh
+    if (e.touches) e.preventDefault();
     const p = getPos(e);
     const a = s2a(p.x, p.y);
 
@@ -726,7 +802,7 @@ function onMove(e) {
     } else if(isPanning) {
         panX=panSOX+(p.cx-panSX); panY=panSOY+(p.cy-panSY); renderPV();
     } else {
-        if (!e.touches) { // Hanya update cursor untuk mouse
+        if (!e.touches) {
             if(selectedId!==null) {
                 const sel=photos.find(p=>p.id===selectedId);
                 if(sel) {
@@ -824,23 +900,56 @@ function setOrientation(o) {
     renderPV();
 }
 
+/* ==========================================================
+   DOWNLOAD — Multi-lembar (1 file PNG per lembar A4)
+   ========================================================== */
 function downloadPNG() {
     if(!photos.length) { toast('Belum ada foto','error'); return; }
     const ps=paperSize();
     const pw=Math.round(ps.w*CM2PX), ph=Math.round(ps.h*CM2PX);
-    toast(`Mempersiapkan ${pw}×${ph} px...`);
-    setTimeout(()=>{
-        const c=document.createElement('canvas');
-        renderExport(c);
-        c.toBlob(blob => {
-            if(!blob) { toast('Gagal membuat file','error'); return; }
-            const u=URL.createObjectURL(blob), a=document.createElement('a');
-            a.href=u; a.download=`polaroid-a4-${orientation}-${pw}x${ph}.png`;
-            document.body.appendChild(a); a.click(); document.body.removeChild(a);
-            URL.revokeObjectURL(u);
-            toast(`Berhasil! ${pw}×${ph} px didownload`);
-        }, 'image/png');
-    },80);
+    const sheets=getSheetCount();
+    
+    if(sheets === 1) {
+        /* Single sheet — download langsung */
+        toast(`Mempersiapkan ${pw}×${ph} px...`);
+        setTimeout(()=>{
+            const c=document.createElement('canvas');
+            renderExportSheet(c, 0);
+            c.toBlob(blob => {
+                if(!blob) { toast('Gagal membuat file','error'); return; }
+                const u=URL.createObjectURL(blob), a=document.createElement('a');
+                a.href=u; a.download=`polaroid-a4-${orientation}-${pw}x${ph}.png`;
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                URL.revokeObjectURL(u);
+                toast(`Berhasil! ${pw}×${ph} px didownload`);
+            }, 'image/png');
+        },80);
+    } else {
+        /* Multi-sheet — download tiap lembar dengan jeda 300ms */
+        toast(`Mempersiapkan ${sheets} lembar A4...`);
+        let current = 0;
+        const downloadNext = () => {
+            if(current >= sheets) {
+                toast(`Selesai! ${sheets} lembar didownload`);
+                return;
+            }
+            const c=document.createElement('canvas');
+            renderExportSheet(c, current);
+            c.toBlob(blob => {
+                if(blob) {
+                    const u=URL.createObjectURL(blob), a=document.createElement('a');
+                    a.href=u;
+                    a.download=`polaroid-a4-${orientation}-lembar-${current+1}-dari-${sheets}-${pw}x${ph}.png`;
+                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                    URL.revokeObjectURL(u);
+                }
+                current++;
+                toast(`Lembar ${current}/${sheets}...`);
+                setTimeout(downloadNext, 300);
+            }, 'image/png');
+        };
+        setTimeout(downloadNext, 80);
+    }
 }
 
 function resetAll() {
@@ -853,15 +962,16 @@ const MC={
     cara:`<h2>Cara Penggunaan</h2><ol>
         <li><strong>Pilih Ukuran</strong> — Ukuran total polaroid. Area foto lebih kecil (margin kiri/kanan/atas <strong>0.5cm</strong>, bawah <strong>1.5cm</strong>).</li>
         <li><strong>Upload Foto</strong> — Klik atau seret foto. Otomatis disusun rata tengah.</li>
-        <li><strong>Orientasi Otomatis</strong> — Kertas otomatis Portrait/Landscape mengikuti tipe ukuran foto yang dipilih.</li>
-        <li><strong>Atur Label</strong> — Teks, font, ukuran pt (maks 72), tebal, spasi (renggang), warna.</li>
+        <li><strong>Kapasitas per Lembar</strong> — 1R: 20 foto, 2R: 9 foto, 3R: 4 foto, 4R: 2 foto per lembar A4.</li>
+        <li><strong>Multi-Lembar Otomatis</strong> — Jika foto melebihi kapasitas 1 lembar, foto otomatis pindah ke lembar berikutnya.</li>
+        <li><strong>Orientasi Otomatis</strong> — Kertas otomatis Portrait/Landscape mengikuti tipe ukuran foto.</li>
+        <li><strong>Atur Label</strong> — Teks, font, ukuran pt (maks 72), tebal, spasi, warna.</li>
         <li><strong>Frame Custom</strong> — Upload gambar untuk clipping mask.</li>
         <li><strong>Geser Foto</strong> — Klik <em>area foto</em> lalu drag. Hanya foto bergerak, frame tetap.</li>
         <li><strong>Zoom Foto (Seragam)</strong> — Pilih foto, gunakan tombol + / - di toolbar atas.</li>
-        <li><strong>RESIZE Foto (Independen)</strong> — Seret <strong>tombol bulat merah di sudut</strong> foto terpilih untuk mengubah lebar & tinggi secara terpisah.</li>
+        <li><strong>RESIZE Foto (Independen)</strong> — Seret <strong>tombol bulat merah di sudut</strong> foto terpilih.</li>
         <li><strong>Zoom Kertas</strong> — Scroll mouse. Drag area kosong untuk pan.</li>
-        <li><strong>Dark Mode</strong> — Klik ikon matahari/bulan di pojok kanan atas.</li>
-        <li><strong>Download</strong> — Hasil <strong>2100×2970 px</strong> (100 px/cm).</li></ol>
+        <li><strong>Download</strong> — Setiap lembar A4 diunduh sebagai file PNG terpisah (100 px/cm).</li></ol>
         <p style="margin-top:10px;color:#888">Delete = hapus foto | Escape = batalkan seleksi</p>`,
     about:`<h2>About</h2><p><strong>Karya Abadi Polaroid</strong> — alat pembuat foto polaroid profesional berbasis web. Semua proses di browser, privasi 100% terjaga.</p>`,
     contact:`<h2>Contact</h2><ul><li><i class="fas fa-envelope" style="color:var(--accent);margin-right:8px"></i><a href="mailto:karyaabadi24434@gmail.com">karyaabadi24434@gmail.com</a></li><li><i class="fas fa-phone" style="color:var(--accent);margin-right:8px"></i><a href="tel:085117124247">0851-1712-4247</a></li></ul>`,
