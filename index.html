@@ -57,7 +57,7 @@
   .article-cat{display:inline-block;background:rgba(220,38,38,.12);color:var(--accent);font-size:11px;font-weight:600;padding:3px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
   .article-title{font-family:'Playfair Display',serif;font-size:22px;line-height:1.3;margin-bottom:10px;color:var(--fg)}
   .article-excerpt{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:12px}
-  .article-meta{font-size:12px;color:var(--muted);display:flex;gap:14px;align-items:center}
+  .article-meta{font-size:12px;color:var(--muted);display:flex;gap:14px;align-items:center;flex-wrap:wrap}
   .article-meta i{margin-right:4px;color:var(--accent)}
   .article-num{position:absolute;top:18px;right:20px;font-family:'Bebas Neue',cursive;font-size:36px;color:var(--accent);opacity:.3;line-height:1}
 
@@ -68,7 +68,7 @@
   body.light-mode .ap-header{background:rgba(240,240,240,0.9)}
   .ap-container{max-width:800px;margin:0 auto;padding:40px 20px}
   .ap-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,42px);line-height:1.2;margin-bottom:10px;color:var(--fg)}
-  .ap-meta{font-size:14px;color:var(--muted);margin-bottom:30px;border-bottom:1px solid var(--bd);padding-bottom:20px;display:flex;gap:20px;align-items:center}
+  .ap-meta{font-size:14px;color:var(--muted);margin-bottom:30px;border-bottom:1px solid var(--bd);padding-bottom:20px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
   .ap-content p{font-size:17px;line-height:1.8;color:var(--fg);text-align:justify;text-justify:inter-word;margin-bottom:24px;word-spacing:1px}
   .ap-content p:first-child::first-letter{font-family:'Playfair Display',serif;font-size:64px;float:left;line-height:0.9;margin-right:12px;margin-top:4px;color:var(--accent);font-weight:700}
 
@@ -401,18 +401,13 @@
   <div id="articleList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
 </section>
 
-<!-- ABOUT -->
+<!-- ABOUT (TANPA FOTO) -->
 <section id="about" class="section" style="padding-top:0">
-  <div class="grid md:grid-cols-2 gap-10 items-center">
-    <div>
-      <h2 class="section-title">TENTANG KAMI</h2>
-      <p class="section-sub">Misi kami melestarikan budaya polaroid</p>
-      <p class="text-base mb-4" style="color:var(--muted)">Karya Abadi Polaroid adalah platform online yang menyatukan webtool pembuat polaroid modern dengan perpustakaan artikel mendalam tentang dunia instant photography. Kami percaya bahwa kenangan terbaik layak diabadikan dalam bentuk fisik yang bisa disentuh, dibagikan, dan diwariskan.</p>
-      <p class="text-base mb-6" style="color:var(--muted)">Webtool kami berjalan sepenuhnya di browser Anda — tidak ada gambar yang diunggah ke server. Privasi 100% terjaga, dan Anda bisa bekerja offline setelah halaman dimuat.</p>
-    </div>
-    <div class="relative">
-      <img src="https://picsum.photos/seed/aboutpol/600/600" class="rounded-xl w-full" style="border:1px solid var(--bd)" alt="About">
-    </div>
+  <div class="max-w-3xl mx-auto text-center">
+    <h2 class="section-title">TENTANG KAMI</h2>
+    <p class="section-sub">Misi kami melestarikan budaya polaroid</p>
+    <p class="text-base mb-4" style="color:var(--muted)">Karya Abadi Polaroid adalah platform online yang menyatukan webtool pembuat polaroid modern dengan perpustakaan artikel mendalam tentang dunia instant photography. Kami percaya bahwa kenangan terbaik layak diabadikan dalam bentuk fisik yang bisa disentuh, dibagikan, dan diwariskan.</p>
+    <p class="text-base mb-6" style="color:var(--muted)">Webtool kami berjalan sepenuhnya di browser Anda — tidak ada gambar yang diunggah ke server. Privasi 100% terjaga, dan Anda bisa bekerja offline setelah halaman dimuat.</p>
   </div>
 </section>
 
@@ -769,58 +764,58 @@ let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(ren
 updateDimInfo(); renderPV(); updateZoomUI();
 
 
-/* ===== ARTIKEL POLAROID (Full Page & Justify Padat) ===== */
+/* ===== ARTIKEL POLAROID (Tahun 2026 & Penulis Tim Karya Abadi Polaroid) ===== */
 const articleData = [
-  { cat: "Sejarah", title: "Sejarah Polaroid: Dari Ide di Pantai Hingga Revolusi Fotografi", date: "12 Mar 2026" },
-  { cat: "Tokoh", title: "Edwin Land: Bapak Fotografi Instan dan Visioner Abad 20", date: "15 Mar 2026" },
-  { cat: "Teknologi", title: "Cara Kerja Kamera Polaroid: Sains di Balik Keajaiban Instan", date: "18 Mar 2026" },
-  { cat: "Tipe Kamera", title: "Jenis-Jenis Kamera Polaroid: Dari Model 95 hingga Polaroid Go", date: "20 Mar 2026" },
-  { cat: "Kamera Klasik", title: "Polaroid SX-70: Kamera Lipat yang Mengubah Dunia", date: "22 Mar 2026" },
-  { cat: "Kamera Populer", title: "Polaroid 600 Series: Ikon Era 1980-an", date: "25 Mar 2026" },
-  { cat: "Format Lebar", title: "Polaroid Spectra: Format Lebar yang Ikonik", date: "28 Mar 2026" },
-  { cat: "Era Modern", title: "Polaroid Go: Era Modern Kamera Instan Terkecil", date: "30 Mar 2026" },
-  { cat: "Alternatif", title: "Fujifilm Instax: Alternatif Polaroid yang Sukses", date: "2 Apr 2026" },
-  { cat: "Perbandingan", title: "Perbedaan Instant Film dan Fotografi Digital", date: "5 Apr 2026" },
-  { cat: "Pemula", title: "Memilih Kamera Polaroid Pertama untuk Pemula", date: "8 Apr 2026" },
-  { cat: "Tips", title: "Tips Memilih Film Polaroid yang Tepat", date: "10 Apr 2026" },
-  { cat: "Perawatan", title: "Cara Menyimpan Foto Polaroid agar Tahan Lama", date: "12 Apr 2026" },
-  { cat: "Acara", title: "Polaroid dalam Pernikahan: Kenangan yang Berkesan", date: "15 Apr 2026" },
-  { cat: "Craft", title: "Polaroid untuk Scrapbooking: Menciptakan Kenangan Visual", date: "18 Apr 2026" },
-  { cat: "Hadiah", title: "Polaroid sebagai Hadiah: Sentuhan Personal yang Berkesan", date: "20 Apr 2026" },
-  { cat: "Seni", title: "Polaroid dalam Dunia Seni: Dari Pop Art hingga Kontemporer", date: "22 Apr 2026" },
-  { cat: "Seniman", title: "Andy Warhol dan Polaroid: Symbiosis Seni dan Teknologi", date: "25 Apr 2026" },
-  { cat: "Fashion", title: "Polaroid dalam Fotografi Fashion: Estetika yang Tak Tergantikan", date: "28 Apr 2026" },
-  { cat: "Teknik", title: "Teknik Multiple Exposure pada Polaroid", date: "30 Apr 2026" },
-  { cat: "Teknik", title: "Teknik Emulsion Transfer pada Polaroid", date: "2 May 2026" },
-  { cat: "Manipulasi", title: "Image Manipulation pada Polaroid: Eksperimen Visual", date: "5 May 2026" },
-  { cat: "Jurnal", title: "Polaroid untuk Jurnal Visual: Mendokumentasikan Hidup Sehari-hari", date: "8 May 2026" },
-  { cat: "Travel", title: "Polaroid dalam Travel Photography: Mengabadikan Perjalanan", date: "10 May 2026" },
-  { cat: "Street", title: "Polaroid untuk Street Photography: Momen Spontaneous di Ruang Publik", date: "12 May 2026" },
-  { cat: "Estetika", title: "Polaroid dan Estetika Retro: Nostalgia di Era Digital", date: "15 May 2026" },
-  { cat: "Budaya Pop", title: "Polaroid dalam Dunia Film dan Sinema", date: "18 May 2026" },
-  { cat: "Budaya Pop", title: "Polaroid dalam Musik dan Budaya Pop Modern", date: "20 May 2026" },
-  { cat: "Dokumentasi", title: "Polaroid sebagai Media Dokumentasi: Mengabadikan Sejarah", date: "22 May 2026" },
-  { cat: "Potret", title: "Polaroid dalam Fotografi Potret: Keintiman yang Tak Tertandingi", date: "25 May 2026" },
-  { cat: "Warna", title: "Komposisi Warna dalam Polaroid: Memahami Estetika Visual", date: "28 May 2026" },
-  { cat: "Pencahayaan", title: "Pencahayaan untuk Polaroid: Menguasai Cahaya dalam Fotografi Instan", date: "30 May 2026" },
-  { cat: "Hitam Putih", title: "Polaroid Black and White: Estetika Monokrom yang Klasik", date: "2 Jun 2026" },
-  { cat: "Film Warna", title: "Polaroid Color Film: Memahami dan Memilih Film Warna", date: "5 Jun 2026" },
-  { cat: "Makro", title: "Polaroid untuk Fotografi Makro: Dunia Kecil dalam Instan", date: "8 Jun 2026" },
-  { cat: "Filosofi", title: "Polaroid dan Konsep Wabi-Sabi: Keindahan dalam Ketidaksempurnaan", date: "10 Jun 2026" },
-  { cat: "Konsep", title: "Polaroid sebagai Seni Ephemera: Keindahan yang Sementara", date: "12 Jun 2026" },
-  { cat: "Arsitektur", title: "Polaroid dalam Fotografi Arsitektur: Mengabadikan Bangunan", date: "15 Jun 2026" },
-  { cat: "Bisnis", title: "Polaroid untuk Bisnis Kecil: Pemasaran Visual yang Personal", date: "18 Jun 2026" },
-  { cat: "Branding", title: "Polaroid dan Branding Visual: Membangun Identitas dengan Instant Photography", date: "20 Jun 2026" },
-  { cat: "Kolektor", title: "Pasar Koleksi Kamera Polaroid Vintage: Nilai dan Investasi", date: "22 Jun 2026" },
-  { cat: "Komunitas", title: "Komunitas Polaroid Dunia: Membangun Jaringan Instant Photography", date: "25 Jun 2026" },
-  { cat: "Restorasi", title: "Restorasi Kamera Polaroid Vintage: Menghidupkan Kembali Klasik", date: "28 Jun 2026" },
-  { cat: "Analogue", title: "Polaroid vs Kamera Analog Lainnya: Keunikan Instant Film", date: "30 Jun 2026" },
-  { cat: "Interior", title: "Polaroid dalam Dekorasi Interior: Estetika Nostalgia untuk Rumah", date: "2 Jul 2026" },
-  { cat: "Kreatif", title: "Membuat Stop Motion dengan Polaroid: Animasi yang Unik", date: "5 Jul 2026" },
-  { cat: "Eksperimen", title: "Menggunakan Film Polaroid yang Sudah Expired: Efek dan Risiko", date: "8 Jul 2026" },
-  { cat: "Flash", title: "Teknik Penggunaan Flash pada Kamera Polaroid", date: "10 Jul 2026" },
-  { cat: "Masa Depan", title: "Masa Depan Fotografi Instan: Antara Tradisi dan Inovasi Digital", date: "12 Jul 2026" },
-  { cat: "Dampak", title: "Polaroid dalam Era Media Sosial: Mengabadikan Momen untuk Berbagi", date: "15 Jul 2026" }
+  { cat: "Sejarah", title: "Sejarah Polaroid: Dari Ide di Pantai Hingga Revolusi Fotografi", date: "12 Mar 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Tokoh", title: "Edwin Land: Bapak Fotografi Instan dan Visioner Abad 20", date: "15 Mar 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Teknologi", title: "Cara Kerja Kamera Polaroid: Sains di Balik Keajaiban Instan", date: "18 Mar 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Tipe Kamera", title: "Jenis-Jenis Kamera Polaroid: Dari Model 95 hingga Polaroid Go", date: "20 Mar 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Kamera Klasik", title: "Polaroid SX-70: Kamera Lipat yang Mengubah Dunia", date: "22 Mar 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Kamera Populer", title: "Polaroid 600 Series: Ikon Era 1980-an", date: "25 Mar 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Format Lebar", title: "Polaroid Spectra: Format Lebar yang Ikonik", date: "28 Mar 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Era Modern", title: "Polaroid Go: Era Modern Kamera Instan Terkecil", date: "30 Mar 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Alternatif", title: "Fujifilm Instax: Alternatif Polaroid yang Sukses", date: "2 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Perbandingan", title: "Perbedaan Instant Film dan Fotografi Digital", date: "5 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Pemula", title: "Memilih Kamera Polaroid Pertama untuk Pemula", date: "8 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Tips", title: "Tips Memilih Film Polaroid yang Tepat", date: "10 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Perawatan", title: "Cara Menyimpan Foto Polaroid agar Tahan Lama", date: "12 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Acara", title: "Polaroid dalam Pernikahan: Kenangan yang Berkesan", date: "15 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Craft", title: "Polaroid untuk Scrapbooking: Menciptakan Kenangan Visual", date: "18 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Hadiah", title: "Polaroid sebagai Hadiah: Sentuhan Personal yang Berkesan", date: "20 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Seni", title: "Polaroid dalam Dunia Seni: Dari Pop Art hingga Kontemporer", date: "22 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Seniman", title: "Andy Warhol dan Polaroid: Symbiosis Seni dan Teknologi", date: "25 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Fashion", title: "Polaroid dalam Fotografi Fashion: Estetika yang Tak Tergantikan", date: "28 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Teknik", title: "Teknik Multiple Exposure pada Polaroid", date: "30 Apr 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Teknik", title: "Teknik Emulsion Transfer pada Polaroid", date: "2 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Manipulasi", title: "Image Manipulation pada Polaroid: Eksperimen Visual", date: "5 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Jurnal", title: "Polaroid untuk Jurnal Visual: Mendokumentasikan Hidup Sehari-hari", date: "8 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Travel", title: "Polaroid dalam Travel Photography: Mengabadikan Perjalanan", date: "10 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Street", title: "Polaroid untuk Street Photography: Momen Spontaneous di Ruang Publik", date: "12 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Estetika", title: "Polaroid dan Estetika Retro: Nostalgia di Era Digital", date: "15 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Budaya Pop", title: "Polaroid dalam Dunia Film dan Sinema", date: "18 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Budaya Pop", title: "Polaroid dalam Musik dan Budaya Pop Modern", date: "20 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Dokumentasi", title: "Polaroid sebagai Media Dokumentasi: Mengabadikan Sejarah", date: "22 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Potret", title: "Polaroid dalam Fotografi Potret: Keintiman yang Tak Tertandingi", date: "25 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Warna", title: "Komposisi Warna dalam Polaroid: Memahami Estetika Visual", date: "28 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Pencahayaan", title: "Pencahayaan untuk Polaroid: Menguasai Cahaya dalam Fotografi Instan", date: "30 May 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Hitam Putih", title: "Polaroid Black and White: Estetika Monokrom yang Klasik", date: "2 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Film Warna", title: "Polaroid Color Film: Memahami dan Memilih Film Warna", date: "5 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Makro", title: "Polaroid untuk Fotografi Makro: Dunia Kecil dalam Instan", date: "8 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Filosofi", title: "Polaroid dan Konsep Wabi-Sabi: Keindahan dalam Ketidaksempurnaan", date: "10 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Konsep", title: "Polaroid sebagai Seni Ephemera: Keindahan yang Sementara", date: "12 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Arsitektur", title: "Polaroid dalam Fotografi Arsitektur: Mengabadikan Bangunan", date: "15 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Bisnis", title: "Polaroid untuk Bisnis Kecil: Pemasaran Visual yang Personal", date: "18 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Branding", title: "Polaroid dan Branding Visual: Membangun Identitas dengan Instant Photography", date: "20 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Kolektor", title: "Pasar Koleksi Kamera Polaroid Vintage: Nilai dan Investasi", date: "22 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Komunitas", title: "Komunitas Polaroid Dunia: Membangun Jaringan Instant Photography", date: "25 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Restorasi", title: "Restorasi Kamera Polaroid Vintage: Menghidupkan Kembali Klasik", date: "28 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Analogue", title: "Polaroid vs Kamera Analog Lainnya: Keunikan Instant Film", date: "30 Jun 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Interior", title: "Polaroid dalam Dekorasi Interior: Estetika Nostalgia untuk Rumah", date: "2 Jul 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Kreatif", title: "Membuat Stop Motion dengan Polaroid: Animasi yang Unik", date: "5 Jul 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Eksperimen", title: "Menggunakan Film Polaroid yang Sudah Expired: Efek dan Risiko", date: "8 Jul 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Flash", title: "Teknik Penggunaan Flash pada Kamera Polaroid", date: "10 Jul 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Masa Depan", title: "Masa Depan Fotografi Instan: Antara Tradisi dan Inovasi Digital", date: "12 Jul 2026", author: "Tim Karya Abadi Polaroid" },
+  { cat: "Dampak", title: "Polaroid dalam Era Media Sosial: Mengabadikan Momen untuk Berbagi", date: "15 Jul 2026", author: "Tim Karya Abadi Polaroid" }
 ];
 
 function generateParagraphs(title) {
@@ -833,7 +828,7 @@ function generateParagraphs(title) {
     `Dampak dari ${title} tidak hanya dirasakan oleh individu secara pribadi, tetapi juga oleh budaya pop secara keseluruhan. Foto instan sering kali menjadi simbol nostalgia, kehangatan, dan kenangan tak terlupakan bagi banyak generasi. Kehadirannya di acara pernikahan, pesta ulang tahun, atau sekadar berkumpul bersama teman menambah dimensi interaksi sosial yang lebih intim dan bermakna.`,
     `Bagi pemula yang ingin mencoba terjun ke dalam dunia ini, memahami ${title} adalah langkah awal yang sangat krusial. Dengan pengetahuan dasar mengenai ISO film, jarak fokus, serta cara kerja flash otomatis, siapa pun bisa menghasilkan karya foto instan yang memukau dan penuh makna. Kesalahan dalam pengambilan foto justru bisa menjadi bagian dari pesona estetika itu sendiri.`,
     `Tantangan utama dalam ${title} adalah ketidakpastian hasil akhir. Setiap kali tombol shutter ditekan, ada unsur kejutan yang membuat fotografi instan begitu menarik dan penuh emosi. Variasi suhu udara, kelembaban, hingga cara penyimpanan film sangat mempengaruhi hasil cetak, sehingga tidak ada dua foto polaroid yang akan terlihat persis sama di dunia ini.`,
-    `Perkembangan zaman dan kemajuan teknologi digital ternyata tidak membuat polaroid punah. Justra, ${title} semakin diminati oleh generasi muda yang mencari pengalaman otentik di tengah gempuran foto digital yang serba instan dan mudah dihapus. Kebutuhan untuk memegang kenangan secara fisik membuat kamera instan kembali populer sebagai gaya hidup dan media ekspresi seni.`,
+    `Perkembangan zaman dan kemajuan teknologi digital ternyata tidak membuat polaroid punah. Justru, ${title} semakin diminati oleh generasi muda yang mencari pengalaman otentik di tengah gempuran foto digital yang serba instan dan mudah dihapus. Kebutuhan untuk memegang kenangan secara fisik membuat kamera instan kembali populer sebagai gaya hidup dan media ekspresi seni.`,
     `Sebagai kesimpulan, ${title} adalah bukti nyata bahwa teknologi lama tetap memiliki tempat yang istimewa di hati para pencintanya. Polaroid akan terus hidup sebagai medium seni yang abadi, tak tergantikan oleh perangkat pintar mana pun. Keajaiban melihat foto yang perlahan muncul di atas kertas adalah pengalaman magis yang akan selalu dicari oleh manusia untuk mengabadikan momen berharga mereka.`
   ];
 }
@@ -852,6 +847,7 @@ function renderArticles() {
       <p class="article-excerpt">${excerpt}</p>
       <div class="article-meta">
         <span><i class="fas fa-calendar"></i>${art.date}</span>
+        <span><i class="fas fa-user-edit"></i>${art.author}</span>
         <span><i class="fas fa-book-open"></i>10 Paragraf</span>
       </div>
     `;
@@ -868,6 +864,7 @@ function openArticle(idx) {
         <h1 class="ap-title">${art.title}</h1>
         <div class="ap-meta">
             <span><i class="fas fa-calendar" style="color:var(--accent); margin-right: 5px;"></i> ${art.date}</span>
+            <span><i class="fas fa-user-edit" style="color:var(--accent); margin-right: 5px;"></i> ${art.author}</span>
             <span><i class="fas fa-book-open" style="color:var(--accent); margin-right: 5px;"></i> 10 Paragraf</span>
         </div>
         <div class="ap-content">
