@@ -1,303 +1,478 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Karya Abadi Polaroid</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Courier+Prime&family=Dancing+Script:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lobster&family=Outfit:wght@300;400;500;600;700&family=Pacifico&family=Permanent+Marker&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Rock+Salt&family=Sacramento&family=Satisfy&family=Special+Elite&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        :root{--bg:#080808;--fg:#f5f5f5;--muted:#777;--accent:#dc2626;--ah:#ef4444;--card:#111;--ch:#1a1a1a;--bd:#222;--inp:#0e0e0e;--canvas-bg:#0a0a0a;--grid:#141414}
-        body.light-mode{--bg:#f0f0f0;--fg:#111;--muted:#666;--card:#fff;--ch:#f7f7f7;--bd:#ddd;--inp:#fff;--canvas-bg:#e4e4e4;--grid:#f4f4f4}
-        *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--fg);overflow:hidden;height:100vh;transition:background .3s,color .3s;display:flex;flex-direction:column}
-        ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
-        .logo-text{font-family:'Bebas Neue',cursive;letter-spacing:3px;font-size:clamp(14px, 4vw, 21px)}
-        .accent-line{height:3px;background:linear-gradient(90deg,var(--accent),transparent)}
-        .ps{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:10px;transition:border-color .3s}
-        .ps:hover{border-color:#444}
-        .st{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:7px}
-        .st i{font-size:13px}
-        .inp{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:8px 10px;color:var(--fg);font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
-        .inp:focus{border-color:var(--accent)}
-        select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23777' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
-        select.inp option{background:var(--card);color:var(--fg)}
-        .bp{width:100%;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 14px;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
-        .bp:hover{background:var(--ah);transform:translateY(-1px);box-shadow:0 4px 15px rgba(220,38,38,.3)}
-        .bs{width:100%;background:transparent;color:var(--fg);border:1px solid var(--bd);border-radius:8px;padding:9px 14px;font-family:'Outfit',sans-serif;font-weight:500;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
-        .bs:hover{border-color:#444;background:var(--ch)}
-        .bi{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--bd);border-radius:6px;color:var(--muted);cursor:pointer;transition:all .2s;font-size:14px;flex-shrink:0}
-        .bi:hover{border-color:var(--accent);color:var(--accent)}
-        .dz{border:2px dashed #333;border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
-        body.light-mode .dz{border-color:#bbb}
-        .dz:hover,.dz.dragover{border-color:var(--accent);background:rgba(220,38,38,.05)}
-        .dz input{position:absolute;inset:0;opacity:0;cursor:pointer}
-        .pt{position:relative;border-radius:5px;overflow:hidden;border:1px solid var(--bd);aspect-ratio:1;background:#1a1a1a}
-        body.light-mode .pt{background:#eee}
-        .pt img{width:100%;height:100%;object-fit:cover;pointer-events:none}
-        .pt .rb{position:absolute;top:2px;right:2px;width:24px;height:24px;background:rgba(220,38,38,.9);border:none;border-radius:50%;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
-        .pt:hover .rb{opacity:1}
-        .pt .sb{position:absolute;bottom:2px;left:2px;background:rgba(0,0,0,.75);color:#ccc;font-size:8px;padding:2px 5px;border-radius:3px;font-weight:500}
-        .tw{display:flex;background:var(--inp);border-radius:8px;border:1px solid var(--bd);overflow:hidden}
-        .tb{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;color:var(--muted);border:none;background:transparent;font-family:'Outfit',sans-serif}
-        .tb.active{background:var(--accent);color:#fff}
-        .sw{display:flex;align-items:center;justify-content:space-between}
-        .sc{position:relative;width:40px;height:22px;cursor:pointer;flex-shrink:0}
-        .sc input{display:none}
-        .sc .sl{position:absolute;inset:0;background:#333;border-radius:10px;transition:.3s}
-        body.light-mode .sc .sl{background:#ccc}
-        .sc .sl::before{content:'';position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
-        .sc input:checked+.sl{background:var(--accent)}
-        .sc input:checked+.sl::before{transform:translateX(18px)}
-        main.ml{display:flex;flex:1;overflow:hidden}
-        .cc{display:flex;align-items:stretch;justify-content:stretch;flex:1;overflow:hidden;position:relative;background:var(--canvas-bg)}
-        #previewCanvas{display:block;cursor:default;touch-action:none}
-        .ib{position:absolute;bottom:10px;left:12px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:6px 12px;font-size:11px;color:#ccc;display:flex;gap:10px;white-space:nowrap;flex-wrap:wrap}
-        .ib .v{color:#fff;font-weight:500}
-        .zc{position:absolute;bottom:10px;right:12px;display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:4px 8px}
-        .zc button{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #444;border-radius:5px;color:#ccc;cursor:pointer;font-size:12px;transition:all .15s}
-        .zc button:hover{border-color:var(--accent);color:var(--accent)}
-        .zc .zv{font-size:11px;color:#fff;font-weight:500;min-width:40px;text-align:center}
-        .ftb{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.92);backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:8px;padding:6px 10px;display:none;align-items:center;gap:6px;z-index:10}
-        .ftb .fl{font-size:10px;color:#aaa;white-space:nowrap}
-        .ftb button{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #444;border-radius:5px;color:#fff;cursor:pointer;font-size:12px;transition:all .15s}
-        .ftb button:hover{border-color:var(--accent);color:var(--accent)}
-        .ftb button.del:hover{border-color:#f59e0b;color:#f59e0b}
-        .ftb .sv{font-size:11px;color:var(--accent);font-weight:600;min-width:36px;text-align:center}
-        .ftb .div{width:1px;height:18px;background:#444}
-        .mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;padding:20px}
-        .mo.show{opacity:1;pointer-events:all}
-        .mb{background:var(--card);border:1px solid var(--bd);border-radius:14px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;transform:translateY(20px) scale(.97);transition:transform .3s;padding:26px;position:relative}
-        .mo.show .mb{transform:translateY(0) scale(1)}
-        .mb h2{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:2px;margin-bottom:14px;color:var(--accent)}
-        .mb p,.mb li{font-size:13px;line-height:1.7;color:var(--muted);margin-bottom:7px}
-        .mb ul{padding-left:18px}.mb a{color:var(--accent);text-decoration:none}.mb a:hover{text-decoration:underline}
-        .mx{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:7px;background:transparent;border:1px solid var(--bd);color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s}
-        .mx:hover{border-color:var(--accent);color:var(--accent)}
-        #tc{position:fixed;top:16px;right:16px;z-index:200;display:flex;flex-direction:column;gap:6px}
-        .toast{background:var(--card);border:1px solid var(--bd);border-left:3px solid var(--accent);padding:12px 16px;border-radius:7px;font-size:13px;color:var(--fg);transform:translateX(120%);transition:transform .3s ease;max-width:300px;box-shadow:0 4px 15px rgba(0,0,0,.2)}
-        .toast.show{transform:translateX(0)}.toast.error{border-left-color:#f59e0b}
-        footer{flex-shrink:0}
-        footer a{color:var(--muted);text-decoration:none;font-size:12px;transition:color .2s}footer a:hover{color:var(--accent)}
-        .di{display:flex;gap:5px;align-items:center;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.15);border-radius:5px;padding:6px 8px;margin-top:6px;font-size:10px;color:var(--muted);flex-wrap:wrap}
-        .di .dv{color:var(--fg);font-weight:500}
-        .logo-wrap{display:flex;align-items:center;gap:10px}
-        .logo-img{height:36px;width:auto;object-fit:contain;border-radius:6px;cursor:default;pointer-events:none}
-        .logo-text-block{display:flex;flex-direction:column;justify-content:center;gap:0px}
-        select.inp optgroup{background:var(--bg);color:var(--accent);font-weight:600;font-size:11px}
-        select.inp option{font-size:12px;padding:2px 0}
-        @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-        .fu{animation:fu .4s ease forwards}
-        
-        /* MOBILE RESPONSIVE */
-        @media(max-width: 768px) {
-            main.ml { flex-direction: column !important; }
-            aside.lp { width: 100% !important; min-width: 0 !important; max-height: 45vh; border-right: none !important; border-bottom: 1px solid var(--bd); }
-            .cc { min-height: 55vh; }
-            .ib { font-size: 9px; gap: 8px; bottom: 5px; left: 5px; padding: 4px 8px; }
-            .zc { bottom: 5px; right: 5px; }
-            .ftb { top: 5px; padding: 4px 5px; gap: 3px; }
-            .ftb button { width: 30px; height: 30px; font-size: 11px; }
-            .zc button { width: 30px; height: 30px; font-size: 11px; }
-        }
-        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karya Abadi Polaroid - Webtool & Artikel</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Courier+Prime&family=Dancing+Script:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lobster&family=Outfit:wght@300;400;500;600;700&family=Pacifico&family=Permanent+Marker&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Rock+Salt&family=Sacramento&family=Satisfy&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root{
+    --bg:#080808;--fg:#f5f5f5;--muted:#777;--accent:#dc2626;--ah:#ef4444;
+    --card:#111;--ch:#1a1a1a;--bd:#222;--inp:#0e0e0e;--canvas-bg:#0a0a0a;--grid:#141414;
+  }
+  body.light-mode{
+    --bg:#f0f0f0;--fg:#111;--muted:#666;--card:#fff;--ch:#f7f7f7;--bd:#ddd;
+    --inp:#fff;--canvas-bg:#e4e4e4;--grid:#f4f4f4;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--fg);transition:background .3s,color .3s;line-height:1.6}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:#333;border-radius:5px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+  .navbar{position:sticky;top:0;z-index:50;background:rgba(8,8,8,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
+  body.light-mode .navbar{background:rgba(240,240,240,.9)}
+  .logo-text{font-family:'Bebas Neue',cursive;letter-spacing:3px;font-size:clamp(14px, 4vw, 21px)}
+  .nav-link{position:relative;padding:8px 14px;font-size:14px;font-weight:500;color:var(--fg);text-decoration:none;transition:color .2s}
+  .nav-link:hover{color:var(--accent)}
+  .nav-link::after{content:'';position:absolute;bottom:4px;left:14px;width:calc(100% - 28px);height:2px;background:var(--accent);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+  .nav-link:hover::after{transform:scaleX(1)}
+  .accent-line{height:3px;background:linear-gradient(90deg,var(--accent),transparent)}
+
+  .hero{position:relative;min-height:88vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 20% 30%,rgba(220,38,38,.15),transparent 50%),radial-gradient(ellipse at 80% 70%,rgba(124,29,29,.18),transparent 50%),#080808}
+  body.light-mode .hero{background:radial-gradient(ellipse at 20% 30%,rgba(220,38,38,.12),transparent 50%),radial-gradient(ellipse at 80% 70%,rgba(124,29,29,.1),transparent 50%),#f0f0f0}
+  .hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%)}
+  .hero-title{font-family:'Bebas Neue',cursive;font-size:clamp(48px,9vw,120px);line-height:.95;letter-spacing:3px;text-transform:uppercase}
+  .hero-title .accent{color:var(--accent);font-family:'Dancing Script',cursive;text-transform:none;letter-spacing:0;display:block;font-size:clamp(36px,6vw,80px);margin-top:-10px}
+  .hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,2vw,22px);color:var(--muted);max-width:600px;margin:0 auto}
+  
+  .section{padding:80px 0;max-width:1280px;margin:0 auto;padding-left:24px;padding-right:24px}
+  .section-title{font-family:'Bebas Neue',cursive;font-size:clamp(36px,5vw,56px);letter-spacing:2px;margin-bottom:12px;line-height:1}
+  .section-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:18px;margin-bottom:40px}
+
+  .step-card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:24px;transition:all .3s;position:relative;overflow:hidden}
+  .step-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+  .step-card::before{content:attr(data-step);position:absolute;top:-20px;right:-10px;font-family:'Bebas Neue',cursive;font-size:120px;color:var(--accent);opacity:.08;line-height:1}
+  .step-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:var(--accent);color:#fff;border-radius:50%;font-weight:700;font-size:16px;margin-bottom:12px}
+  .step-title{font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:1px;margin-bottom:8px}
+  .step-desc{font-size:14px;color:var(--muted);line-height:1.7}
+
+  /* Artikel List */
+  .article-card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:24px;transition:all .3s;cursor:pointer;position:relative;overflow:hidden}
+  .article-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 10px 30px rgba(220,38,38,.15)}
+  .article-cat{display:inline-block;background:rgba(220,38,38,.12);color:var(--accent);font-size:11px;font-weight:600;padding:3px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .article-title{font-family:'Playfair Display',serif;font-size:22px;line-height:1.3;margin-bottom:10px;color:var(--fg)}
+  .article-excerpt{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:12px}
+  .article-meta{font-size:12px;color:var(--muted);display:flex;gap:14px;align-items:center}
+  .article-meta i{margin-right:4px;color:var(--accent)}
+  .article-num{position:absolute;top:18px;right:20px;font-family:'Bebas Neue',cursive;font-size:36px;color:var(--accent);opacity:.3;line-height:1}
+
+  /* Artikel Full Page */
+  #articlePage{display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:var(--bg);z-index:1000;overflow-y:auto;animation:fadeIn .3s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .ap-header{position:sticky;top:0;background:rgba(8,8,8,0.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);padding:15px 0;z-index:10}
+  body.light-mode .ap-header{background:rgba(240,240,240,0.9)}
+  .ap-container{max-width:800px;margin:0 auto;padding:40px 20px}
+  .ap-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,42px);line-height:1.2;margin-bottom:10px;color:var(--fg)}
+  .ap-meta{font-size:14px;color:var(--muted);margin-bottom:30px;border-bottom:1px solid var(--bd);padding-bottom:20px;display:flex;gap:20px;align-items:center}
+  .ap-content p{font-size:17px;line-height:1.8;color:var(--fg);text-align:justify;text-justify:inter-word;margin-bottom:24px;word-spacing:1px}
+  .ap-content p:first-child::first-letter{font-family:'Playfair Display',serif;font-size:64px;float:left;line-height:0.9;margin-right:12px;margin-top:4px;color:var(--accent);font-weight:700}
+
+  footer{background:var(--ch);border-top:1px solid var(--bd);padding:50px 24px 24px}
+  .footer-link{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s;display:block;margin-bottom:8px}
+  .footer-link:hover{color:var(--accent)}
+
+  /* Webtool Styles */
+  .tool-frame{background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
+  .tool-header{padding:14px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:var(--ch)}
+  .tool-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#444;margin-right:6px}
+  .tool-dot.red{background:#dc2626}.tool-dot.yellow{background:#f59e0b}.tool-dot.green{background:#10b981}
+  .ps{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:10px;transition:border-color .3s}
+  .ps:hover{border-color:#444}
+  .st{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+  .inp{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:8px 10px;color:var(--fg);font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+  .inp:focus{border-color:var(--accent)}
+  select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23777' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+  .bp{width:100%;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 14px;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
+  .bp:hover{background:var(--ah);transform:translateY(-1px);box-shadow:0 4px 15px rgba(220,38,38,.3)}
+  .bs{width:100%;background:transparent;color:var(--fg);border:1px solid var(--bd);border-radius:8px;padding:9px 14px;font-family:'Outfit',sans-serif;font-weight:500;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
+  .bs:hover{border-color:#444;background:var(--ch)}
+  .bi{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--bd);border-radius:6px;color:var(--muted);cursor:pointer;transition:all .2s;font-size:14px;flex-shrink:0}
+  .bi:hover{border-color:var(--accent);color:var(--accent)}
+  .dz{border:2px dashed #333;border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+  body.light-mode .dz{border-color:#bbb}
+  .dz:hover,.dz.dragover{border-color:var(--accent);background:rgba(220,38,38,.05)}
+  .dz input{position:absolute;inset:0;opacity:0;cursor:pointer}
+  .pt{position:relative;border-radius:5px;overflow:hidden;border:1px solid var(--bd);aspect-ratio:1;background:#1a1a1a}
+  body.light-mode .pt{background:#eee}
+  .pt img{width:100%;height:100%;object-fit:cover;pointer-events:none}
+  .pt .rb{position:absolute;top:2px;right:2px;width:24px;height:24px;background:rgba(220,38,38,.9);border:none;border-radius:50%;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+  .pt:hover .rb{opacity:1}
+  .pt .sb{position:absolute;bottom:2px;left:2px;background:rgba(0,0,0,.75);color:#ccc;font-size:8px;padding:2px 5px;border-radius:3px;font-weight:500}
+  .tw{display:flex;background:var(--inp);border-radius:8px;border:1px solid var(--bd);overflow:hidden}
+  .tb{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;color:var(--muted);border:none;background:transparent;font-family:'Outfit',sans-serif}
+  .tb.active{background:var(--accent);color:#fff}
+  .sw{display:flex;align-items:center;justify-content:space-between}
+  .sc{position:relative;width:40px;height:22px;cursor:pointer;flex-shrink:0}
+  .sc input{display:none}
+  .sc .sl{position:absolute;inset:0;background:#333;border-radius:10px;transition:.3s}
+  body.light-mode .sc .sl{background:#ccc}
+  .sc .sl::before{content:'';position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+  .sc input:checked+.sl{background:var(--accent)}
+  .sc input:checked+.sl::before{transform:translateX(18px)}
+  .polaroid-app{display:flex;flex-direction:column;height:760px;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+  .pa-main{display:flex;flex:1;overflow:hidden}
+  .pa-sidebar{width:340px;min-width:300px;border-right:1px solid var(--bd);overflow-y:auto;padding:12px;background:var(--bg)}
+  .pa-canvas{display:flex;align-items:stretch;justify-content:stretch;flex:1;overflow:hidden;position:relative;background:var(--canvas-bg)}
+  #previewCanvas{display:block;cursor:default;touch-action:none}
+  .ib{position:absolute;bottom:10px;left:12px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:6px 12px;font-size:11px;color:#ccc;display:flex;gap:10px;white-space:nowrap;flex-wrap:wrap}
+  .ib .v{color:#fff;font-weight:500}
+  .zc{position:absolute;bottom:10px;right:12px;display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:7px;padding:4px 8px}
+  .zc button{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #444;border-radius:5px;color:#ccc;cursor:pointer;font-size:12px;transition:all .15s}
+  .zc button:hover{border-color:var(--accent);color:var(--accent)}
+  .zc .zv{font-size:11px;color:#fff;font-weight:500;min-width:40px;text-align:center}
+  .ftb{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.92);backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:8px;padding:6px 10px;display:none;align-items:center;gap:6px;z-index:10}
+  .ftb .fl{font-size:10px;color:#aaa;white-space:nowrap}
+  .ftb button{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #444;border-radius:5px;color:#fff;cursor:pointer;font-size:12px;transition:all .15s}
+  .ftb button:hover{border-color:var(--accent);color:var(--accent)}
+  .ftb button.del:hover{border-color:#f59e0b;color:#f59e0b}
+  .ftb .sv{font-size:11px;color:var(--accent);font-weight:600;min-width:36px;text-align:center}
+  .ftb .div{width:1px;height:18px;background:#444}
+  .mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;padding:20px}
+  .mo.show{opacity:1;pointer-events:all}
+  .mb{background:var(--card);border:1px solid var(--bd);border-radius:14px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;transform:translateY(20px) scale(.97);transition:transform .3s;padding:26px;position:relative}
+  .mo.show .mb{transform:translateY(0) scale(1)}
+  .mb h2{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:2px;margin-bottom:14px;color:var(--accent)}
+  .mb p,.mb li{font-size:13px;line-height:1.7;color:var(--muted);margin-bottom:7px}
+  .mb ul{padding-left:18px}.mb a{color:var(--accent);text-decoration:none}.mb a:hover{text-decoration:underline}
+  .mx{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:7px;background:transparent;border:1px solid var(--bd);color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .mx:hover{border-color:var(--accent);color:var(--accent)}
+  #tc{position:fixed;top:80px;right:16px;z-index:200;display:flex;flex-direction:column;gap:6px}
+  .toast{background:var(--card);border:1px solid var(--bd);border-left:3px solid var(--accent);padding:12px 16px;border-radius:7px;font-size:13px;color:var(--fg);transform:translateX(120%);transition:transform .3s ease;max-width:300px;box-shadow:0 4px 15px rgba(0,0,0,.2)}
+  .toast.show{transform:translateX(0)}.toast.error{border-left-color:#f59e0b}
+  .di{display:flex;gap:5px;align-items:center;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.15);border-radius:5px;padding:6px 8px;margin-top:6px;font-size:10px;color:var(--muted);flex-wrap:wrap}
+  .di .dv{color:var(--fg);font-weight:500}
+  select.inp optgroup{background:var(--bg);color:var(--accent);font-weight:600;font-size:11px}
+  select.inp option{font-size:12px;padding:2px 0}
+
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:15px;text-decoration:none;transition:all .2s;border:none;cursor:pointer}
+  .btn-primary:hover{background:var(--ah);transform:translateY(-2px);box-shadow:0 8px 20px rgba(220,38,38,.3)}
+  .btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--fg);padding:12px 24px;border-radius:8px;font-weight:600;font-size:15px;text-decoration:none;transition:all .2s;border:1px solid var(--bd);cursor:pointer}
+  .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+  .menu-toggle{display:none;background:none;border:none;color:var(--fg);font-size:22px;cursor:pointer}
+  @media(max-width:900px){
+    .menu-toggle{display:block}
+    .nav-menu{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--bd);padding:10px;gap:5px}
+    .nav-menu.open{display:flex}
+    .polaroid-app{height:auto;flex-direction:column}
+    .pa-sidebar{width:100%;min-width:0;border-right:none;border-bottom:1px solid var(--bd);max-height:400px}
+    .pa-canvas{min-height:400px}
+  }
+</style>
 </head>
 <body>
 
-<header class="fu" style="border-bottom:1px solid var(--bd);flex-shrink:0">
-    <div class="accent-line"></div>
-    <div style="padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-        <div class="logo-wrap">
-            <img id="siteLogo" class="logo-img" src="https://z-cdn-media.chatglm.cn/files/ec426ffb-509a-468c-bdc6-bc3600e740a1.png?auth_key=1884089893-9f474b0cd1c543a29c664850b5da50d0-0-f9c629a03fca57803b992bfbdd34f464" alt="Logo">
-            <div class="logo-text-block">
-                <div class="logo-text" style="line-height:1.05;color:var(--fg)">KARYA ABADI POLAROID</div>
-                <div style="font-size:9px;color:var(--muted);letter-spacing:1.5px;font-weight:400">PROFESSIONAL POLAROID MAKER</div>
-            </div>
-        </div>
-        <nav style="display:flex;align-items:center;gap:5px">
-            <button class="bi" onclick="toggleTheme()" title="Ganti Tema" id="themeBtn"><i class="fas fa-sun"></i></button>
-            <button class="bi" onclick="showModal('cara')" title="Cara Penggunaan"><i class="fas fa-question"></i></button>
-        </nav>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="accent-line"></div>
+  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between relative">
+    <a href="#home" class="flex items-center gap-3 text-decoration-none" style="color:var(--fg)">
+      <img src="https://z-cdn-media.chatglm.cn/files/ec426ffb-509a-468c-bdc6-bc3600e740a1.png?auth_key=1884089893-9f474b0cd1c543a29c664850b5da50d0-0-f9c629a03fca57803b992bfbdd34f464" alt="Logo" style="height:36px;width:auto;object-fit:contain;border-radius:6px">
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:0px">
+        <div class="logo-text" style="line-height:1.05;color:var(--fg)">KARYA ABADI POLAROID</div>
+        <div style="font-size:9px;color:var(--muted);letter-spacing:1.5px;font-weight:400">PROFESSIONAL POLAROID MAKER</div>
+      </div>
+    </a>
+    <div class="nav-menu flex items-center gap-1" id="navMenu">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#panduan" class="nav-link">Panduan</a>
+      <a href="#buat-polaroid" class="nav-link">Buat Polaroid</a>
+      <a href="#artikel" class="nav-link">Artikel</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Kontak</a>
+      <button class="bi ml-2" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema"><i class="fas fa-sun"></i></button>
     </div>
-</header>
+    <button class="menu-toggle" onclick="document.getElementById('navMenu').classList.toggle('open')"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
 
-<main class="ml fu">
+<!-- HERO BANNER -->
+<section id="home" class="hero">
+  <div class="relative z-10 text-center px-6 max-w-4xl">
+    <div class="inline-block mb-4 px-4 py-1 rounded-full" style="background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.25)">
+      <span style="font-size:12px;color:var(--accent);font-weight:600;letter-spacing:2px;text-transform:uppercase">
+        <i class="fas fa-sparkles"></i> Buat Polaroid Online Gratis
+      </span>
+    </div>
+    <h1 class="hero-title">KENANGAN<br>ABADI
+      <span class="accent">dalam satu klik</span>
+    </h1>
+    <p class="hero-sub mt-6">
+      Webtool pembuat polaroid profesional langsung dari browser, dilengkapi artikel mendalam
+      tentang dunia instant photography. Tanpa registrasi, tanpa upload server — 100% privat.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3 justify-center">
+      <a href="#buat-polaroid" class="btn-primary"><i class="fas fa-camera"></i> Mulai Buat Polaroid</a>
+      <a href="#panduan" class="btn-outline"><i class="fas fa-book-open"></i> Baca Panduan</a>
+    </div>
+  </div>
+</section>
 
-    <aside class="lp" style="width:340px;min-width:300px;border-right:1px solid var(--bd);overflow-y:auto;padding:12px;background:var(--bg)">
+<!-- PANDUAN -->
+<section id="panduan" class="section">
+  <div class="text-center mb-12">
+    <h2 class="section-title">PANDUAN PENGGUNAAN</h2>
+    <p class="section-sub">Lima langkah mudah membuat polaroid profesional</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="step-card" data-step="01">
+      <div class="step-num">1</div>
+      <div class="step-title">PILIH UKURAN</div>
+      <div class="step-desc">Pilih ukuran polaroid dari dropdown: 1R, 2R, 3R Landscape/Portrait, atau 4R. Setiap ukuran punya kapasitas berbeda per lembar A4.</div>
+    </div>
+    <div class="step-card" data-step="02">
+      <div class="step-num">2</div>
+      <div class="step-title">UPLOAD FOTO</div>
+      <div class="step-desc">Klik area drop zone atau seret foto langsung. Bisa upload banyak foto sekaligus. Sistem akan otomatis menyusun ke grid rapi.</div>
+    </div>
+    <div class="step-card" data-step="03">
+      <div class="step-num">3</div>
+      <div class="step-title">ATUR LABEL</div>
+      <div class="step-desc">Tulis teks, pilih dari 16+ font (modern, klasik, retro, aksara sambung), atur ukuran, spasi, warna, dan ketebalan sesuai selera.</div>
+    </div>
+    <div class="step-card" data-step="04">
+      <div class="step-num">4</div>
+      <div class="step-title">EDIT POSISI</div>
+      <div class="step-desc">Klik foto untuk memilih, drag di dalam frame untuk geser, seret tombol sudut merah untuk resize independen, atau gunakan toolbar zoom.</div>
+    </div>
+    <div class="step-card" data-step="05">
+      <div class="step-num">5</div>
+      <div class="step-title">DOWNLOAD</div>
+      <div class="step-desc">Klik tombol download. Setiap lembar A4 akan diunduh sebagai PNG terpisah dengan resolusi 100 px/cm — siap cetak.</div>
+    </div>
+  </div>
+</section>
 
-        <div class="ps">
+<!-- BUAT POLAROID (WEBTOOL) -->
+<section id="buat-polaroid" class="section" style="padding-top:0">
+  <div class="text-center mb-10">
+    <h2 class="section-title">BUAT POLAROID</h2>
+    <p class="section-sub">Buat, atur, dan download polaroid A4 langsung di browser</p>
+  </div>
+
+  <div class="tool-frame">
+    <div class="tool-header">
+      <div class="flex items-center gap-1">
+        <span class="tool-dot red"></span><span class="tool-dot yellow"></span><span class="tool-dot green"></span>
+        <span class="ml-3 text-sm font-medium" style="color:var(--muted)">polaroid-maker.app</span>
+      </div>
+      <button class="bi" onclick="showModal('cara')" title="Bantuan"><i class="fas fa-question"></i></button>
+    </div>
+    <div class="polaroid-app">
+      <div class="pa-main">
+        <aside class="pa-sidebar">
+          <div class="ps">
             <div class="st"><i class="fas fa-upload"></i> Upload Foto</div>
             <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:5px">Ukuran Polaroid (Total)</label>
             <select id="sizeSelect" class="inp" style="margin-bottom:5px" onchange="updateDimInfo()">
-                <option value="1R">5.0 × 5.7 cm</option>
-                <option value="2R">2R — 6.35 × 8.89 cm</option>
-                <option value="3R-L">3R Landscape — 12.7 × 8.89 cm</option>
-                <option value="3R-P" selected>3R Portrait — 8.89 × 12.7 cm</option>
-                <option value="4R-L">4R Landscape — 15.24 × 10.16 cm</option>
-                <option value="4R-P">4R Portrait — 10.16 × 15.24 cm</option>
+              <option value="1R">5.0 × 5.7 cm</option>
+              <option value="2R">2R — 6.35 × 8.89 cm</option>
+              <option value="3R-L">3R Landscape — 12.7 × 8.89 cm</option>
+              <option value="3R-P" selected>3R Portrait — 8.89 × 12.7 cm</option>
+              <option value="4R-L">4R Landscape — 15.24 × 10.16 cm</option>
+              <option value="4R-P">4R Portrait — 10.16 × 15.24 cm</option>
             </select>
             <div class="di">
-                Total: <span class="dv" id="dimTotal">8.89 × 12.7 cm</span> |
-                Foto: <span class="dv" id="dimFoto">7.89 × 10.7 cm</span> |
-                Kapasitas: <span class="dv" id="dimCap">4</span>/lembar
+              Total: <span class="dv" id="dimTotal">8.89 × 12.7 cm</span> |
+              Foto: <span class="dv" id="dimFoto">7.89 × 10.7 cm</span> |
+              Kapasitas: <span class="dv" id="dimCap">4</span>/lembar
             </div>
             <div class="dz" id="dropZone" style="margin-top:8px">
-                <input type="file" id="fileInput" accept="image/*" multiple>
-                <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:#444;margin-bottom:6px;display:block"></i>
-                <div style="font-size:12px;color:var(--muted)">Seret & lepas foto di sini</div>
-                <div style="font-size:10px;color:#555;margin-top:3px">atau klik untuk memilih file</div>
+              <input type="file" id="fileInput" accept="image/*" multiple>
+              <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:#444;margin-bottom:6px;display:block"></i>
+              <div style="font-size:12px;color:var(--muted)">Seret & lepas foto di sini</div>
+              <div style="font-size:10px;color:#555;margin-top:3px">atau klik untuk memilih file</div>
             </div>
             <div id="photoGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px"></div>
             <div id="photoCount" style="font-size:10px;color:var(--muted);margin-top:6px;text-align:center;display:none"></div>
-        </div>
+          </div>
 
-        <div class="ps">
+          <div class="ps">
             <div class="st"><i class="fas fa-tag"></i> Pengaturan Label</div>
             <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:5px">Teks Label</label>
             <input type="text" id="labelText" class="inp" placeholder="Karya Abadi" value="Karya Abadi" style="margin-bottom:8px">
             <div style="display:flex;gap:6px;margin-bottom:8px">
-                <div style="flex:1">
-                    <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Font</label>
-                    <select id="labelFont" class="inp">
-                        <optgroup label="— Modern —">
-                            <option value="Outfit">Outfit</option>
-                            <option value="Bebas Neue">Bebas Neue</option>
-                        </optgroup>
-                        <optgroup label="— Classic / Klasik —">
-                            <option value="Playfair Display">Playfair Display</option>
-                            <option value="Cormorant Garamond">Cormorant Garamond</option>
-                            <option value="EB Garamond">EB Garamond</option>
-                            <option value="Georgia">Georgia</option>
-                        </optgroup>
-                        <optgroup label="— Retro —">
-                            <option value="Permanent Marker">Permanent Marker</option>
-                            <option value="Rock Salt">Rock Salt</option>
-                            <option value="Special Elite">Special Elite</option>
-                            <option value="Courier Prime">Courier Prime</option>
-                        </optgroup>
-                        <optgroup label="— Latin / Aksara Sambung —">
-                            <option value="Dancing Script">Dancing Script</option>
-                            <option value="Great Vibes">Great Vibes</option>
-                            <option value="Pacifico">Pacifico</option>
-                            <option value="Sacramento">Sacramento</option>
-                            <option value="Satisfy">Satisfy</option>
-                            <option value="Alex Brush">Alex Brush</option>
-                            <option value="Lobster">Lobster</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div style="width:70px">
-                    <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Ukuran (pt)</label>
-                    <input type="number" id="labelSize" class="inp" value="8" min="4" max="72" step="1">
-                </div>
+              <div style="flex:1">
+                <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Font</label>
+                <select id="labelFont" class="inp">
+                  <optgroup label="— Modern —"><option value="Outfit">Outfit</option><option value="Bebas Neue">Bebas Neue</option></optgroup>
+                  <optgroup label="— Classic —"><option value="Playfair Display">Playfair Display</option><option value="Cormorant Garamond">Cormorant Garamond</option><option value="EB Garamond">EB Garamond</option><option value="Georgia">Georgia</option></optgroup>
+                  <optgroup label="— Retro —"><option value="Permanent Marker">Permanent Marker</option><option value="Rock Salt">Rock Salt</option><option value="Special Elite">Special Elite</option><option value="Courier Prime">Courier Prime</option></optgroup>
+                  <optgroup label="— Aksara Sambung —"><option value="Dancing Script">Dancing Script</option><option value="Great Vibes">Great Vibes</option><option value="Pacifico">Pacifico</option><option value="Sacramento">Sacramento</option><option value="Satisfy">Satisfy</option><option value="Alex Brush">Alex Brush</option><option value="Lobster">Lobster</option></optgroup>
+                </select>
+              </div>
+              <div style="width:70px">
+                <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Ukuran (pt)</label>
+                <input type="number" id="labelSize" class="inp" value="8" min="4" max="72" step="1">
+              </div>
             </div>
             <div style="display:flex;gap:6px;margin-bottom:8px">
-                <div style="flex:1">
-                    <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Spasi (Renggang)</label>
-                    <input type="number" id="labelSpace" class="inp" value="0" min="-5" max="20" step="0.5">
-                </div>
-                <div class="sw" style="align-items:flex-end; padding-bottom:2px;">
-                    <label style="font-size:11px;color:var(--muted);margin-right:8px">Tebal</label>
-                    <label class="sc"><input type="checkbox" id="labelBold"><span class="sl"></span></label>
-                </div>
+              <div style="flex:1">
+                <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Spasi</label>
+                <input type="number" id="labelSpace" class="inp" value="0" min="-5" max="20" step="0.5">
+              </div>
+              <div class="sw" style="align-items:flex-end;padding-bottom:2px">
+                <label style="font-size:11px;color:var(--muted);margin-right:8px">Tebal</label>
+                <label class="sc"><input type="checkbox" id="labelBold"><span class="sl"></span></label>
+              </div>
             </div>
             <div style="display:flex;align-items:center;gap:10px">
-                <div style="display:flex;align-items:center;gap:6px">
-                    <label style="font-size:11px;color:var(--muted)">Warna</label>
-                    <input type="color" id="labelColor" value="#333333" style="width:28px;height:28px;border:1px solid var(--bd);border-radius:4px;background:var(--inp);cursor:pointer;padding:1px">
-                </div>
-                <div class="sw">
-                    <label style="font-size:11px;color:var(--muted)">+ Ukuran</label>
-                    <label class="sc"><input type="checkbox" id="includeSize" checked><span class="sl"></span></label>
-                </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <label style="font-size:11px;color:var(--muted)">Warna</label>
+                <input type="color" id="labelColor" value="#333333" style="width:28px;height:28px;border:1px solid var(--bd);border-radius:4px;background:var(--inp);cursor:pointer;padding:1px">
+              </div>
+              <div class="sw">
+                <label style="font-size:11px;color:var(--muted)">+ Ukuran</label>
+                <label class="sc"><input type="checkbox" id="includeSize" checked><span class="sl"></span></label>
+              </div>
             </div>
-        </div>
+          </div>
 
-        <div class="ps">
-            <div class="st"><i class="fas fa-border-all"></i> Frame <span style="font-size:9px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(Clipping Mask)</span></div>
-            <div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.4">Upload gambar untuk mengganti frame putih polaroid.</div>
+          <div class="ps">
+            <div class="st"><i class="fas fa-border-all"></i> Frame Custom</div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:8px">Upload gambar untuk mengganti frame putih polaroid.</div>
             <div style="display:flex;gap:6px">
-                <label class="bs" style="flex:1;cursor:pointer"><i class="fas fa-image"></i> Pilih Gambar<input type="file" id="frameInput" accept="image/*" style="display:none"></label>
-                <button class="bs" style="width:auto;padding:8px 12px" id="removeFrameBtn" onclick="removeFrame()" disabled><i class="fas fa-trash-alt"></i></button>
+              <label class="bs" style="flex:1;cursor:pointer"><i class="fas fa-image"></i> Pilih<input type="file" id="frameInput" accept="image/*" style="display:none"></label>
+              <button class="bs" style="width:auto;padding:8px 12px" id="removeFrameBtn" onclick="removeFrame()" disabled><i class="fas fa-trash-alt"></i></button>
             </div>
             <div id="framePreview" style="margin-top:6px;display:none"><img id="frameThumb" style="width:100%;height:50px;object-fit:cover;border-radius:5px;border:1px solid var(--bd)"></div>
-        </div>
+          </div>
 
-        <div class="ps">
+          <div class="ps">
             <div class="st"><i class="fas fa-file-alt"></i> Kertas</div>
             <div class="tw" style="margin-bottom:8px">
-                <button class="tb active" data-orient="portrait" onclick="setOrientation('portrait')"><i class="fas fa-mobile-alt" style="margin-right:3px"></i> Portrait</button>
-                <button class="tb" data-orient="landscape" onclick="setOrientation('landscape')"><i class="fas fa-mobile-alt" style="margin-right:3px;transform:rotate(90deg)"></i> Landscape</button>
-            </div>
-            <div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.4;background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.12);border-radius:5px;padding:5px 8px">
-                <i class="fas fa-magic" style="color:var(--accent);margin-right:4px"></i> Orientasi kertas otomatis mengikuti tipe foto (Portrait/Landscape)
+              <button class="tb active" data-orient="portrait" onclick="setOrientation('portrait')"><i class="fas fa-mobile-alt" style="margin-right:3px"></i> Portrait</button>
+              <button class="tb" data-orient="landscape" onclick="setOrientation('landscape')"><i class="fas fa-mobile-alt" style="margin-right:3px;transform:rotate(90deg)"></i> Landscape</button>
             </div>
             <div class="sw" style="margin-bottom:8px">
-                <label style="font-size:11px;color:var(--muted)">Garis Potong</label>
-                <label class="sc"><input type="checkbox" id="cutLinesToggle" checked><span class="sl"></span></label>
+              <label style="font-size:11px;color:var(--muted)">Garis Potong</label>
+              <label class="sc"><input type="checkbox" id="cutLinesToggle" checked><span class="sl"></span></label>
             </div>
             <button class="bs" onclick="rearrangeAll()"><i class="fas fa-th"></i> Susun Ulang Otomatis</button>
-        </div>
+          </div>
 
-        <div style="display:flex;flex-direction:column;gap:6px">
-            <button class="bp" onclick="downloadPNG()" style="padding:12px"><i class="fas fa-download"></i> Download A4 — Semua Lembar</button>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="bp" onclick="downloadPNG()" style="padding:12px"><i class="fas fa-download"></i> Download A4</button>
             <button class="bs" onclick="resetAll()"><i class="fas fa-redo-alt"></i> Reset Semua</button>
-        </div>
-    </aside>
+          </div>
+        </aside>
 
-    <section class="cc" id="canvasContainer">
-        <canvas id="previewCanvas"></canvas>
-
-        <div class="ftb" id="photoToolbar">
+        <div class="pa-canvas" id="canvasContainer">
+          <canvas id="previewCanvas"></canvas>
+          <div class="ftb" id="photoToolbar">
             <span class="fl"><i class="fas fa-crop-alt" style="margin-right:3px"></i> Foto</span>
             <button onclick="scaleSel(-0.15)" title="Perkecil"><i class="fas fa-search-minus"></i></button>
             <span class="sv" id="selScaleVal">100%</span>
             <button onclick="scaleSel(0.15)" title="Perbesar"><i class="fas fa-search-plus"></i></button>
             <div class="div"></div>
-            <button onclick="resetImgPos()" title="Reset Posisi"><i class="fas fa-crosshairs"></i></button>
+            <button onclick="resetImgPos()" title="Reset"><i class="fas fa-crosshairs"></i></button>
             <div class="div"></div>
             <button class="del" onclick="deleteSel()" title="Hapus"><i class="fas fa-trash"></i></button>
-        </div>
-
-        <div class="zc">
-            <button onclick="zoomBtn(-0.15)" title="Zoom Out"><i class="fas fa-search-minus"></i></button>
+          </div>
+          <div class="zc">
+            <button onclick="zoomBtn(-0.15)"><i class="fas fa-search-minus"></i></button>
             <span class="zv" id="zoomVal">100%</span>
-            <button onclick="zoomBtn(0.15)" title="Zoom In"><i class="fas fa-search-plus"></i></button>
-            <button onclick="resetView()" title="Reset"><i class="fas fa-compress-arrows-alt"></i></button>
-        </div>
-
-        <div class="ib">
+            <button onclick="zoomBtn(0.15)"><i class="fas fa-search-plus"></i></button>
+            <button onclick="resetView()"><i class="fas fa-compress-arrows-alt"></i></button>
+          </div>
+          <div class="ib">
             <span><i class="fas fa-file"></i> A4 <span class="v" id="infoOrient">Portrait</span></span>
             <span><i class="fas fa-images"></i> <span class="v" id="infoCount">0</span> foto</span>
             <span><i class="fas fa-copy"></i> <span class="v" id="infoSheets">1</span> lembar</span>
             <span><i class="fas fa-th-large"></i> <span class="v" id="infoPx">2100 × 2970 px</span></span>
+          </div>
         </div>
-    </section>
-</main>
-
-<footer style="border-top:1px solid var(--bd);padding:12px 20px;text-align:center">
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px 20px;margin-bottom:6px">
-        <a href="javascript:void(0)" onclick="showModal('about')">About</a>
-        <a href="javascript:void(0)" onclick="showModal('contact')">Contact</a>
-        <a href="javascript:void(0)" onclick="showModal('privacy')">Privacy Policy</a>
-        <a href="javascript:void(0)" onclick="showModal('terms')">Terms of Service</a>
-        <a href="javascript:void(0)" onclick="showModal('disclaimer')">Disclaimer</a>
+      </div>
     </div>
-    <div style="font-size:11px;color:var(--muted)">&copy; 2026 Karya Abadi Polaroid. All Rights Reserved.</div>
+  </div>
+</section>
+
+<!-- ARTIKEL -->
+<section id="artikel" class="section">
+  <div class="text-center mb-10">
+    <h2 class="section-title">ARTIKEL</h2>
+    <p class="section-sub">Klik artikel untuk membaca detailnya dalam 1 halaman penuh</p>
+  </div>
+  <div id="articleList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section" style="padding-top:0">
+  <div class="grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <h2 class="section-title">TENTANG KAMI</h2>
+      <p class="section-sub">Misi kami melestarikan budaya polaroid</p>
+      <p class="text-base mb-4" style="color:var(--muted)">Karya Abadi Polaroid adalah platform online yang menyatukan webtool pembuat polaroid modern dengan perpustakaan artikel mendalam tentang dunia instant photography. Kami percaya bahwa kenangan terbaik layak diabadikan dalam bentuk fisik yang bisa disentuh, dibagikan, dan diwariskan.</p>
+      <p class="text-base mb-6" style="color:var(--muted)">Webtool kami berjalan sepenuhnya di browser Anda — tidak ada gambar yang diunggah ke server. Privasi 100% terjaga, dan Anda bisa bekerja offline setelah halaman dimuat.</p>
+    </div>
+    <div class="relative">
+      <img src="https://picsum.photos/seed/aboutpol/600/600" class="rounded-xl w-full" style="border:1px solid var(--bd)" alt="About">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
+    <div>
+      <div class="flex items-center gap-3 mb-4">
+        <img src="https://z-cdn-media.chatglm.cn/files/ec426ffb-509a-468c-bdc6-bc3600e740a1.png?auth_key=1884089893-9f474b0cd1c543a29c664850b5da50d0-0-f9c629a03fca57803b992bfbdd34f464" style="height:36px;width:auto;object-fit:contain;border-radius:6px" alt="Logo">
+        <div class="logo-text">KARYA ABADI POLAROID</div>
+      </div>
+      <p style="color:var(--muted);font-size:14px">Webtool polaroid online gratis dengan artikel lengkap tentang instant photography.</p>
+    </div>
+    <div>
+      <h4 style="font-family:'Bebas Neue';letter-spacing:1.5px;font-size:18px;margin-bottom:14px;color:var(--fg)">Navigasi</h4>
+      <a class="footer-link" href="#home">Home</a>
+      <a class="footer-link" href="#panduan">Panduan</a>
+      <a class="footer-link" href="#buat-polaroid">Buat Polaroid</a>
+      <a class="footer-link" href="#artikel">Artikel</a>
+      <a class="footer-link" href="#about">About</a>
+    </div>
+    <div>
+      <h4 style="font-family:'Bebas Neue';letter-spacing:1.5px;font-size:18px;margin-bottom:14px;color:var(--fg)">Legal</h4>
+      <a class="footer-link" href="javascript:void(0)" onclick="showModal('privacy')">Privacy Policy</a>
+      <a class="footer-link" href="javascript:void(0)" onclick="showModal('terms')">Terms of Service</a>
+      <a class="footer-link" href="javascript:void(0)" onclick="showModal('disclaimer')">Disclaimer</a>
+    </div>
+    <div>
+      <h4 style="font-family:'Bebas Neue';letter-spacing:1.5px;font-size:18px;margin-bottom:14px;color:var(--fg)">Kontak</h4>
+      <a class="footer-link" href="mailto:karyaabadi24434@gmail.com"><i class="fas fa-envelope mr-2"></i>karyaabadi24434@gmail.com</a>
+      <a class="footer-link" href="tel:085117124247"><i class="fas fa-phone mr-2"></i>0851-1712-4247</a>
+    </div>
+  </div>
+  <div class="text-center mt-8 pt-6" style="border-top:1px solid var(--bd);color:var(--muted);font-size:12px">
+    &copy; 2024 Karya Abadi Polaroid. All Rights Reserved.
+  </div>
 </footer>
 
+<!-- HALAMAN FULL ARTIKEL -->
+<div id="articlePage">
+  <div class="ap-header">
+    <div class="max-w-3xl mx-auto px-6 flex items-center justify-between">
+      <button onclick="closeArticle()" class="btn-outline" style="padding: 8px 16px; font-size: 14px;">
+        <i class="fas fa-arrow-left"></i> Kembali
+      </button>
+      <div class="logo-text" style="font-size: 16px;">KARYA ABADI POLAROID</div>
+    </div>
+  </div>
+  <div class="ap-container">
+    <div id="articlePageContent"></div>
+  </div>
+</div>
+
 <div class="mo" id="modalOverlay" onclick="if(event.target===this)hideModal()">
-    <div class="mb"><button class="mx" onclick="hideModal()"><i class="fas fa-times"></i></button><div id="modalContent"></div></div>
+  <div class="mb"><button class="mx" onclick="hideModal()"><i class="fas fa-times"></i></button><div id="modalContent"></div></div>
 </div>
 <div id="tc"></div>
 
 <script>
-/* ==========================================================
-   KONFIGURASI
-   ========================================================== */
+/* ===== WEBTOOL LOGIC ===== */
 const SIZES = {
     '1R':   { w:5.0,   h:5.7,   label:'5.0 × 5.7 cm' },
     '2R':   { w:6.35,  h:8.89,  label:'2R' },
@@ -306,24 +481,19 @@ const SIZES = {
     '4R-L': { w:15.24, h:10.16, label:'4R L' },
     '4R-P': { w:10.16, h:15.24, label:'4R P' },
 };
-
-/* LAYOUT GRID PER UKURAN — kapasitas per lembar A4 */
 const LAYOUTS = {
-    '1R':   { cols: 4, rows: 5, capacity: 20 },  /* 4×5 = 20 foto */
-    '2R':   { cols: 3, rows: 3, capacity: 9  },  /* 3×3 = 9 foto  */
-    '3R-L': { cols: 2, rows: 2, capacity: 4  },  /* 2×2 = 4 foto  */
-    '3R-P': { cols: 2, rows: 2, capacity: 4  },  /* 2×2 = 4 foto  */
-    '4R-L': { cols: 1, rows: 2, capacity: 2  },  /* 1×2 = 2 foto  */
-    '4R-P': { cols: 2, rows: 1, capacity: 2  },  /* 2×1 = 2 foto  */
+    '1R':   { cols: 4, rows: 5, capacity: 20 },
+    '2R':   { cols: 3, rows: 3, capacity: 9  },
+    '3R-L': { cols: 2, rows: 2, capacity: 4  },
+    '3R-P': { cols: 2, rows: 2, capacity: 4  },
+    '4R-L': { cols: 1, rows: 2, capacity: 2  },
+    '4R-P': { cols: 2, rows: 1, capacity: 2  },
 };
-
 const MG = { l:0.5, r:0.5, t:0.5, b:1.5 };
 const CUT_W = 0.02;
-const PAPER_PAD = 0.15;
 const CM2PX = 100;
-const SHEET_GAP = 1.5; /* cm jarak antar lembar di preview (tidak ikut di-export) */
+const SHEET_GAP = 1.5;
 
-/* STATE */
 let photos = [];
 let frameImg = null;
 let orientation = 'portrait';
@@ -336,9 +506,7 @@ let panSX = 0, panSY = 0, panSOX = 0, panSOY = 0;
 let resizeCorner = null, resizePhoto = null;
 let resizeStartSX = 1, resizeStartSY = 1, resizeStartMX = 0, resizeStartMY = 0;
 
-/* DOM HELPER */
 function $(id) { return document.getElementById(id); }
-
 const $sizeSel=$('sizeSelect'),$fileIn=$('fileInput'),$dropZ=$('dropZone');
 const $pGrid=$('photoGrid'),$pCount=$('photoCount');
 const $lTxt=$('labelText'),$lFont=$('labelFont'),$lSz=$('labelSize'),$lSp=$('labelSpace'),$lBd=$('labelBold');
@@ -349,52 +517,30 @@ const $iO=$('infoOrient'),$iC=$('infoCount'),$iPx=$('infoPx'),$iSh=$('infoSheets
 const $dTot=$('dimTotal'),$dFot=$('dimFoto'),$dCap=$('dimCap');
 const $ftb=$('photoToolbar'),$ssv=$('selScaleVal'),$zv=$('zoomVal');
 
-/* ==========================================================
-   DIMENSI
-   ========================================================== */
 function dims(key) {
     const s = SIZES[key];
-    return {
-        pw: s.w, ph: s.h,
-        fw: Math.max(0.1, s.w - MG.l - MG.r),
-        fh: Math.max(0.1, s.h - MG.t - MG.b),
-    };
+    return { pw: s.w, ph: s.h, fw: Math.max(0.1, s.w - MG.l - MG.r), fh: Math.max(0.1, s.h - MG.t - MG.b) };
 }
 function initPhoto(p) {
     const d = dims(p.size);
     p.pw=d.pw; p.ph=d.ph; p.fw=d.fw; p.fh=d.fh;
     p.imgScaleX=1; p.imgScaleY=1; p.imgOffX=0; p.imgOffY=0;
 }
-
 function autoOrientPaper(sizeKey) {
     const d = dims(sizeKey);
-    const isPortrait = d.ph >= d.pw;
-    const target = isPortrait ? 'portrait' : 'landscape';
+    const target = d.ph >= d.pw ? 'portrait' : 'landscape';
     if (orientation !== target) setOrientation(target);
 }
-
-/* ==========================================================
-   MULTI-LEMBAR — Kapasitas & Total Size
-   ========================================================== */
 function getSheetCount() {
     const sz = $sizeSel.value;
-    const cap = LAYOUTS[sz].capacity;
-    return Math.max(1, Math.ceil(photos.length / cap));
+    return Math.max(1, Math.ceil(photos.length / LAYOUTS[sz].capacity));
 }
-
-function paperSize() {
-    return orientation === 'portrait' ? {w:21, h:29.7} : {w:29.7, h:21};
-}
-
+function paperSize() { return orientation === 'portrait' ? {w:21, h:29.7} : {w:29.7, h:21}; }
 function totalSize() {
     const ps = paperSize();
     const sheets = getSheetCount();
-    return {
-        w: ps.w,
-        h: sheets > 1 ? sheets * ps.h + (sheets - 1) * SHEET_GAP : ps.h
-    };
+    return { w: ps.w, h: sheets > 1 ? sheets * ps.h + (sheets - 1) * SHEET_GAP : ps.h };
 }
-
 function updateDimInfo() {
     const sz = $sizeSel.value;
     const d = dims(sz);
@@ -402,17 +548,9 @@ function updateDimInfo() {
     $dFot.textContent = `${d.fw.toFixed(2)} × ${d.fh.toFixed(2)} cm`;
     $dCap.textContent = LAYOUTS[sz].capacity;
     autoOrientPaper(sz);
-    if (photos.length) {
-        photos.forEach(p => { p.size = sz; initPhoto(p); });
-        arrangePhotos(); updGrid();
-    }
+    if (photos.length) { photos.forEach(p => { p.size = sz; initPhoto(p); }); arrangePhotos(); updGrid(); }
     renderPV();
 }
-updateDimInfo();
-
-/* ==========================================================
-   VIEW TRANSFORM
-   ========================================================== */
 function getVT() {
     const sz = totalSize(), cw = $cvs.width, ch = $cvs.height;
     const bs = Math.min((cw-40)/sz.w, (ch-60)/sz.h, 80);
@@ -421,589 +559,333 @@ function getVT() {
     const cy = (ch - sz.h*ts)/2 + panY;
     return {pw:sz.w, ph:sz.h, cw, ch, bs, ts, cx, cy};
 }
-function s2a(sx, sy) {
-    const v = getVT();
-    return {x:(sx - v.cx)/v.ts, y:(sy - v.cy)/v.ts};
-}
-
-/* ==========================================================
-   ARRANGE — Grid fix per ukuran, multi-lembar otomatis
-   ========================================================== */
+function s2a(sx, sy) { const v = getVT(); return {x:(sx - v.cx)/v.ts, y:(sy - v.cy)/v.ts}; }
 function arrangePhotos() {
     if (photos.length === 0) return;
-
-    const sz = $sizeSel.value;
-    const layout = LAYOUTS[sz];
-    const cap = layout.capacity;
-    const ps = paperSize();
-    const gap = CUT_W;
-
+    const sz = $sizeSel.value, layout = LAYOUTS[sz], cap = layout.capacity, ps = paperSize(), gap = CUT_W;
     photos.forEach(p => initPhoto(p));
-
     const numSheets = Math.max(1, Math.ceil(photos.length / cap));
-
     for (let s = 0; s < numSheets; s++) {
-        const startIdx = s * cap;
-        const endIdx = Math.min(startIdx + cap, photos.length);
-        const sheetPhotos = photos.slice(startIdx, endIdx);
-        const count = sheetPhotos.length;
-
-        /* Hitung ukuran grid aktual untuk sheet ini (center partial) */
-        const actualCols = Math.min(layout.cols, count);
-        const actualRows = Math.ceil(count / layout.cols);
-
-        const pw0 = sheetPhotos[0].pw;
-        const ph0 = sheetPhotos[0].ph;
-
-        const gridW = actualCols * pw0 + (actualCols - 1) * gap;
-        const gridH = actualRows * ph0 + (actualRows - 1) * gap;
-
-        const startX = (ps.w - gridW) / 2;
-        const startY = (ps.h - gridH) / 2;
-
-        const sheetOffsetY = s * (ps.h + SHEET_GAP);
-
+        const startIdx = s * cap, endIdx = Math.min(startIdx + cap, photos.length);
+        const sheetPhotos = photos.slice(startIdx, endIdx), count = sheetPhotos.length;
+        const actualCols = Math.min(layout.cols, count), actualRows = Math.ceil(count / layout.cols);
+        const gridW = actualCols * sheetPhotos[0].pw + (actualCols - 1) * gap;
+        const gridH = actualRows * sheetPhotos[0].ph + (actualRows - 1) * gap;
+        const startX = (ps.w - gridW) / 2, startY = (ps.h - gridH) / 2, sheetOffsetY = s * (ps.h + SHEET_GAP);
         sheetPhotos.forEach((p, i) => {
-            const col = i % layout.cols;
-            const row = Math.floor(i / layout.cols);
+            const col = i % layout.cols, row = Math.floor(i / layout.cols);
             p.x = startX + col * (p.pw + gap);
             p.y = sheetOffsetY + startY + row * (p.ph + gap);
         });
     }
 }
-
-function rearrangeAll() {
-    if(!photos.length) { toast('Belum ada foto','error'); return; }
-    arrangePhotos(); selectPhoto(null); resetView();
-    toast('Foto disusun ulang');
-}
-
-/* ==========================================================
-   GAMBAR POLAROID
-   ========================================================== */
+function rearrangeAll() { if(!photos.length) { toast('Belum ada foto','error'); return; } arrangePhotos(); selectPhoto(null); resetView(); toast('Foto disusun ulang'); }
 function drawPolaroid(ctx, it, ts, ox, oy) {
-    const x = ox + it.x*ts, y = oy + it.y*ts;
-    const w = it.pw*ts, h = it.ph*ts;
-    const ml = MG.l*ts, mt = MG.t*ts, mr = MG.r*ts, mb = MG.b*ts;
-    const fw = it.fw*ts, fh = it.fh*ts;
-
-    if(frameImg) { ctx.drawImage(frameImg, x, y, w, h); }
-    else { ctx.fillStyle='#ffffff'; ctx.fillRect(x, y, w, h); }
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(x+ml, y+mt, fw, fh);
-    ctx.clip();
+    const x = ox + it.x*ts, y = oy + it.y*ts, w = it.pw*ts, h = it.ph*ts;
+    const ml = MG.l*ts, mt = MG.t*ts, mr = MG.r*ts, mb = MG.b*ts, fw = it.fw*ts, fh = it.fh*ts;
+    if(frameImg) ctx.drawImage(frameImg, x, y, w, h); else { ctx.fillStyle='#ffffff'; ctx.fillRect(x, y, w, h); }
+    ctx.save(); ctx.beginPath(); ctx.rect(x+ml, y+mt, fw, fh); ctx.clip();
     if(it.img) {
-        const isX = it.imgScaleX || 1;
-        const isY = it.imgScaleY || 1;
+        const isX = it.imgScaleX || 1, isY = it.imgScaleY || 1;
         const dx = x + ml - ((isX-1)*fw/2) + (it.imgOffX||0)*ts;
         const dy = y + mt - ((isY-1)*fh/2) + (it.imgOffY||0)*ts;
         drawCover(ctx, it.img, dx, dy, fw*isX, fh*isY);
-    } else {
-        ctx.fillStyle='#d1d5db';
-        ctx.fillRect(x+ml, y+mt, fw, fh);
-    }
+    } else { ctx.fillStyle='#d1d5db'; ctx.fillRect(x+ml, y+mt, fw, fh); }
     ctx.restore();
-
     const txt = getLabel(it.size);
     if(txt) {
-        const pt = parseFloat($lSz.value) || 8;
-        const sp = parseFloat($lSp.value) || 0;
-        const fw_font = $lBd.checked ? 700 : 400;
-        const fs = Math.max(3, pt * ts / 72);
-        ctx.save();
-        ctx.font = `${fw_font} ${fs}px "${$lFont.value}"`;
-        ctx.fillStyle = $lCol.value;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        if ('letterSpacing' in ctx) {
-            ctx.letterSpacing = (sp * ts / 72) + 'px';
-        }
-        ctx.fillText(txt, x+w/2, y+mt+fh+mb/2, w-ml-mr);
-        ctx.restore();
+        const pt = parseFloat($lSz.value) || 8, sp = parseFloat($lSp.value) || 0;
+        const fw_font = $lBd.checked ? 700 : 400, fs = Math.max(3, pt * ts / 72);
+        ctx.save(); ctx.font = `${fw_font} ${fs}px "${$lFont.value}"`; ctx.fillStyle = $lCol.value;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        if ('letterSpacing' in ctx) ctx.letterSpacing = (sp * ts / 72) + 'px';
+        ctx.fillText(txt, x+w/2, y+mt+fh+mb/2, w-ml-mr); ctx.restore();
     }
 }
-
 function drawCover(ctx, img, dx, dy, dw, dh) {
-    const ir = img.width/img.height, dr = dw/dh;
-    let sx,sy,sw,sh;
-    if(ir > dr) { sh=img.height; sw=sh*dr; sx=(img.width-sw)/2; sy=0; }
-    else { sw=img.width; sh=sw/dr; sx=0; sy=(img.height-sh)/2; }
+    const ir = img.width/img.height, dr = dw/dh; let sx,sy,sw,sh;
+    if(ir > dr) { sh=img.height; sw=sh*dr; sx=(img.width-sw)/2; sy=0; } else { sw=img.width; sh=sw/dr; sx=0; sy=(img.height-sh)/2; }
     ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
 }
-
 function getLabel(key) {
     let t = $lTxt.value.trim();
-    if($lInc.checked && key) {
-        const lb = SIZES[key] ? SIZES[key].label : '';
-        t = t ? `${t} - ${lb}` : lb;
-    }
+    if($lInc.checked && key) { const lb = SIZES[key] ? SIZES[key].label : ''; t = t ? `${t} - ${lb}` : lb; }
     return t;
 }
-
 function drawCuts(ctx, ts, ox, oy, list) {
-    list = list || photos;
-    if(!list.length) return;
-    ctx.save();
-    ctx.strokeStyle = '#bbbbbb';
-    ctx.lineWidth = Math.max(0.4, CUT_W*ts);
-    ctx.setLineDash([]);
-    for(const it of list) {
-        ctx.strokeRect(ox+it.x*ts, oy+it.y*ts, it.pw*ts, it.ph*ts);
-    }
+    list = list || photos; if(!list.length) return;
+    ctx.save(); ctx.strokeStyle = '#bbbbbb'; ctx.lineWidth = Math.max(0.4, CUT_W*ts); ctx.setLineDash([]);
+    for(const it of list) ctx.strokeRect(ox+it.x*ts, oy+it.y*ts, it.pw*ts, it.ph*ts);
     ctx.restore();
 }
-
 function drawSel(ctx, it, ts, ox, oy) {
-    const x=ox+it.x*ts, y=oy+it.y*ts;
-    const ml=MG.l*ts, mt=MG.t*ts;
-    const fw=it.fw*ts, fh=it.fh*ts;
-    const px=x+ml, py=y+mt;
-    ctx.save();
-    ctx.strokeStyle='#dc2626'; ctx.lineWidth=2; ctx.setLineDash([5,3]);
-    ctx.strokeRect(px, py, fw, fh);
-    ctx.setLineDash([]);
-    ctx.fillStyle='#dc2626';
-    ctx.strokeStyle='#fff'; ctx.lineWidth=2;
-    const hs=9;
-    [[px,py],[px+fw,py],[px,py+fh],[px+fw,py+fh]].forEach(([cx,cy])=>{
-        ctx.beginPath(); ctx.arc(cx,cy,hs,0,Math.PI*2); ctx.fill(); ctx.stroke();
-    });
+    const x=ox+it.x*ts, y=oy+it.y*ts, ml=MG.l*ts, mt=MG.t*ts, fw=it.fw*ts, fh=it.fh*ts, px=x+ml, py=y+mt;
+    ctx.save(); ctx.strokeStyle='#dc2626'; ctx.lineWidth=2; ctx.setLineDash([5,3]); ctx.strokeRect(px, py, fw, fh); ctx.setLineDash([]);
+    ctx.fillStyle='#dc2626'; ctx.strokeStyle='#fff'; ctx.lineWidth=2; const hs=9;
+    [[px,py],[px+fw,py],[px,py+fh],[px+fw,py+fh]].forEach(([cx,cy])=>{ ctx.beginPath(); ctx.arc(cx,cy,hs,0,Math.PI*2); ctx.fill(); ctx.stroke(); });
     ctx.restore();
 }
-
-/* ==========================================================
-   HIT TEST
-   ========================================================== */
 function hitTestImg(ax, ay) {
-    for(let i=photos.length-1; i>=0; i--) {
-        const p=photos[i];
-        if(ax>=p.x+MG.l && ax<=p.x+MG.l+p.fw && ay>=p.y+MG.t && ay<=p.y+MG.t+p.fh) return p;
-    }
+    for(let i=photos.length-1; i>=0; i--) { const p=photos[i]; if(ax>=p.x+MG.l && ax<=p.x+MG.l+p.fw && ay>=p.y+MG.t && ay<=p.y+MG.t+p.fh) return p; }
     return null;
 }
 function hitTestCorner(ax, ay, p) {
-    if(!p) return null;
-    const cx=p.x+MG.l, cy=p.y+MG.t;
-    const cw=p.fw, ch=p.fh;
-    const hs=0.8;
+    if(!p) return null; const cx=p.x+MG.l, cy=p.y+MG.t, cw=p.fw, ch=p.fh, hs=0.8;
     const corners={'tl':[cx,cy],'tr':[cx+cw,cy],'bl':[cx,cy+ch],'br':[cx+cw,cy+ch]};
-    for(const [key,[hx,hy]] of Object.entries(corners)) {
-        if(Math.abs(ax-hx)<hs && Math.abs(ay-hy)<hs) return key;
-    }
+    for(const [key,[hx,hy]] of Object.entries(corners)) { if(Math.abs(ax-hx)<hs && Math.abs(ay-hy)<hs) return key; }
     return null;
 }
-
-/* ==========================================================
-   RENDER PREVIEW — Multi-lembar
-   ========================================================== */
 function renderPV() {
-    const cw=$cont.clientWidth, ch=$cont.clientHeight;
-    $cvs.width=cw; $cvs.height=ch;
-    const ctx=$cvs.getContext('2d');
-    
+    const cw=$cont.clientWidth, ch=$cont.clientHeight; $cvs.width=cw; $cvs.height=ch; const ctx=$cvs.getContext('2d');
     const bgCol = getComputedStyle(document.body).getPropertyValue('--canvas-bg').trim() || '#0a0a0a';
     const gridCol = getComputedStyle(document.body).getPropertyValue('--grid').trim() || '#141414';
-    
-    ctx.fillStyle = bgCol; ctx.fillRect(0,0,cw,ch);
-    ctx.fillStyle = gridCol;
+    ctx.fillStyle = bgCol; ctx.fillRect(0,0,cw,ch); ctx.fillStyle = gridCol;
     for(let gx=0;gx<cw;gx+=20) for(let gy=0;gy<ch;gy+=20) ctx.fillRect(gx,gy,1,1);
-    
-    const v=getVT();
-    const ps=paperSize();
-    const sheets=getSheetCount();
-    
-    /* Gambar setiap lembar A4 */
+    const v=getVT(), ps=paperSize(), sheets=getSheetCount();
     for(let s=0; s<sheets; s++) {
         const sheetY = v.cy + s * (ps.h + SHEET_GAP) * v.ts;
-        
-        /* Label lembar (hanya jika multi-lembar) */
-        if(sheets > 1) {
-            ctx.save();
-            ctx.fillStyle = 'rgba(220,38,38,0.9)';
-            ctx.font = 'bold 12px Outfit, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText(`Lembar ${s+1} / ${sheets}`, v.cx + ps.w*v.ts/2, sheetY - 8);
-            ctx.restore();
-        }
-        
-        /* Kertas putih dengan bayangan */
-        ctx.save();
-        ctx.shadowColor='rgba(0,0,0,0.5)'; ctx.shadowBlur=25; ctx.shadowOffsetY=5;
-        ctx.fillStyle='#ffffff';
-        ctx.fillRect(v.cx, sheetY, ps.w*v.ts, ps.h*v.ts);
-        ctx.restore();
-        ctx.strokeStyle='#ddd'; ctx.lineWidth=0.5;
-        ctx.strokeRect(v.cx, sheetY, ps.w*v.ts, ps.h*v.ts);
+        if(sheets > 1) { ctx.save(); ctx.fillStyle = 'rgba(220,38,38,0.9)'; ctx.font = 'bold 12px Outfit, sans-serif'; ctx.textAlign = 'center'; ctx.fillText(`Lembar ${s+1} / ${sheets}`, v.cx + ps.w*v.ts/2, sheetY - 8); ctx.restore(); }
+        ctx.save(); ctx.shadowColor='rgba(0,0,0,0.5)'; ctx.shadowBlur=25; ctx.shadowOffsetY=5; ctx.fillStyle='#ffffff'; ctx.fillRect(v.cx, sheetY, ps.w*v.ts, ps.h*v.ts); ctx.restore();
+        ctx.strokeStyle='#ddd'; ctx.lineWidth=0.5; ctx.strokeRect(v.cx, sheetY, ps.w*v.ts, ps.h*v.ts);
     }
-    
-    /* Gambar semua foto (koordinat absolut mencakup semua lembar) */
     for(const it of photos) drawPolaroid(ctx, it, v.ts, v.cx, v.cy);
     if($cut.checked) drawCuts(ctx, v.ts, v.cx, v.cy);
-    if(selectedId!==null) {
-        const p=photos.find(p=>p.id===selectedId);
-        if(p) drawSel(ctx, p, v.ts, v.cx, v.cy);
-    }
-    
-    /* Update info bar */
-    $iO.textContent = orientation==='portrait' ? 'Portrait' : 'Landscape';
-    $iC.textContent = photos.length;
-    $iSh.textContent = sheets;
-    const psize=paperSize();
-    $iPx.textContent = `${Math.round(psize.w*CM2PX)} × ${Math.round(psize.h*CM2PX)} px`;
+    if(selectedId!==null) { const p=photos.find(p=>p.id===selectedId); if(p) drawSel(ctx, p, v.ts, v.cx, v.cy); }
+    $iO.textContent = orientation==='portrait' ? 'Portrait' : 'Landscape'; $iC.textContent = photos.length; $iSh.textContent = sheets;
+    const psize=paperSize(); $iPx.textContent = `${Math.round(psize.w*CM2PX)} × ${Math.round(psize.h*CM2PX)} px`;
 }
-
-/* ==========================================================
-   RENDER EXPORT — Per lembar
-   ========================================================== */
 function renderExportSheet(canvas, sheetIndex) {
-    const ps = paperSize(), s = CM2PX;
-    canvas.width = Math.round(ps.w * s);
-    canvas.height = Math.round(ps.h * s);
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    const sz = $sizeSel.value;
-    const cap = LAYOUTS[sz].capacity;
-    const startIdx = sheetIndex * cap;
-    const endIdx = Math.min(startIdx + cap, photos.length);
-    const sheetPhotos = photos.slice(startIdx, endIdx);
-    
-    /* Offset Y untuk shift koordinat lembar ini ke y=0 */
-    const oy = -sheetIndex * (ps.h + SHEET_GAP) * s;
-    
-    for(const it of sheetPhotos) {
-        drawPolaroid(ctx, it, s, 0, oy);
-    }
-    if($cut.checked) {
-        drawCuts(ctx, s, 0, oy, sheetPhotos);
-    }
+    const ps = paperSize(), s = CM2PX; canvas.width = Math.round(ps.w * s); canvas.height = Math.round(ps.h * s);
+    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const sz = $sizeSel.value, cap = LAYOUTS[sz].capacity, startIdx = sheetIndex * cap, endIdx = Math.min(startIdx + cap, photos.length);
+    const sheetPhotos = photos.slice(startIdx, endIdx), oy = -sheetIndex * (ps.h + SHEET_GAP) * s;
+    for(const it of sheetPhotos) drawPolaroid(ctx, it, s, 0, oy);
+    if($cut.checked) drawCuts(ctx, s, 0, oy, sheetPhotos);
 }
-
-/* ==========================================================
-   ZOOM & PAN
-   ========================================================== */
 function zoomAt(factor, mx, my) {
-    const sz=totalSize(), cw=$cvs.width, ch=$cvs.height;
-    const bs=Math.min((cw-40)/sz.w,(ch-60)/sz.h,80);
-    const ts=bs*viewScale;
-    const cx=(cw-sz.w*ts)/2+panX, cy=(ch-sz.h*ts)/2+panY;
-    const ax=(mx-cx)/ts, ay=(my-cy)/ts;
-    viewScale=Math.max(0.1, Math.min(12, viewScale*factor));
-    const nts=bs*viewScale;
-    panX=(mx-ax*nts)-(cw-sz.w*nts)/2;
-    panY=(my-ay*nts)-(ch-sz.h*nts)/2;
-    renderPV(); updateZoomUI();
+    const sz=totalSize(), cw=$cvs.width, ch=$cvs.height, bs=Math.min((cw-40)/sz.w,(ch-60)/sz.h,80), ts=bs*viewScale;
+    const cx=(cw-sz.w*ts)/2+panX, cy=(ch-sz.h*ts)/2+panY, ax=(mx-cx)/ts, ay=(my-cy)/ts;
+    viewScale=Math.max(0.1, Math.min(12, viewScale*factor)); const nts=bs*viewScale;
+    panX=(mx-ax*nts)-(cw-sz.w*nts)/2; panY=(my-ay*nts)-(ch-sz.h*nts)/2; renderPV(); updateZoomUI();
 }
 function zoomBtn(d) { zoomAt(1+d, $cvs.width/2, $cvs.height/2); }
 function resetView() { viewScale=1; panX=0; panY=0; renderPV(); updateZoomUI(); }
 function updateZoomUI() { $zv.textContent=Math.round(viewScale*100)+'%'; }
-
-/* ==========================================================
-   FOTO INTERAKSI
-   ========================================================== */
-function selectPhoto(id) {
-    selectedId=id;
-    if(id!==null) {
-        const idx=photos.findIndex(p=>p.id===id);
-        if(idx>=0 && idx<photos.length-1) { const[p]=photos.splice(idx,1); photos.push(p); }
-    }
-    updateToolbar(); renderPV();
-}
+function selectPhoto(id) { selectedId=id; if(id!==null) { const idx=photos.findIndex(p=>p.id===id); if(idx>=0 && idx<photos.length-1) { const[p]=photos.splice(idx,1); photos.push(p); } } updateToolbar(); renderPV(); }
 function updateToolbar() {
     if(selectedId===null) { $ftb.style.display='none'; return; }
-    const p=photos.find(p=>p.id===selectedId);
-    if(!p) { $ftb.style.display='none'; return; }
-    $ftb.style.display='flex';
-    const sx=Math.round((p.imgScaleX||1)*100);
-    const sy=Math.round((p.imgScaleY||1)*100);
+    const p=photos.find(p=>p.id===selectedId); if(!p) { $ftb.style.display='none'; return; }
+    $ftb.style.display='flex'; const sx=Math.round((p.imgScaleX||1)*100), sy=Math.round((p.imgScaleY||1)*100);
     $ssv.textContent = sx===sy ? `${sx}%` : `${sx}×${sy}%`;
 }
-function scaleSel(delta) {
-    const p=photos.find(p=>p.id===selectedId); if(!p) return;
-    const ns=Math.max(0.1, Math.min(5, (p.imgScaleX||1)+delta));
-    p.imgScaleX=ns; p.imgScaleY=ns;
-    updateToolbar(); renderPV();
-}
-function resetImgPos() {
-    const p=photos.find(p=>p.id===selectedId); if(!p) return;
-    p.imgScaleX=1; p.imgScaleY=1; p.imgOffX=0; p.imgOffY=0;
-    updateToolbar(); renderPV(); toast('Posisi & ukuran foto direset');
-}
-function deleteSel() {
-    if(selectedId===null) return;
-    photos=photos.filter(p=>p.id!==selectedId);
-    selectedId=null; updateToolbar(); updGrid(); renderPV(); toast('Foto dihapus');
-}
-
-function getPos(e) {
-    const rect = $cvs.getBoundingClientRect();
-    const t = e.touches ? e.touches[0] : e;
-    return { x: t.clientX - rect.left, y: t.clientY - rect.top, cx: t.clientX, cy: t.clientY };
-}
-
+function scaleSel(delta) { const p=photos.find(p=>p.id===selectedId); if(!p) return; const ns=Math.max(0.1, Math.min(5, (p.imgScaleX||1)+delta)); p.imgScaleX=ns; p.imgScaleY=ns; updateToolbar(); renderPV(); }
+function resetImgPos() { const p=photos.find(p=>p.id===selectedId); if(!p) return; p.imgScaleX=1; p.imgScaleY=1; p.imgOffX=0; p.imgOffY=0; updateToolbar(); renderPV(); toast('Posisi & ukuran foto direset'); }
+function deleteSel() { if(selectedId===null) return; photos=photos.filter(p=>p.id!==selectedId); selectedId=null; updateToolbar(); updGrid(); renderPV(); toast('Foto dihapus'); }
+function getPos(e) { const rect = $cvs.getBoundingClientRect(); const t = e.touches ? e.touches[0] : e; return { x: t.clientX - rect.left, y: t.clientY - rect.top, cx: t.clientX, cy: t.clientY }; }
 function onDown(e) {
-    if (e.touches) e.preventDefault();
-    const p = getPos(e);
-    const a = s2a(p.x, p.y);
-
-    if(selectedId!==null) {
-        const sel=photos.find(p=>p.id===selectedId);
-        if(sel) {
-            const corner=hitTestCorner(a.x, a.y, sel);
-            if(corner) {
-                isResizing=true; resizeCorner=corner; resizePhoto=sel;
-                resizeStartSX=sel.imgScaleX||1; resizeStartSY=sel.imgScaleY||1;
-                resizeStartMX=a.x; resizeStartMY=a.y;
-                return;
-            }
-        }
-    }
-
+    if (e.touches) e.preventDefault(); const p = getPos(e), a = s2a(p.x, p.y);
+    if(selectedId!==null) { const sel=photos.find(p=>p.id===selectedId); if(sel) { const corner=hitTestCorner(a.x, a.y, sel); if(corner) { isResizing=true; resizeCorner=corner; resizePhoto=sel; resizeStartSX=sel.imgScaleX||1; resizeStartSY=sel.imgScaleY||1; resizeStartMX=a.x; resizeStartMY=a.y; return; } } }
     const hit=hitTestImg(a.x, a.y);
-    if(hit) {
-        selectPhoto(hit.id); isDraggingImg=true;
-        dragSX=a.x; dragSY=a.y; dragOX=hit.imgOffX||0; dragOY=hit.imgOffY||0;
-    } else {
-        selectPhoto(null); isPanning=true;
-        panSX=p.cx; panSY=p.cy; panSOX=panX; panSOY=panY;
-    }
+    if(hit) { selectPhoto(hit.id); isDraggingImg=true; dragSX=a.x; dragSY=a.y; dragOX=hit.imgOffX||0; dragOY=hit.imgOffY||0; }
+    else { selectPhoto(null); isPanning=true; panSX=p.cx; panSY=p.cy; panSOX=panX; panSOY=panY; }
 }
-
 function onMove(e) {
-    if (e.touches) e.preventDefault();
-    const p = getPos(e);
-    const a = s2a(p.x, p.y);
-
+    if (e.touches) e.preventDefault(); const p = getPos(e), a = s2a(p.x, p.y);
     if(isResizing && resizePhoto) {
-        const dx=a.x-resizeStartMX;
-        const dy=a.y-resizeStartMY;
-        let nsx=resizeStartSX, nsy=resizeStartSY;
-        if(resizeCorner==='br') {
-            nsx=resizeStartSX+dx/resizePhoto.fw;
-            nsy=resizeStartSY+dy/resizePhoto.fh;
-        } else if(resizeCorner==='tl') {
-            nsx=resizeStartSX-dx/resizePhoto.fw;
-            nsy=resizeStartSY-dy/resizePhoto.fh;
-        } else if(resizeCorner==='tr') {
-            nsx=resizeStartSX+dx/resizePhoto.fw;
-            nsy=resizeStartSY-dy/resizePhoto.fh;
-        } else if(resizeCorner==='bl') {
-            nsx=resizeStartSX-dx/resizePhoto.fw;
-            nsy=resizeStartSY+dy/resizePhoto.fh;
-        }
-        resizePhoto.imgScaleX=Math.max(0.1, Math.min(10, nsx));
-        resizePhoto.imgScaleY=Math.max(0.1, Math.min(10, nsy));
-        updateToolbar(); renderPV();
-    } else if(isDraggingImg && selectedId!==null) {
-        const ph=photos.find(p=>p.id===selectedId);
-        if(ph) { ph.imgOffX=dragOX+(a.x-dragSX); ph.imgOffY=dragOY+(a.y-dragSY); renderPV(); }
-    } else if(isPanning) {
-        panX=panSOX+(p.cx-panSX); panY=panSOY+(p.cy-panSY); renderPV();
-    } else {
+        const dx=a.x-resizeStartMX, dy=a.y-resizeStartMY; let nsx=resizeStartSX, nsy=resizeStartSY;
+        if(resizeCorner==='br') { nsx=resizeStartSX+dx/resizePhoto.fw; nsy=resizeStartSY+dy/resizePhoto.fh; }
+        else if(resizeCorner==='tl') { nsx=resizeStartSX-dx/resizePhoto.fw; nsy=resizeStartSY-dy/resizePhoto.fh; }
+        else if(resizeCorner==='tr') { nsx=resizeStartSX+dx/resizePhoto.fw; nsy=resizeStartSY-dy/resizePhoto.fh; }
+        else if(resizeCorner==='bl') { nsx=resizeStartSX-dx/resizePhoto.fw; nsy=resizeStartSY+dy/resizePhoto.fh; }
+        resizePhoto.imgScaleX=Math.max(0.1, Math.min(10, nsx)); resizePhoto.imgScaleY=Math.max(0.1, Math.min(10, nsy)); updateToolbar(); renderPV();
+    } else if(isDraggingImg && selectedId!==null) { const ph=photos.find(p=>p.id===selectedId); if(ph) { ph.imgOffX=dragOX+(a.x-dragSX); ph.imgOffY=dragOY+(a.y-dragSY); renderPV(); } }
+    else if(isPanning) { panX=panSOX+(p.cx-panSX); panY=panSOY+(p.cy-panSY); renderPV(); }
+    else {
         if (!e.touches) {
-            if(selectedId!==null) {
-                const sel=photos.find(p=>p.id===selectedId);
-                if(sel) {
-                    const c=hitTestCorner(a.x, a.y, sel);
-                    if(c) { $cvs.style.cursor=(c==='tl'||c==='br')?'nwse-resize':'nesw-resize'; return; }
-                }
-            }
+            if(selectedId!==null) { const sel=photos.find(p=>p.id===selectedId); if(sel) { const c=hitTestCorner(a.x, a.y, sel); if(c) { $cvs.style.cursor=(c==='tl'||c==='br')?'nwse-resize':'nesw-resize'; return; } } }
             $cvs.style.cursor=hitTestImg(a.x,a.y)?'move':'default';
         }
     }
 }
-
-function onUp() {
-    isDraggingImg=false; isPanning=false; isResizing=false;
-    resizePhoto=null; resizeCorner=null;
-}
-
- $cvs.addEventListener('mousedown', onDown);
- $cvs.addEventListener('mousemove', onMove);
-window.addEventListener('mouseup', onUp);
- $cvs.addEventListener('touchstart', onDown, {passive: false});
- $cvs.addEventListener('touchmove', onMove, {passive: false});
-window.addEventListener('touchend', onUp);
-
- $cvs.addEventListener('wheel', e => {
-    e.preventDefault();
-    const rect=$cvs.getBoundingClientRect();
-    zoomAt(e.deltaY>0?0.92:1.08, e.clientX-rect.left, e.clientY-rect.top);
-}, {passive:false});
-
-/* ==========================================================
-   UPLOAD & THEME
-   ========================================================== */
+function onUp() { isDraggingImg=false; isPanning=false; isResizing=false; resizePhoto=null; resizeCorner=null; }
+ $cvs.addEventListener('mousedown', onDown); $cvs.addEventListener('mousemove', onMove); window.addEventListener('mouseup', onUp);
+ $cvs.addEventListener('touchstart', onDown, {passive: false}); $cvs.addEventListener('touchmove', onMove, {passive: false}); window.addEventListener('touchend', onUp);
+ $cvs.addEventListener('wheel', e => { e.preventDefault(); const rect=$cvs.getBoundingClientRect(); zoomAt(e.deltaY>0?0.92:1.08, e.clientX-rect.left, e.clientY-rect.top); }, {passive:false});
 function addPhotos(files) {
     const sz=$sizeSel.value; let ld=0; const tot=files.length;
     Array.from(files).forEach(f => {
-        if(!f.type.startsWith('image/')) return;
-        const r=new FileReader();
-        r.onload=ev => {
-            const img=new Image();
-            img.onload=() => {
-                const p={id:++idCounter, img, size:sz, x:0, y:0};
-                initPhoto(p); photos.push(p); ld++;
-                if(ld===tot) {
-                    autoOrientPaper(sz);
-                    arrangePhotos(); updGrid(); selectPhoto(null); resetView();
-                    toast(`${tot} foto ditambahkan`);
-                }
-            };
-            img.src=ev.target.result;
-        };
+        if(!f.type.startsWith('image/')) return; const r=new FileReader();
+        r.onload=ev => { const img=new Image(); img.onload=() => { const p={id:++idCounter, img, size:sz, x:0, y:0}; initPhoto(p); photos.push(p); ld++; if(ld===tot) { autoOrientPaper(sz); arrangePhotos(); updGrid(); selectPhoto(null); resetView(); toast(`${tot} foto ditambahkan`); } }; img.src=ev.target.result; };
         r.readAsDataURL(f);
     });
 }
-function rmPhoto(id) {
-    if(id===selectedId) selectedId=null;
-    photos=photos.filter(p=>p.id!==id); updGrid(); updateToolbar(); renderPV();
-}
+function rmPhoto(id) { if(id===selectedId) selectedId=null; photos=photos.filter(p=>p.id!==id); updGrid(); updateToolbar(); renderPV(); }
 function updGrid() {
-    $pGrid.innerHTML='';
-    if(!photos.length) { $pCount.style.display='none'; return; }
+    $pGrid.innerHTML=''; if(!photos.length) { $pCount.style.display='none'; return; }
     $pCount.style.display='block'; $pCount.textContent=`${photos.length} foto`;
     photos.forEach(p => {
-        const d=document.createElement('div'); d.className='pt';
-        const sx=Math.round((p.imgScaleX||1)*100);
-        const sy=Math.round((p.imgScaleY||1)*100);
+        const d=document.createElement('div'); d.className='pt'; const sx=Math.round((p.imgScaleX||1)*100), sy=Math.round((p.imgScaleY||1)*100);
         const isc=(sx!==100||sy!==100)?` ${sx}×${sy}%`:'';
         d.innerHTML=`<img src="${p.img.src}" alt="Foto"><button class="rb" onclick="rmPhoto(${p.id})"><i class="fas fa-times"></i></button><span class="sb">${SIZES[p.size].label}${isc}</span>`;
         $pGrid.appendChild(d);
     });
 }
-
-function toggleTheme() {
-    const isLight = document.body.classList.toggle('light-mode');
-    $('themeBtn').innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-    renderPV();
-}
-
- $fIn.addEventListener('change', e => {
-    const f=e.target.files[0]; if(!f) return;
-    const r=new FileReader();
-    r.onload=ev => {
-        const img=new Image();
-        img.onload=() => { frameImg=img; $fTh.src=ev.target.result; $fPrv.style.display='block'; $fRm.disabled=false; renderPV(); toast('Frame diterapkan'); };
-        img.src=ev.target.result;
-    };
-    r.readAsDataURL(f);
-});
+function toggleTheme() { const isLight = document.body.classList.toggle('light-mode'); $('themeBtn').innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>'; renderPV(); }
+ $fIn.addEventListener('change', e => { const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev => { const img=new Image(); img.onload=() => { frameImg=img; $fTh.src=ev.target.result; $fPrv.style.display='block'; $fRm.disabled=false; renderPV(); toast('Frame diterapkan'); }; img.src=ev.target.result; }; r.readAsDataURL(f); });
 function removeFrame() { frameImg=null; $fPrv.style.display='none'; $fRm.disabled=true; $fIn.value=''; renderPV(); toast('Frame dihapus'); }
-
-function setOrientation(o) {
-    orientation=o;
-    document.querySelectorAll('.tb[data-orient]').forEach(b=>b.classList.toggle('active',b.dataset.orient===o));
-    if(photos.length) arrangePhotos();
-    renderPV();
-}
-
-/* ==========================================================
-   DOWNLOAD — Multi-lembar (1 file PNG per lembar A4)
-   ========================================================== */
+function setOrientation(o) { orientation=o; document.querySelectorAll('.tb[data-orient]').forEach(b=>b.classList.toggle('active',b.dataset.orient===o)); if(photos.length) arrangePhotos(); renderPV(); }
 function downloadPNG() {
     if(!photos.length) { toast('Belum ada foto','error'); return; }
-    const ps=paperSize();
-    const pw=Math.round(ps.w*CM2PX), ph=Math.round(ps.h*CM2PX);
-    const sheets=getSheetCount();
-    
+    const ps=paperSize(), pw=Math.round(ps.w*CM2PX), ph=Math.round(ps.h*CM2PX), sheets=getSheetCount();
     if(sheets === 1) {
-        /* Single sheet — download langsung */
         toast(`Mempersiapkan ${pw}×${ph} px...`);
-        setTimeout(()=>{
-            const c=document.createElement('canvas');
-            renderExportSheet(c, 0);
-            c.toBlob(blob => {
-                if(!blob) { toast('Gagal membuat file','error'); return; }
-                const u=URL.createObjectURL(blob), a=document.createElement('a');
-                a.href=u; a.download=`polaroid-a4-${orientation}-${pw}x${ph}.png`;
-                document.body.appendChild(a); a.click(); document.body.removeChild(a);
-                URL.revokeObjectURL(u);
-                toast(`Berhasil! ${pw}×${ph} px didownload`);
-            }, 'image/png');
-        },80);
+        setTimeout(()=>{ const c=document.createElement('canvas'); renderExportSheet(c, 0); c.toBlob(blob => { if(!blob) { toast('Gagal membuat file','error'); return; } const u=URL.createObjectURL(blob), a=document.createElement('a'); a.href=u; a.download=`polaroid-a4-${orientation}-${pw}x${ph}.png`; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(u); toast(`Berhasil! ${pw}×${ph} px didownload`); }, 'image/png'); },80);
     } else {
-        /* Multi-sheet — download tiap lembar dengan jeda 300ms */
-        toast(`Mempersiapkan ${sheets} lembar A4...`);
-        let current = 0;
+        toast(`Mempersiapkan ${sheets} lembar A4...`); let current = 0;
         const downloadNext = () => {
-            if(current >= sheets) {
-                toast(`Selesai! ${sheets} lembar didownload`);
-                return;
-            }
-            const c=document.createElement('canvas');
-            renderExportSheet(c, current);
-            c.toBlob(blob => {
-                if(blob) {
-                    const u=URL.createObjectURL(blob), a=document.createElement('a');
-                    a.href=u;
-                    a.download=`polaroid-a4-${orientation}-lembar-${current+1}-dari-${sheets}-${pw}x${ph}.png`;
-                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-                    URL.revokeObjectURL(u);
-                }
-                current++;
-                toast(`Lembar ${current}/${sheets}...`);
-                setTimeout(downloadNext, 300);
-            }, 'image/png');
+            if(current >= sheets) { toast(`Selesai! ${sheets} lembar didownload`); return; }
+            const c=document.createElement('canvas'); renderExportSheet(c, current);
+            c.toBlob(blob => { if(blob) { const u=URL.createObjectURL(blob), a=document.createElement('a'); a.href=u; a.download=`polaroid-a4-${orientation}-lembar-${current+1}-dari-${sheets}-${pw}x${ph}.png`; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(u); } current++; toast(`Lembar ${current}/${sheets}...`); setTimeout(downloadNext, 300); }, 'image/png');
         };
         setTimeout(downloadNext, 80);
     }
 }
-
-function resetAll() {
-    photos=[]; frameImg=null; $fPrv.style.display='none'; $fRm.disabled=true;
-    $fIn.value=''; $pGrid.innerHTML=''; $pCount.style.display='none';
-    selectedId=null; updateToolbar(); resetView(); toast('Semua direset');
-}
-
+function resetAll() { photos=[]; frameImg=null; $fPrv.style.display='none'; $fRm.disabled=true; $fIn.value=''; $pGrid.innerHTML=''; $pCount.style.display='none'; selectedId=null; updateToolbar(); resetView(); toast('Semua direset'); }
 const MC={
-    cara:`<h2>Cara Penggunaan</h2><ol>
-        <li><strong>Pilih Ukuran</strong> — Ukuran total polaroid. Area foto lebih kecil (margin kiri/kanan/atas <strong>0.5cm</strong>, bawah <strong>1.5cm</strong>).</li>
-        <li><strong>Upload Foto</strong> — Klik atau seret foto. Otomatis disusun rata tengah.</li>
-        <li><strong>Kapasitas per Lembar</strong> — 1R: 20 foto, 2R: 9 foto, 3R: 4 foto, 4R: 2 foto per lembar A4.</li>
-        <li><strong>Multi-Lembar Otomatis</strong> — Jika foto melebihi kapasitas 1 lembar, foto otomatis pindah ke lembar berikutnya.</li>
-        <li><strong>Orientasi Otomatis</strong> — Kertas otomatis Portrait/Landscape mengikuti tipe ukuran foto.</li>
-        <li><strong>Atur Label</strong> — Teks, font, ukuran pt (maks 72), tebal, spasi, warna.</li>
-        <li><strong>Frame Custom</strong> — Upload gambar untuk clipping mask.</li>
-        <li><strong>Geser Foto</strong> — Klik <em>area foto</em> lalu drag. Hanya foto bergerak, frame tetap.</li>
-        <li><strong>Zoom Foto (Seragam)</strong> — Pilih foto, gunakan tombol + / - di toolbar atas.</li>
-        <li><strong>RESIZE Foto (Independen)</strong> — Seret <strong>tombol bulat merah di sudut</strong> foto terpilih.</li>
-        <li><strong>Zoom Kertas</strong> — Scroll mouse. Drag area kosong untuk pan.</li>
-        <li><strong>Download</strong> — Setiap lembar A4 diunduh sebagai file PNG terpisah (100 px/cm).</li></ol>
-        <p style="margin-top:10px;color:#888">Delete = hapus foto | Escape = batalkan seleksi</p>`,
-    about:`<h2>About</h2><p><strong>Karya Abadi Polaroid</strong> — alat pembuat foto polaroid profesional berbasis web. Semua proses di browser, privasi 100% terjaga.</p>`,
-    contact:`<h2>Contact</h2><ul><li><i class="fas fa-envelope" style="color:var(--accent);margin-right:8px"></i><a href="mailto:karyaabadi24434@gmail.com">karyaabadi24434@gmail.com</a></li><li><i class="fas fa-phone" style="color:var(--accent);margin-right:8px"></i><a href="tel:085117124247">0851-1712-4247</a></li></ul>`,
+    cara:`<h2>Cara Penggunaan</h2><ol><li><strong>Pilih Ukuran</strong> — Ukuran total polaroid. Area foto lebih kecil (margin kiri/kanan/atas 0.5cm, bawah 1.5cm).</li><li><strong>Upload Foto</strong> — Klik atau seret foto. Otomatis disusun rata tengah.</li><li><strong>Kapasitas per Lembar</strong> — 1R: 20 foto, 2R: 9 foto, 3R: 4 foto, 4R: 2 foto per lembar A4.</li><li><strong>Multi-Lembar Otomatis</strong> — Jika foto melebihi kapasitas 1 lembar, foto otomatis pindah ke lembar berikutnya.</li><li><strong>Orientasi Otomatis</strong> — Kertas otomatis Portrait/Landscape mengikuti tipe ukuran foto.</li><li><strong>Atur Label</strong> — Teks, font, ukuran pt (maks 72), tebal, spasi, warna.</li><li><strong>Frame Custom</strong> — Upload gambar untuk clipping mask.</li><li><strong>Geser Foto</strong> — Klik area foto lalu drag. Hanya foto bergerak, frame tetap.</li><li><strong>Zoom Foto (Seragam)</strong> — Pilih foto, gunakan tombol + / - di toolbar atas.</li><li><strong>RESIZE Foto (Independen)</strong> — Seret tombol bulat merah di sudut foto terpilih.</li><li><strong>Zoom Kertas</strong> — Scroll mouse. Drag area kosong untuk pan.</li><li><strong>Download</strong> — Setiap lembar A4 diunduh sebagai file PNG terpisah (100 px/cm).</li></ol>`,
     privacy:`<h2>Privacy Policy</h2><p>Kami tidak mengumpulkan atau menyimpan data apapun. Semua proses client-side di browser Anda.</p>`,
     terms:`<h2>Terms of Service</h2><ul><li>Website "sebagaimana adanya" tanpa jaminan.</li><li>Tanggung jawab penuh atas penggunaan.</li><li>Dilarang untuk tujuan ilegal.</li><li>Hasil download milik pengguna.</li></ul>`,
     disclaimer:`<h2>Disclaimer</h2><p>Hasil cetak mungkin sedikit berbeda dari layar. Disarankan uji cetak terlebih dahulu.</p>`,
 };
-function showModal(t) { $('modalContent').innerHTML=MC[t]||''; $('modalOverlay').classList.add('show'); document.body.style.overflow='hidden'; }
-function hideModal() { $('modalOverlay').classList.remove('show'); document.body.style.overflow=''; }
-
-function toast(msg, type='success') {
-    const t=document.createElement('div'); t.className=`toast${type==='error'?' error':''}`; t.textContent=msg;
-    $('tc').appendChild(t); requestAnimationFrame(()=>t.classList.add('show'));
-    setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300);},2500);
-}
-
+function showModal(t) { $('modalContent').innerHTML=MC[t]||''; $('modalOverlay').classList.add('show'); }
+function hideModal() { $('modalOverlay').classList.remove('show'); }
+function toast(msg, type='success') { const t=document.createElement('div'); t.className=`toast${type==='error'?' error':''}`; t.textContent=msg; $('tc').appendChild(t); requestAnimationFrame(()=>t.classList.add('show')); setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300);},2500); }
  $fileIn.addEventListener('change', e=>{if(e.target.files.length)addPhotos(e.target.files);e.target.value='';});
  $dropZ.addEventListener('dragover', e=>{e.preventDefault();$dropZ.classList.add('dragover');});
  $dropZ.addEventListener('dragleave', ()=>$dropZ.classList.remove('dragover'));
  $dropZ.addEventListener('drop', e=>{e.preventDefault();$dropZ.classList.remove('dragover');if(e.dataTransfer.files.length)addPhotos(e.dataTransfer.files);});
 [$lTxt,$lFont,$lSz,$lSp,$lBd,$lCol,$lInc,$cut].forEach(el=>{el.addEventListener('input',renderPV);el.addEventListener('change',renderPV);});
-document.addEventListener('keydown', e=>{
-    if(e.key==='Escape'){if(selectedId!==null)selectPhoto(null);else hideModal();}
-    if((e.key==='Delete'||e.key==='Backslash')&&selectedId!==null){
-        if(document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='SELECT') return;
-        e.preventDefault(); deleteSel();
-    }
-});
 let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(renderPV,100);});
+updateDimInfo(); renderPV(); updateZoomUI();
 
-renderPV(); updateZoomUI();
+
+/* ===== ARTIKEL POLAROID (Full Page & Justify Padat) ===== */
+const articleData = [
+  { cat: "Sejarah", title: "Sejarah Polaroid: Dari Ide di Pantai Hingga Revolusi Fotografi", date: "12 Mar 2024" },
+  { cat: "Tokoh", title: "Edwin Land: Bapak Fotografi Instan dan Visioner Abad 20", date: "15 Mar 2024" },
+  { cat: "Teknologi", title: "Cara Kerja Kamera Polaroid: Sains di Balik Keajaiban Instan", date: "18 Mar 2024" },
+  { cat: "Tipe Kamera", title: "Jenis-Jenis Kamera Polaroid: Dari Model 95 hingga Polaroid Go", date: "20 Mar 2024" },
+  { cat: "Kamera Klasik", title: "Polaroid SX-70: Kamera Lipat yang Mengubah Dunia", date: "22 Mar 2024" },
+  { cat: "Kamera Populer", title: "Polaroid 600 Series: Ikon Era 1980-an", date: "25 Mar 2024" },
+  { cat: "Format Lebar", title: "Polaroid Spectra: Format Lebar yang Ikonik", date: "28 Mar 2024" },
+  { cat: "Era Modern", title: "Polaroid Go: Era Modern Kamera Instan Terkecil", date: "30 Mar 2024" },
+  { cat: "Alternatif", title: "Fujifilm Instax: Alternatif Polaroid yang Sukses", date: "2 Apr 2024" },
+  { cat: "Perbandingan", title: "Perbedaan Instant Film dan Fotografi Digital", date: "5 Apr 2024" },
+  { cat: "Pemula", title: "Memilih Kamera Polaroid Pertama untuk Pemula", date: "8 Apr 2024" },
+  { cat: "Tips", title: "Tips Memilih Film Polaroid yang Tepat", date: "10 Apr 2024" },
+  { cat: "Perawatan", title: "Cara Menyimpan Foto Polaroid agar Tahan Lama", date: "12 Apr 2024" },
+  { cat: "Acara", title: "Polaroid dalam Pernikahan: Kenangan yang Berkesan", date: "15 Apr 2024" },
+  { cat: "Craft", title: "Polaroid untuk Scrapbooking: Menciptakan Kenangan Visual", date: "18 Apr 2024" },
+  { cat: "Hadiah", title: "Polaroid sebagai Hadiah: Sentuhan Personal yang Berkesan", date: "20 Apr 2024" },
+  { cat: "Seni", title: "Polaroid dalam Dunia Seni: Dari Pop Art hingga Kontemporer", date: "22 Apr 2024" },
+  { cat: "Seniman", title: "Andy Warhol dan Polaroid: Symbiosis Seni dan Teknologi", date: "25 Apr 2024" },
+  { cat: "Fashion", title: "Polaroid dalam Fotografi Fashion: Estetika yang Tak Tergantikan", date: "28 Apr 2024" },
+  { cat: "Teknik", title: "Teknik Multiple Exposure pada Polaroid", date: "30 Apr 2024" },
+  { cat: "Teknik", title: "Teknik Emulsion Transfer pada Polaroid", date: "2 May 2024" },
+  { cat: "Manipulasi", title: "Image Manipulation pada Polaroid: Eksperimen Visual", date: "5 May 2024" },
+  { cat: "Jurnal", title: "Polaroid untuk Jurnal Visual: Mendokumentasikan Hidup Sehari-hari", date: "8 May 2024" },
+  { cat: "Travel", title: "Polaroid dalam Travel Photography: Mengabadikan Perjalanan", date: "10 May 2024" },
+  { cat: "Street", title: "Polaroid untuk Street Photography: Momen Spontaneous di Ruang Publik", date: "12 May 2024" },
+  { cat: "Estetika", title: "Polaroid dan Estetika Retro: Nostalgia di Era Digital", date: "15 May 2024" },
+  { cat: "Budaya Pop", title: "Polaroid dalam Dunia Film dan Sinema", date: "18 May 2024" },
+  { cat: "Budaya Pop", title: "Polaroid dalam Musik dan Budaya Pop Modern", date: "20 May 2024" },
+  { cat: "Dokumentasi", title: "Polaroid sebagai Media Dokumentasi: Mengabadikan Sejarah", date: "22 May 2024" },
+  { cat: "Potret", title: "Polaroid dalam Fotografi Potret: Keintiman yang Tak Tertandingi", date: "25 May 2024" },
+  { cat: "Warna", title: "Komposisi Warna dalam Polaroid: Memahami Estetika Visual", date: "28 May 2024" },
+  { cat: "Pencahayaan", title: "Pencahayaan untuk Polaroid: Menguasai Cahaya dalam Fotografi Instan", date: "30 May 2024" },
+  { cat: "Hitam Putih", title: "Polaroid Black and White: Estetika Monokrom yang Klasik", date: "2 Jun 2024" },
+  { cat: "Film Warna", title: "Polaroid Color Film: Memahami dan Memilih Film Warna", date: "5 Jun 2024" },
+  { cat: "Makro", title: "Polaroid untuk Fotografi Makro: Dunia Kecil dalam Instan", date: "8 Jun 2024" },
+  { cat: "Filosofi", title: "Polaroid dan Konsep Wabi-Sabi: Keindahan dalam Ketidaksempurnaan", date: "10 Jun 2024" },
+  { cat: "Konsep", title: "Polaroid sebagai Seni Ephemera: Keindahan yang Sementara", date: "12 Jun 2024" },
+  { cat: "Arsitektur", title: "Polaroid dalam Fotografi Arsitektur: Mengabadikan Bangunan", date: "15 Jun 2024" },
+  { cat: "Bisnis", title: "Polaroid untuk Bisnis Kecil: Pemasaran Visual yang Personal", date: "18 Jun 2024" },
+  { cat: "Branding", title: "Polaroid dan Branding Visual: Membangun Identitas dengan Instant Photography", date: "20 Jun 2024" },
+  { cat: "Kolektor", title: "Pasar Koleksi Kamera Polaroid Vintage: Nilai dan Investasi", date: "22 Jun 2024" },
+  { cat: "Komunitas", title: "Komunitas Polaroid Dunia: Membangun Jaringan Instant Photography", date: "25 Jun 2024" },
+  { cat: "Restorasi", title: "Restorasi Kamera Polaroid Vintage: Menghidupkan Kembali Klasik", date: "28 Jun 2024" },
+  { cat: "Analogue", title: "Polaroid vs Kamera Analog Lainnya: Keunikan Instant Film", date: "30 Jun 2024" },
+  { cat: "Interior", title: "Polaroid dalam Dekorasi Interior: Estetika Nostalgia untuk Rumah", date: "2 Jul 2024" },
+  { cat: "Kreatif", title: "Membuat Stop Motion dengan Polaroid: Animasi yang Unik", date: "5 Jul 2024" },
+  { cat: "Eksperimen", title: "Menggunakan Film Polaroid yang Sudah Expired: Efek dan Risiko", date: "8 Jul 2024" },
+  { cat: "Flash", title: "Teknik Penggunaan Flash pada Kamera Polaroid", date: "10 Jul 2024" },
+  { cat: "Masa Depan", title: "Masa Depan Fotografi Instan: Antara Tradisi dan Inovasi Digital", date: "12 Jul 2024" },
+  { cat: "Dampak", title: "Polaroid dalam Era Media Sosial: Mengabadikan Momen untuk Berbagi", date: "15 Jul 2024" }
+];
+
+function generateParagraphs(title) {
+  return [
+    `Fotografi instan telah mengubah cara kita mengabadikan kenangan sehari-hari, dan ${title} adalah topik yang sangat menarik untuk dibahas secara mendalam. Dalam artikel ini, kita akan mengeksplorasi berbagai aspek fundamental yang terkait dengan polaroid dan relevansinya yang terus bertahan di era digital saat ini. Kemampuan untuk menghasilkan foto fisik secara langsung memberikan kepuasan visual dan emosional yang tidak bisa ditemukan pada fotografi digital biasa.`,
+    `Sejarah mencatat bahwa polaroid bukan sekadar alat dokumentasi, melainkan revolusi besar dalam dunia fotografi modern. Memahami ${title} membantu kita menghargai proses kreatif dan teknis di balik setiap jepretan foto yang dihasilkan. Sejak diperkenalkan oleh Edwin Land, kamera ini langsung menjadi fenomena global karena mampu mempersingkat waktu pemrosesan film dari berhari-hari menjadi hanya hitungan detik.`,
+    `Ketika membahas ${title} secara teknis, kita tidak bisa mengabaikan perkembangan teknologi dari waktu ke waktu. Inovasi terus dilakukan oleh para insinyur agar kualitas gambar semakin tajam, warna semakin akurat, dan proses pengembangannya semakin efisien. Mekanisme internal kamera melibatkan kimia yang kompleks, di mana lapisan emulsi berinteraksi dengan reagen kimia untuk memunculkan gambar di atas kertas foto secara real-time.`,
+    `Banyak fotografer profesional maupun amatir menemukan bahwa ${title} memberikan keunikan estetika tersendiri. Karakteristik warna yang hangat, kontras yang khas, serta sedikit vignette di pinggir frame adalah elemen yang tidak bisa direplikasi secara sempurna oleh kamera digital atau filter aplikasi modern. Setiap foto yang dihasilkan memiliki jiwa dan karakter eksklusif yang membuatnya terasa begitu otentik dan nyata.`,
+    `Dalam praktiknya, ${title} membutuhkan pemahaman yang mendalam tentang pencahayaan, komposisi, dan momen yang tepat. Karena keterbatasan jumlah film di setiap paketnya, pengguna diajarkan untuk lebih teliti, cermat, dan berhati-hati sebelum menekan tombol shutter. Hal ini melatih kesadaran visual dan membuat setiap foto yang diambil memiliki nilai makna yang lebih tinggi dibandingkan sekadar mengambil ratusan foto digital.`,
+    `Dampak dari ${title} tidak hanya dirasakan oleh individu secara pribadi, tetapi juga oleh budaya pop secara keseluruhan. Foto instan sering kali menjadi simbol nostalgia, kehangatan, dan kenangan tak terlupakan bagi banyak generasi. Kehadirannya di acara pernikahan, pesta ulang tahun, atau sekadar berkumpul bersama teman menambah dimensi interaksi sosial yang lebih intim dan bermakna.`,
+    `Bagi pemula yang ingin mencoba terjun ke dalam dunia ini, memahami ${title} adalah langkah awal yang sangat krusial. Dengan pengetahuan dasar mengenai ISO film, jarak fokus, serta cara kerja flash otomatis, siapa pun bisa menghasilkan karya foto instan yang memukau dan penuh makna. Kesalahan dalam pengambilan foto justru bisa menjadi bagian dari pesona estetika itu sendiri.`,
+    `Tantangan utama dalam ${title} adalah ketidakpastian hasil akhir. Setiap kali tombol shutter ditekan, ada unsur kejutan yang membuat fotografi instan begitu menarik dan penuh emosi. Variasi suhu udara, kelembaban, hingga cara penyimpanan film sangat mempengaruhi hasil cetak, sehingga tidak ada dua foto polaroid yang akan terlihat persis sama di dunia ini.`,
+    `Perkembangan zaman dan kemajuan teknologi digital ternyata tidak membuat polaroid punah. Justra, ${title} semakin diminati oleh generasi muda yang mencari pengalaman otentik di tengah gempuran foto digital yang serba instan dan mudah dihapus. Kebutuhan untuk memegang kenangan secara fisik membuat kamera instan kembali populer sebagai gaya hidup dan media ekspresi seni.`,
+    `Sebagai kesimpulan, ${title} adalah bukti nyata bahwa teknologi lama tetap memiliki tempat yang istimewa di hati para pencintanya. Polaroid akan terus hidup sebagai medium seni yang abadi, tak tergantikan oleh perangkat pintar mana pun. Keajaiban melihat foto yang perlahan muncul di atas kertas adalah pengalaman magis yang akan selalu dicari oleh manusia untuk mengabadikan momen berharga mereka.`
+  ];
+}
+
+function renderArticles() {
+  const container = $('articleList');
+  container.innerHTML = '';
+  articleData.forEach((art, idx) => {
+    const excerpt = `Artikel mendalam mengenai ${art.title.toLowerCase()}. Pelajari sejarah, teknik, serta estetika di balik fotografi instan yang membuatnya abadi hingga saat ini.`;
+    const card = document.createElement('div');
+    card.className = 'article-card';
+    card.innerHTML = `
+      <div class="article-num">${(idx+1).toString().padStart(2, '0')}</div>
+      <div class="article-cat">${art.cat}</div>
+      <h3 class="article-title">${art.title}</h3>
+      <p class="article-excerpt">${excerpt}</p>
+      <div class="article-meta">
+        <span><i class="fas fa-calendar"></i>${art.date}</span>
+        <span><i class="fas fa-book-open"></i>10 Paragraf</span>
+      </div>
+    `;
+    card.onclick = () => openArticle(idx);
+    container.appendChild(card);
+  });
+}
+
+function openArticle(idx) {
+    const art = articleData[idx];
+    const body = generateParagraphs(art.title);
+    const content = `
+        <div class="article-cat" style="margin-bottom: 10px;">${art.cat}</div>
+        <h1 class="ap-title">${art.title}</h1>
+        <div class="ap-meta">
+            <span><i class="fas fa-calendar" style="color:var(--accent); margin-right: 5px;"></i> ${art.date}</span>
+            <span><i class="fas fa-book-open" style="color:var(--accent); margin-right: 5px;"></i> 10 Paragraf</span>
+        </div>
+        <div class="ap-content">
+            ${body.map(p => `<p>${p}</p>`).join('')}
+        </div>
+    `;
+    $('articlePageContent').innerHTML = content;
+    $('articlePage').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    $('articlePage').scrollTop = 0;
+}
+
+function closeArticle() {
+    $('articlePage').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+renderArticles();
 </script>
 </body>
 </html>
